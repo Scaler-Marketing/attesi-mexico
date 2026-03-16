@@ -1,0 +1,391 @@
+"use client";
+
+import { useEffect } from "react";
+
+export default function ClientAnimations() {
+  useEffect(() => {
+    let lenis;
+    let rafId;
+    let resizeTimer;
+
+    async function init() {
+      const { default: Lenis } = await import("lenis");
+      const gsapModule = await import("gsap");
+      const gsap = gsapModule.default || gsapModule.gsap;
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      const { default: Swiper } = await import("swiper");
+      const { Autoplay, EffectFade, Pagination } = await import("swiper/modules");
+
+      // Import Swiper CSS
+      await import("swiper/css");
+      await import("swiper/css/effect-fade");
+      await import("swiper/css/pagination");
+
+      /* ---------- Lenis Smooth Scroll ---------- */
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: function (t) {
+          return Math.min(1, 1.001 - Math.pow(2, -10 * t));
+        },
+        touchMultiplier: 2,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        rafId = requestAnimationFrame(raf);
+      }
+      rafId = requestAnimationFrame(raf);
+
+      /* ---------- Register GSAP Plugins ---------- */
+      gsap.registerPlugin(ScrollTrigger);
+
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add(function (time) {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+
+      /* ---------- Navbar Scroll Behavior ---------- */
+      var navbar = document.getElementById("navbar");
+      var heroSection = document.getElementById("hero");
+
+      if (navbar && heroSection) {
+        ScrollTrigger.create({
+          trigger: heroSection,
+          start: "center top",
+          onEnter: function () {
+            navbar.classList.add("navbar--scrolled");
+          },
+          onLeaveBack: function () {
+            navbar.classList.remove("navbar--scrolled");
+          },
+        });
+      }
+
+      /* ---------- Hero Swiper Slider ---------- */
+      new Swiper(".hero-swiper", {
+        modules: [Autoplay, EffectFade, Pagination],
+        loop: true,
+        speed: 1000,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        effect: "fade",
+        fadeEffect: {
+          crossFade: true,
+        },
+        pagination: {
+          el: ".hero-pagination",
+          clickable: true,
+        },
+      });
+
+      /* ---------- Hero Entrance Animation ---------- */
+      var heroTitle = document.querySelector(".hero__title");
+      var heroSubtitle = document.querySelector(".hero__subtitle");
+      var heroButtons = document.querySelector(".hero__buttons");
+
+      if (heroTitle) {
+        var heroTl = gsap.timeline({ delay: 0.3 });
+        heroTl
+          .to(heroTitle, {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out",
+          })
+          .to(
+            heroSubtitle,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power3.out",
+            },
+            "-=0.5"
+          )
+          .to(
+            heroButtons,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power3.out",
+            },
+            "-=0.4"
+          );
+      }
+
+      /* ---------- Scroll Fade-Up Animations ---------- */
+      var animateElements = document.querySelectorAll("[data-animate]");
+
+      animateElements.forEach(function (el) {
+        gsap.to(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+            onEnter: function () {
+              el.classList.add("is-visible");
+            },
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+        });
+      });
+
+      /* ---------- Intro Heading — Scroll Color Sweep (per-char) ---------- */
+      var introHeading = document.getElementById("introHeading");
+
+      if (introHeading) {
+        var text = introHeading.textContent;
+        var html = "";
+        for (var i = 0; i < text.length; i++) {
+          var ch = text[i];
+          if (ch === " ") {
+            html += " ";
+          } else {
+            html += '<span class="intro-char">' + ch + "</span>";
+          }
+        }
+        introHeading.innerHTML = html;
+
+        var charSpans = introHeading.querySelectorAll(".intro-char");
+
+        gsap.to(charSpans, {
+          color: "#b5743a",
+          stagger: {
+            each: 0.015,
+            ease: "none",
+          },
+          duration: 0.6,
+          ease: "power1.inOut",
+          scrollTrigger: {
+            trigger: introHeading,
+            start: "top 80%",
+            end: "bottom 45%",
+            scrub: 1.5,
+          },
+        });
+      }
+
+      /* ---------- Counter Animation ---------- */
+      var counters = document.querySelectorAll("[data-count]");
+
+      counters.forEach(function (counter) {
+        var target = parseInt(counter.getAttribute("data-count"), 10);
+
+        ScrollTrigger.create({
+          trigger: counter,
+          start: "top 85%",
+          once: true,
+          onEnter: function () {
+            gsap.to(
+              { val: 0 },
+              {
+                val: target,
+                duration: 2,
+                ease: "power1.out",
+                onUpdate: function () {
+                  counter.textContent = Math.round(this.targets()[0].val);
+                },
+              }
+            );
+          },
+        });
+      });
+
+      /* ---------- Experiences Carousel ---------- */
+      var expTrack = document.querySelector(".experiences__track");
+      var expPrev = document.querySelector(".carousel-arrow--prev");
+      var expNext = document.querySelector(".carousel-arrow--next");
+      var progressBar = document.querySelector(".experiences__progress-bar");
+      var expCarouselIndex = 0;
+
+      function getExpVisibleCards() {
+        var w = window.innerWidth;
+        if (w < 768) return 1;
+        if (w < 1024) return 2;
+        return 3;
+      }
+
+      function updateExpCarousel() {
+        if (!expTrack) return;
+        var cards = expTrack.children;
+        var totalCards = cards.length;
+        var visibleCards = getExpVisibleCards();
+        var maxIndex = totalCards - visibleCards;
+
+        if (expCarouselIndex > maxIndex) expCarouselIndex = maxIndex;
+        if (expCarouselIndex < 0) expCarouselIndex = 0;
+
+        var cardWidth = cards[0].offsetWidth;
+        var gap = 24;
+        var offset = expCarouselIndex * (cardWidth + gap);
+
+        gsap.to(expTrack, {
+          x: -offset,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+
+        if (progressBar) {
+          var thumbWidth = (visibleCards / totalCards) * 100;
+          progressBar.style.width = thumbWidth + "%";
+          var maxIdx = totalCards - visibleCards;
+          var thumbTravel = maxIdx > 0 ? expCarouselIndex / maxIdx : 0;
+          var maxTranslate = ((100 - thumbWidth) / thumbWidth) * 100;
+          progressBar.style.transform =
+            "translateX(" + thumbTravel * maxTranslate + "%)";
+        }
+      }
+
+      if (expPrev) {
+        expPrev.addEventListener("click", function () {
+          expCarouselIndex--;
+          updateExpCarousel();
+        });
+      }
+      if (expNext) {
+        expNext.addEventListener("click", function () {
+          expCarouselIndex++;
+          updateExpCarousel();
+        });
+      }
+
+      updateExpCarousel();
+
+      /* ---------- Testimonials Horizontal Scroll ---------- */
+      var testTrack = document.querySelector(".testimonials__track");
+      var testDots = document.querySelectorAll(".testimonials__dot");
+      var testPage = 0;
+
+      function getTestVisibleCards() {
+        var w = window.innerWidth;
+        if (w < 768) return 1;
+        if (w < 1024) return 2;
+        return 3;
+      }
+
+      function updateTestCarousel() {
+        if (!testTrack) return;
+        var cards = testTrack.children;
+        var totalCards = cards.length;
+        var visibleCards = getTestVisibleCards();
+        var maxPage = Math.ceil(totalCards / visibleCards) - 1;
+
+        if (testPage > maxPage) testPage = maxPage;
+        if (testPage < 0) testPage = 0;
+
+        var cardWidth = cards[0].offsetWidth;
+        var gap = 24;
+        var offset = testPage * visibleCards * (cardWidth + gap);
+
+        gsap.to(testTrack, {
+          x: -offset,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+
+        testDots.forEach(function (dot, i) {
+          dot.classList.toggle("testimonials__dot--active", i === testPage);
+        });
+      }
+
+      testDots.forEach(function (dot, i) {
+        dot.addEventListener("click", function () {
+          testPage = i;
+          updateTestCarousel();
+        });
+      });
+
+      /* ---------- Mobile Slide-Out Panel ---------- */
+      var hamburger = document.querySelector(".navbar__hamburger");
+      var mobilePanel = document.getElementById("mobilePanel");
+      var mobileBackdrop = document.getElementById("mobileBackdrop");
+
+      function openPanel() {
+        if (!mobilePanel) return;
+        mobilePanel.classList.add("active");
+        mobileBackdrop.classList.add("active");
+        hamburger.classList.add("navbar__hamburger--active");
+        hamburger.setAttribute("aria-expanded", "true");
+        lenis.stop();
+        document.body.style.overflow = "hidden";
+      }
+
+      function closePanel() {
+        if (!mobilePanel) return;
+        mobilePanel.classList.remove("active");
+        mobileBackdrop.classList.remove("active");
+        hamburger.classList.remove("navbar__hamburger--active");
+        hamburger.setAttribute("aria-expanded", "false");
+        lenis.start();
+        document.body.style.overflow = "";
+      }
+
+      function togglePanel() {
+        if (!mobilePanel) return;
+        var isOpen = mobilePanel.classList.contains("active");
+        if (isOpen) {
+          closePanel();
+        } else {
+          openPanel();
+        }
+      }
+
+      if (hamburger) hamburger.addEventListener("click", togglePanel);
+      if (mobileBackdrop) mobileBackdrop.addEventListener("click", closePanel);
+
+      /* Accordion toggles */
+      var toggles = document.querySelectorAll(".mobile-panel__toggle");
+      toggles.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var expanded = btn.getAttribute("aria-expanded") === "true";
+          toggles.forEach(function (other) {
+            other.setAttribute("aria-expanded", "false");
+            var otherSub = other.nextElementSibling;
+            if (otherSub) otherSub.classList.remove("open");
+          });
+          if (!expanded) {
+            btn.setAttribute("aria-expanded", "true");
+            var sub = btn.nextElementSibling;
+            if (sub) sub.classList.add("open");
+          }
+        });
+      });
+
+      if (mobilePanel) {
+        mobilePanel.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", closePanel);
+        });
+      }
+
+      /* ---------- Resize Handler ---------- */
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          updateExpCarousel();
+          updateTestCarousel();
+        }, 250);
+      });
+    }
+
+    init();
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      if (lenis) lenis.destroy();
+      clearTimeout(resizeTimer);
+      // Clean up GSAP ScrollTrigger instances
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        ScrollTrigger.getAll().forEach((st) => st.kill());
+      });
+    };
+  }, []);
+
+  return null;
+}
