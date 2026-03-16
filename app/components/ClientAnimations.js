@@ -16,11 +16,6 @@ export default function ClientAnimations() {
       const { default: Swiper } = await import("swiper");
       const { Autoplay, EffectFade, Pagination } = await import("swiper/modules");
 
-      // Import Swiper CSS
-      await import("swiper/css");
-      await import("swiper/css/effect-fade");
-      await import("swiper/css/pagination");
-
       /* ---------- Lenis Smooth Scroll ---------- */
       lenis = new Lenis({
         duration: 1.2,

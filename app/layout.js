@@ -1,4 +1,8 @@
 import "./globals.css";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/pagination";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Attesi Mexico — Nature Retreat & Lodge",
@@ -49,7 +53,10 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
