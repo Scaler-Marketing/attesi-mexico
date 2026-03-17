@@ -1,3 +1,12 @@
+import { client } from "../sanity/lib/client";
+import {
+  heroSlidesQuery,
+  experiencesQuery,
+  statsQuery,
+  testimonialsQuery,
+  siteSettingsQuery,
+} from "../sanity/lib/queries";
+
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Intro from "./components/Intro";
@@ -11,19 +20,32 @@ import CTA from "./components/CTA";
 import Footer from "./components/Footer";
 import ClientAnimations from "./components/ClientAnimations";
 
-export default function Home() {
+// Revalidate every 60 seconds (ISR)
+export const revalidate = 60;
+
+export default async function Home() {
+  // Fetch all content in parallel — falls back gracefully if Sanity has no data yet
+  const [heroSlides, experiences, stats, testimonials, siteSettings] =
+    await Promise.all([
+      client.fetch(heroSlidesQuery).catch(() => []),
+      client.fetch(experiencesQuery).catch(() => []),
+      client.fetch(statsQuery).catch(() => []),
+      client.fetch(testimonialsQuery).catch(() => []),
+      client.fetch(siteSettingsQuery).catch(() => null),
+    ]);
+
   return (
     <>
       <Navbar />
-      <Hero />
-      <Intro />
+      <Hero slides={heroSlides} settings={siteSettings} />
+      <Intro settings={siteSettings} />
       <FindYourWay />
-      <Experiences />
-      <Stats />
-      <About />
+      <Experiences cards={experiences} />
+      <Stats stats={stats} />
+      <About settings={siteSettings} />
       <WhyChoose />
-      <Testimonials />
-      <CTA />
+      <Testimonials testimonials={testimonials} />
+      <CTA settings={siteSettings} />
       <Footer />
       <ClientAnimations />
     </>

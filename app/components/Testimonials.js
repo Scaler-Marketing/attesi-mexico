@@ -1,4 +1,5 @@
-const testimonials = [
+// Fallback testimonials used when Sanity has no data yet
+const FALLBACK_TESTIMONIALS = [
   {
     text: "My stay at Attesi Mexico was absolutely wonderful! The staff were incredibly friendly and attentive, making sure all my needs were met. The location was perfect, allowing easy access to local attractions. I highly recommend this place to anyone looking for a relaxing getaway.",
     author: "John Doe",
@@ -21,7 +22,10 @@ const testimonials = [
   },
 ];
 
-export default function Testimonials() {
+export default function Testimonials({ testimonials = [] }) {
+  const resolvedTestimonials =
+    testimonials.length > 0 ? testimonials : FALLBACK_TESTIMONIALS;
+
   return (
     <section className="testimonials section" id="testimonials">
       <div className="container">
@@ -34,7 +38,7 @@ export default function Testimonials() {
         </div>
         <div className="testimonials__track-wrapper">
           <div className="testimonials__track">
-            {testimonials.map((t) => (
+            {resolvedTestimonials.map((t) => (
               <article className="testimonial-card" data-animate="" key={t.author}>
                 <div className="testimonial-card__brand">
                   <img src="/assets/logo-icon-only.png" alt="Attesi" width="40" height="40" />

@@ -1,4 +1,5 @@
-const stats = [
+// Fallback stats using existing WordPress images
+const FALLBACK_STATS = [
   {
     image: "https://attesi.mx/wp-content/uploads/2022/12/home-slider-attesi-1.jpg",
     alt: "Attesi grounds",
@@ -29,7 +30,19 @@ const stats = [
   },
 ];
 
-export default function Stats() {
+export default function Stats({ stats = [] }) {
+  // When Sanity stats exist, use them; otherwise fall back to hardcoded data
+  const resolvedStats =
+    stats.length > 0
+      ? stats.map((stat, i) => ({
+          image: FALLBACK_STATS[i % FALLBACK_STATS.length]?.image || "",
+          alt: stat.label,
+          count: stat.value,
+          suffix: stat.suffix || "",
+          label: stat.label,
+        }))
+      : FALLBACK_STATS;
+
   return (
     <section className="stats section" id="stats">
       <div className="container">
@@ -44,7 +57,7 @@ export default function Stats() {
           </div>
         </div>
         <div className="stats__grid">
-          {stats.map((stat) => (
+                  {resolvedStats.map((stat) => (
             <div className="stat-card" data-animate="" key={stat.label}>
               <img src={stat.image} alt={stat.alt} loading="lazy" />
               <div className="stat-card__content">
