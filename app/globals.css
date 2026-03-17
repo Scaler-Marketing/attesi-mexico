@@ -612,19 +612,24 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
-/* Swiper fills the hero */
-.hero-swiper {
-  position: absolute;
-  inset: 0;
+/* Swiper fills the hero.
+   Use !important to override Swiper's own base CSS (.swiper { position: relative })
+   which is compiled after globals.css and wins on equal specificity. */
+.hero .hero-swiper {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   z-index: 0;
 }
-.hero-swiper .swiper-wrapper {
-  height: 100%;
+.hero .hero-swiper .swiper-wrapper {
+  height: 100% !important;
+  width: 100% !important;
 }
-.hero-swiper .swiper-slide {
+.hero .hero-swiper .swiper-slide {
   overflow: hidden;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .hero__bg {
