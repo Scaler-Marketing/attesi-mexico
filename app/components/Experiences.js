@@ -72,7 +72,9 @@ export default function Experiences() {
           </div>
         </div>
         <div className="experiences__progress">
-          <div className="experiences__progress-bar"></div>
+          <div className="experiences__progress-track">
+            <div className="experiences__progress-bar"></div>
+          </div>
         </div>
       </div>
     </section>

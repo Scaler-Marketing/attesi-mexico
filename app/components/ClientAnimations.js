@@ -251,11 +251,64 @@ export default function ClientAnimations() {
         });
       }
 
+      /* Draggable progress bar for Experiences */
+      var expProgressEl = document.querySelector(".experiences__progress");
+      if (expProgressEl && progressBar) {
+        var isDragging = false;
+        var dragStartX = 0;
+        var dragStartIndex = 0;
+
+        function getExpMaxIndex() {
+          if (!expTrack) return 0;
+          return expTrack.children.length - getExpVisibleCards();
+        }
+
+        function setIndexFromDragX(clientX) {
+          var trackEl = document.querySelector(".experiences__progress-track");
+          if (!trackEl) return;
+          var rect = trackEl.getBoundingClientRect();
+          var ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+          var maxIdx = getExpMaxIndex();
+          expCarouselIndex = Math.round(ratio * maxIdx);
+          updateExpCarousel();
+        }
+
+        expProgressEl.addEventListener("mousedown", function (e) {
+          isDragging = true;
+          dragStartX = e.clientX;
+          dragStartIndex = expCarouselIndex;
+          document.body.style.userSelect = "none";
+          setIndexFromDragX(e.clientX);
+        });
+        window.addEventListener("mousemove", function (e) {
+          if (!isDragging) return;
+          setIndexFromDragX(e.clientX);
+        });
+        window.addEventListener("mouseup", function () {
+          if (isDragging) {
+            isDragging = false;
+            document.body.style.userSelect = "";
+          }
+        });
+        /* Touch support */
+        expProgressEl.addEventListener("touchstart", function (e) {
+          isDragging = true;
+          setIndexFromDragX(e.touches[0].clientX);
+        }, { passive: true });
+        window.addEventListener("touchmove", function (e) {
+          if (!isDragging) return;
+          setIndexFromDragX(e.touches[0].clientX);
+        }, { passive: true });
+        window.addEventListener("touchend", function () {
+          isDragging = false;
+        });
+      }
+
       updateExpCarousel();
 
-      /* ---------- Testimonials Horizontal Scroll ---------- */
+      /* ---------- Testimonials Horizontal Scroll (1 card at a time) ---------- */
       var testTrack = document.querySelector(".testimonials__track");
-      var testDots = document.querySelectorAll(".testimonials__dot");
+      var testDotsContainer = document.querySelector(".testimonials__dots");
       var testPage = 0;
 
       function getTestVisibleCards() {
@@ -265,19 +318,42 @@ export default function ClientAnimations() {
         return 3;
       }
 
+      /* Build dots dynamically based on total cards */
+      function buildTestDots() {
+        if (!testTrack || !testDotsContainer) return;
+        var totalCards = testTrack.children.length;
+        var visibleCards = getTestVisibleCards();
+        /* 1 card per step: max steps = totalCards - visibleCards + 1 */
+        var dotCount = Math.max(1, totalCards - visibleCards + 1);
+        testDotsContainer.innerHTML = "";
+        for (var d = 0; d < dotCount; d++) {
+          var dot = document.createElement("span");
+          dot.className = "testimonials__dot" + (d === 0 ? " testimonials__dot--active" : "");
+          (function (idx) {
+            dot.addEventListener("click", function () {
+              testPage = idx;
+              updateTestCarousel();
+            });
+          })(d);
+          testDotsContainer.appendChild(dot);
+        }
+      }
+
       function updateTestCarousel() {
         if (!testTrack) return;
         var cards = testTrack.children;
         var totalCards = cards.length;
         var visibleCards = getTestVisibleCards();
-        var maxPage = Math.ceil(totalCards / visibleCards) - 1;
+        /* Always advance 1 card at a time */
+        var maxPage = totalCards - visibleCards;
 
         if (testPage > maxPage) testPage = maxPage;
         if (testPage < 0) testPage = 0;
 
         var cardWidth = cards[0].offsetWidth;
         var gap = 24;
-        var offset = testPage * visibleCards * (cardWidth + gap);
+        /* offset by exactly 1 card per step */
+        var offset = testPage * (cardWidth + gap);
 
         gsap.to(testTrack, {
           x: -offset,
@@ -285,17 +361,14 @@ export default function ClientAnimations() {
           ease: "power2.out",
         });
 
-        testDots.forEach(function (dot, i) {
+        var dots = testDotsContainer ? testDotsContainer.querySelectorAll(".testimonials__dot") : [];
+        dots.forEach(function (dot, i) {
           dot.classList.toggle("testimonials__dot--active", i === testPage);
         });
       }
 
-      testDots.forEach(function (dot, i) {
-        dot.addEventListener("click", function () {
-          testPage = i;
-          updateTestCarousel();
-        });
-      });
+      buildTestDots();
+      updateTestCarousel();
 
       /* ---------- Mobile Slide-Out Panel ---------- */
       var hamburger = document.querySelector(".navbar__hamburger");
@@ -364,6 +437,8 @@ export default function ClientAnimations() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
           updateExpCarousel();
+          testPage = 0;
+          buildTestDots();
           updateTestCarousel();
         }, 250);
       });
