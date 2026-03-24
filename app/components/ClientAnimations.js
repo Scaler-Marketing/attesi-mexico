@@ -4,41 +4,43 @@ import { useEffect } from "react";
 
 export default function ClientAnimations() {
   useEffect(() => {
-    let lenis;
-    let rafId;
     let resizeTimer;
 
-    async function init() {
-      const { default: Lenis } = await import("lenis");
-      const gsapModule = await import("gsap");
-      const gsap = gsapModule.default || gsapModule.gsap;
-      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+    /* ============================================================
+       PHASE 1 — Swiper (loads immediately, no GSAP dependency)
+       ============================================================ */
+    async function initSwiper() {
       const { default: Swiper } = await import("swiper");
       const { Autoplay, EffectFade, Pagination } = await import("swiper/modules");
 
-      /* ---------- Lenis Smooth Scroll ---------- */
-      lenis = new Lenis({
-        duration: 1.2,
-        easing: function (t) {
-          return Math.min(1, 1.001 - Math.pow(2, -10 * t));
+      new Swiper(".hero-swiper", {
+        modules: [Autoplay, EffectFade, Pagination],
+        loop: true,
+        speed: 600,           // was 1000 — snappier fade like Webflow
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
         },
-        touchMultiplier: 2,
+        effect: "fade",
+        fadeEffect: {
+          crossFade: true,
+        },
+        pagination: {
+          el: ".hero-pagination",
+          clickable: true,
+        },
       });
+    }
 
-      function raf(time) {
-        lenis.raf(time);
-        rafId = requestAnimationFrame(raf);
-      }
-      rafId = requestAnimationFrame(raf);
+    /* ============================================================
+       PHASE 2 — GSAP animations (loads after Swiper is running)
+       ============================================================ */
+    async function initGSAP() {
+      const gsapModule = await import("gsap");
+      const gsap = gsapModule.default || gsapModule.gsap;
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
 
-      /* ---------- Register GSAP Plugins ---------- */
       gsap.registerPlugin(ScrollTrigger);
-
-      lenis.on("scroll", ScrollTrigger.update);
-      gsap.ticker.add(function (time) {
-        lenis.raf(time * 1000);
-      });
-      gsap.ticker.lagSmoothing(0);
 
       /* ---------- Navbar Scroll Behavior ---------- */
       var navbar = document.getElementById("navbar");
@@ -56,25 +58,6 @@ export default function ClientAnimations() {
           },
         });
       }
-
-      /* ---------- Hero Swiper Slider ---------- */
-      new Swiper(".hero-swiper", {
-        modules: [Autoplay, EffectFade, Pagination],
-        loop: true,
-        speed: 1000,
-        autoplay: {
-          delay: 5000,
-          disableOnInteraction: false,
-        },
-        effect: "fade",
-        fadeEffect: {
-          crossFade: true,
-        },
-        pagination: {
-          el: ".hero-pagination",
-          clickable: true,
-        },
-      });
 
       /* ---------- Hero Entrance Animation ---------- */
       var heroTitle = document.querySelector(".hero__title");
@@ -207,7 +190,7 @@ export default function ClientAnimations() {
         return 3;
       }
 
-      function updateExpCarousel() {
+      function updateExpCarousel(animate) {
         if (!expTrack) return;
         var cards = expTrack.children;
         var totalCards = cards.length;
@@ -221,11 +204,15 @@ export default function ClientAnimations() {
         var gap = 24;
         var offset = expCarouselIndex * (cardWidth + gap);
 
-        gsap.to(expTrack, {
-          x: -offset,
-          duration: 0.5,
-          ease: "power2.out",
-        });
+        if (animate === false) {
+          gsap.set(expTrack, { x: -offset });
+        } else {
+          gsap.to(expTrack, {
+            x: -offset,
+            duration: 0.35,        // was 0.5 — snappier
+            ease: "power2.out",
+          });
+        }
 
         if (progressBar) {
           var thumbWidth = (visibleCards / totalCards) * 100;
@@ -251,60 +238,80 @@ export default function ClientAnimations() {
         });
       }
 
-      /* Draggable progress bar for Experiences */
+      /* Draggable progress bar for Experiences — fluid, no snapping during drag */
       var expProgressEl = document.querySelector(".experiences__progress");
       if (expProgressEl && progressBar) {
         var isDragging = false;
-        var dragStartX = 0;
-        var dragStartIndex = 0;
 
         function getExpMaxIndex() {
           if (!expTrack) return 0;
           return expTrack.children.length - getExpVisibleCards();
         }
 
-        function setIndexFromDragX(clientX) {
+        function setIndexFromDragX(clientX, snap) {
           var trackEl = document.querySelector(".experiences__progress-track");
           if (!trackEl) return;
           var rect = trackEl.getBoundingClientRect();
           var ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
           var maxIdx = getExpMaxIndex();
-          expCarouselIndex = Math.round(ratio * maxIdx);
-          updateExpCarousel();
+          /* During drag: use exact ratio for fluid thumb movement.
+             On release: snap to nearest card. */
+          if (snap) {
+            expCarouselIndex = Math.round(ratio * maxIdx);
+            updateExpCarousel();
+          } else {
+            /* Move thumb visually without GSAP snap */
+            expCarouselIndex = ratio * maxIdx;  // float during drag
+            var cards = expTrack ? expTrack.children : [];
+            if (cards.length) {
+              var cardWidth = cards[0].offsetWidth;
+              var gap = 24;
+              var offset = expCarouselIndex * (cardWidth + gap);
+              gsap.set(expTrack, { x: -offset });
+            }
+            /* Update thumb position directly */
+            var totalCards = expTrack ? expTrack.children.length : 1;
+            var visibleCards = getExpVisibleCards();
+            var thumbWidth = (visibleCards / totalCards) * 100;
+            var maxTranslate = ((100 - thumbWidth) / thumbWidth) * 100;
+            progressBar.style.transform = "translateX(" + ratio * maxTranslate + "%)";
+          }
         }
 
         expProgressEl.addEventListener("mousedown", function (e) {
           isDragging = true;
-          dragStartX = e.clientX;
-          dragStartIndex = expCarouselIndex;
           document.body.style.userSelect = "none";
-          setIndexFromDragX(e.clientX);
+          setIndexFromDragX(e.clientX, false);
         });
         window.addEventListener("mousemove", function (e) {
           if (!isDragging) return;
-          setIndexFromDragX(e.clientX);
+          setIndexFromDragX(e.clientX, false);
         });
-        window.addEventListener("mouseup", function () {
-          if (isDragging) {
-            isDragging = false;
-            document.body.style.userSelect = "";
-          }
+        window.addEventListener("mouseup", function (e) {
+          if (!isDragging) return;
+          isDragging = false;
+          document.body.style.userSelect = "";
+          setIndexFromDragX(e.clientX, true);  // snap on release
         });
         /* Touch support */
         expProgressEl.addEventListener("touchstart", function (e) {
           isDragging = true;
-          setIndexFromDragX(e.touches[0].clientX);
+          setIndexFromDragX(e.touches[0].clientX, false);
         }, { passive: true });
         window.addEventListener("touchmove", function (e) {
           if (!isDragging) return;
-          setIndexFromDragX(e.touches[0].clientX);
+          setIndexFromDragX(e.touches[0].clientX, false);
         }, { passive: true });
-        window.addEventListener("touchend", function () {
+        window.addEventListener("touchend", function (e) {
+          if (!isDragging) return;
           isDragging = false;
+          if (e.changedTouches.length) {
+            setIndexFromDragX(e.changedTouches[0].clientX, true);
+          }
         });
       }
 
-      updateExpCarousel();
+      updateExpCarousel(false);
 
       /* ---------- Testimonials Horizontal Scroll (1 card at a time) ---------- */
       var testTrack = document.querySelector(".testimonials__track");
@@ -318,12 +325,10 @@ export default function ClientAnimations() {
         return 3;
       }
 
-      /* Build dots dynamically based on total cards */
       function buildTestDots() {
         if (!testTrack || !testDotsContainer) return;
         var totalCards = testTrack.children.length;
         var visibleCards = getTestVisibleCards();
-        /* 1 card per step: max steps = totalCards - visibleCards + 1 */
         var dotCount = Math.max(1, totalCards - visibleCards + 1);
         testDotsContainer.innerHTML = "";
         for (var d = 0; d < dotCount; d++) {
@@ -344,7 +349,6 @@ export default function ClientAnimations() {
         var cards = testTrack.children;
         var totalCards = cards.length;
         var visibleCards = getTestVisibleCards();
-        /* Always advance 1 card at a time */
         var maxPage = totalCards - visibleCards;
 
         if (testPage > maxPage) testPage = maxPage;
@@ -352,16 +356,17 @@ export default function ClientAnimations() {
 
         var cardWidth = cards[0].offsetWidth;
         var gap = 24;
-        /* offset by exactly 1 card per step */
         var offset = testPage * (cardWidth + gap);
 
         gsap.to(testTrack, {
           x: -offset,
-          duration: 0.5,
+          duration: 0.35,        // was 0.5 — snappier
           ease: "power2.out",
         });
 
-        var dots = testDotsContainer ? testDotsContainer.querySelectorAll(".testimonials__dot") : [];
+        var dots = testDotsContainer
+          ? testDotsContainer.querySelectorAll(".testimonials__dot")
+          : [];
         dots.forEach(function (dot, i) {
           dot.classList.toggle("testimonials__dot--active", i === testPage);
         });
@@ -381,7 +386,6 @@ export default function ClientAnimations() {
         mobileBackdrop.classList.add("active");
         hamburger.classList.add("navbar__hamburger--active");
         hamburger.setAttribute("aria-expanded", "true");
-        lenis.stop();
         document.body.style.overflow = "hidden";
       }
 
@@ -391,7 +395,6 @@ export default function ClientAnimations() {
         mobileBackdrop.classList.remove("active");
         hamburger.classList.remove("navbar__hamburger--active");
         hamburger.setAttribute("aria-expanded", "false");
-        lenis.start();
         document.body.style.overflow = "";
       }
 
@@ -436,7 +439,7 @@ export default function ClientAnimations() {
       window.addEventListener("resize", function () {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
-          updateExpCarousel();
+          updateExpCarousel(false);
           testPage = 0;
           buildTestDots();
           updateTestCarousel();
@@ -444,13 +447,12 @@ export default function ClientAnimations() {
       });
     }
 
-    init();
+    /* Run Swiper first (fast), then GSAP animations */
+    initSwiper();
+    initGSAP();
 
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      if (lenis) lenis.destroy();
       clearTimeout(resizeTimer);
-      // Clean up GSAP ScrollTrigger instances
       import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
         ScrollTrigger.getAll().forEach((st) => st.kill());
       });
