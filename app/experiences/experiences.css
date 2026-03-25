@@ -38,7 +38,8 @@
 .exp-hero__content {
   position: relative;
   z-index: 2;
-  padding-bottom: 5rem;
+  padding-top: 14rem;
+  padding-bottom: 4rem;
   max-width: 56rem;
 }
 .exp-hero__eyebrow {
@@ -108,6 +109,10 @@
 @media (max-width: 40rem) {
   .exp-hero {
     height: 75vh;
+  }
+  .exp-hero__content {
+    padding-top: 8rem;
+    padding-bottom: 3rem;
   }
   .exp-cards {
     grid-template-columns: 1fr;

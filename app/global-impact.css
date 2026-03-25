@@ -41,7 +41,8 @@
 .gi-hero__content {
   position: relative;
   z-index: 2;
-  padding-bottom: 5rem;
+  padding-top: 14rem;
+  padding-bottom: 4rem;
   max-width: 52rem;
 }
 
@@ -297,6 +298,10 @@
   .gi-hero {
     height: 75vh;
     align-items: flex-end;
+  }
+  .gi-hero__content {
+    padding-top: 8rem;
+    padding-bottom: 3rem;
   }
 
   .gi-intro__inner {

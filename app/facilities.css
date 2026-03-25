@@ -38,7 +38,8 @@
 .fac-hero__content {
   position: relative;
   z-index: 2;
-  padding-bottom: 5rem;
+  padding-top: 14rem;
+  padding-bottom: 4rem;
   max-width: 52rem;
 }
 .fac-hero__eyebrow {
@@ -105,6 +106,10 @@
 @media (max-width: 40rem) {
   .fac-hero {
     height: 72vh;
+  }
+  .fac-hero__content {
+    padding-top: 8rem;
+    padding-bottom: 3rem;
   }
   .fac-cards,
   .fac-grid-section .exp-cards {
