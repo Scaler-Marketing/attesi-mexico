@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import CTA from "../../components/CTA";
 import ClientAnimations from "../../components/ClientAnimations";
+import FaqAccordion from "../../components/FaqAccordion";
 import Link from "next/link";
 import { client } from "../../../sanity/lib/client";
 import {
@@ -21,13 +22,13 @@ export async function generateStaticParams() {
   } catch {
     return [
       "midrash",
-      "sabata-restaurant",
-      "market-cafe",
-      "arbol-juegos-sala",
+      "sabata",
+      "cafe",
+      "central-garden",
       "outdoor-spaces",
-      "glamping-retreat-center",
-      "the-farm",
-      "huertos-garden",
+      "retreat-center",
+      "farm",
+      "huertos",
       "natural-spring-mikvah",
     ].map((slug) => ({ slug }));
   }
@@ -62,10 +63,18 @@ const CATEGORY_LABELS = {
 /* ─── Portable Text components ───────────────────────────────────────────── */
 const ptComponents = {
   block: {
-    normal: ({ children }) => <p>{children}</p>,
-    h2: ({ children }) => <h2>{children}</h2>,
-    h3: ({ children }) => <h3>{children}</h3>,
-    blockquote: ({ children }) => <blockquote>{children}</blockquote>,
+    normal: ({ children }) => (
+      <p className="exp-detail__body-para">{children}</p>
+    ),
+    h2: ({ children }) => (
+      <h2 className="exp-detail__body-h2">{children}</h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="exp-detail__body-h3">{children}</h3>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="exp-detail__body-quote">{children}</blockquote>
+    ),
   },
   marks: {
     strong: ({ children }) => <strong>{children}</strong>,
@@ -93,6 +102,12 @@ export default async function FacilityDetailPage({ params }) {
     : null;
 
   const categoryLabel = CATEGORY_LABELS[fac.category] || fac.category || "";
+
+  const galleryImages = (fac.gallery || []).map((img) => ({
+    url: urlFor(img).width(900).height(600).fit("crop").url(),
+    alt: img.alt || fac.title,
+    caption: img.caption || null,
+  }));
 
   return (
     <>
@@ -129,40 +144,46 @@ export default async function FacilityDetailPage({ params }) {
               {fac.about && fac.about.length > 0 ? (
                 <PortableText value={fac.about} components={ptComponents} />
               ) : fac.cardDescription ? (
-                <p>{fac.cardDescription}</p>
+                <p className="exp-detail__body-para">{fac.cardDescription}</p>
               ) : null}
             </div>
 
             {fac.highlights && fac.highlights.length > 0 && (
-              <aside className="exp-detail-about__sidebar">
-                <div className="exp-detail-sidebar-card">
-                  <h3>Highlights</h3>
-                  <ul className="exp-detail-highlights">
-                    {fac.highlights.map((h, i) => (
-                      <li key={i}>{h}</li>
-                    ))}
-                  </ul>
-                </div>
+              <aside className="exp-detail-about__highlights">
+                <h3 className="exp-detail-about__highlights-title">Highlights</h3>
+                <ul className="exp-detail-about__highlights-list">
+                  {fac.highlights.map((h, i) => (
+                    <li key={i} className="exp-detail-about__highlight-item">
+                      <span className="exp-detail-about__highlight-dot" />
+                      {h}
+                    </li>
+                  ))}
+                </ul>
               </aside>
             )}
           </div>
         </section>
 
         {/* ── Gallery ───────────────────────────────────────────────────── */}
-        {fac.gallery && fac.gallery.length > 0 && (
+        {galleryImages.length > 0 && (
           <section className="exp-detail-gallery section">
             <div className="container">
-              <h2 className="exp-detail-gallery__heading">Gallery</h2>
               <div className="exp-detail-gallery__grid">
-                {fac.gallery.map((img, i) => {
-                  const gUrl = urlFor(img).width(900).height(600).fit("crop").url();
-                  return (
-                    <figure key={i} className="exp-detail-gallery__item">
-                      <img src={gUrl} alt={img.alt || fac.title} loading="lazy" />
-                      {img.caption && <figcaption>{img.caption}</figcaption>}
-                    </figure>
-                  );
-                })}
+                {galleryImages.map((img, i) => (
+                  <figure key={i} className="exp-detail-gallery__item">
+                    <img
+                      src={img.url}
+                      alt={img.alt}
+                      className="exp-detail-gallery__img"
+                      loading="lazy"
+                    />
+                    {img.caption && (
+                      <figcaption className="exp-detail-gallery__caption">
+                        {img.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                ))}
               </div>
             </div>
           </section>
@@ -170,35 +191,11 @@ export default async function FacilityDetailPage({ params }) {
 
         {/* ── FAQs ──────────────────────────────────────────────────────── */}
         {fac.faqs && fac.faqs.length > 0 && (
-          <section className="exp-detail-faqs--alt section">
-            <div className="container exp-detail-faqs__inner">
-              <div className="exp-detail-faqs__header">
-                <h2>Frequently Asked Questions</h2>
-              </div>
-              <div className="exp-detail-faqs__list">
-                {fac.faqs.map((faq, i) => (
-                  <div key={i} className="faq-card">
-                    <div className="faq-card__question-row">
-                      <div className="faq-card__left">
-                        <span className="faq-card__eyebrow">Everything you need to know</span>
-                        <p className="faq-card__question">{faq.question}</p>
-                      </div>
-                      <button
-                        className="faq-card__toggle"
-                        aria-expanded="false"
-                        aria-label="Toggle answer"
-                      >
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
-                      </button>
-                    </div>
-                    <div className="faq-card__answer">
-                      <p>{faq.answer}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <section className="exp-detail-faqs section exp-detail-faqs--alt">
+            <div className="container-medium exp-detail-faqs__inner">
+              <h2 className="exp-detail-faqs__heading">Frequently Asked Questions</h2>
+              <p className="exp-detail-faqs__sub">Everything you need to know about {fac.title}.</p>
+              <FaqAccordion faqs={fac.faqs} title={fac.title} />
             </div>
           </section>
         )}
