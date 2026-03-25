@@ -17,6 +17,7 @@ import About from "./components/About";
 import WhyChoose from "./components/WhyChoose";
 import Testimonials from "./components/Testimonials";
 import CTA from "./components/CTA";
+import HomeFAQ from "./components/HomeFAQ";
 import Footer from "./components/Footer";
 import ClientAnimations from "./components/ClientAnimations";
 
@@ -46,6 +47,7 @@ export default async function Home() {
       <WhyChoose />
       <Testimonials testimonials={testimonials} />
       <CTA settings={siteSettings} />
+      <HomeFAQ />
       <Footer />
       <ClientAnimations />
     </>
