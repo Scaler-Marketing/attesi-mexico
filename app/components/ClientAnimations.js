@@ -33,11 +33,11 @@ export default function ClientAnimations() {
     }
 
     /* ============================================================
-       PHASE 2 — UI interactions (no GSAP, no ScrollTrigger)
+       PHASE 2 — UI interactions
        ============================================================ */
     function initUI() {
 
-      /* ---------- Navbar Scroll Behavior (native scroll) ---------- */
+      /* ---------- Navbar Scroll Behavior ---------- */
       var navbar = document.getElementById("navbar");
       var heroSection = document.getElementById("hero");
 
@@ -54,195 +54,291 @@ export default function ClientAnimations() {
       }
 
       window.addEventListener("scroll", handleNavbarScroll, { passive: true });
-      handleNavbarScroll(); // run once on load
+      handleNavbarScroll();
 
-      /* ---------- Experiences Carousel ---------- */
-      var expTrack = document.querySelector(".experiences__track");
-      var expPrev = document.querySelector(".carousel-arrow--prev");
-      var expNext = document.querySelector(".carousel-arrow--next");
-      var progressBar = document.querySelector(".experiences__progress-bar");
-      var expCarouselIndex = 0;
+      /* ============================================================
+         CAROUSEL FACTORY
+         Creates a fully-featured carousel with:
+         - Arrow navigation (prev/next)
+         - Disabled arrow states at boundaries (40% opacity, pointer-events none)
+         - Drag-to-scroll on the track itself
+         - Optional progress bar scrubbing
+         ============================================================ */
+      function initCarousel(opts) {
+        var track       = opts.track;
+        var prevBtn     = opts.prev;
+        var nextBtn     = opts.next;
+        var progressEl  = opts.progressEl;
+        var progressBar = opts.progressBar;
+        var getVisible  = opts.getVisible;
+        var onUpdate    = opts.onUpdate; // optional callback after update
 
-      function getExpVisibleCards() {
-        var w = window.innerWidth;
-        if (w < 768) return 1;
-        if (w < 1024) return 2;
-        return 3;
-      }
+        if (!track) return;
 
-      function updateExpCarousel(animate) {
-        if (!expTrack) return;
-        var cards = expTrack.children;
-        var totalCards = cards.length;
-        var visibleCards = getExpVisibleCards();
-        var maxIndex = totalCards - visibleCards;
+        var index = 0;
 
-        if (expCarouselIndex > maxIndex) expCarouselIndex = maxIndex;
-        if (expCarouselIndex < 0) expCarouselIndex = 0;
-
-        var cardWidth = cards[0].offsetWidth;
-        var gap = 24;
-        var offset = expCarouselIndex * (cardWidth + gap);
-
-        expTrack.style.transition = animate === false ? "none" : "transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-        expTrack.style.transform = "translateX(" + (-offset) + "px)";
-
-        if (progressBar) {
-          var thumbWidth = (visibleCards / totalCards) * 100;
-          progressBar.style.width = thumbWidth + "%";
-          var maxIdx = totalCards - visibleCards;
-          var thumbTravel = maxIdx > 0 ? expCarouselIndex / maxIdx : 0;
-          var maxTranslate = ((100 - thumbWidth) / thumbWidth) * 100;
-          progressBar.style.transform = "translateX(" + thumbTravel * maxTranslate + "%)";
-        }
-      }
-
-      if (expPrev) {
-        expPrev.addEventListener("click", function () {
-          expCarouselIndex--;
-          updateExpCarousel();
-        });
-      }
-      if (expNext) {
-        expNext.addEventListener("click", function () {
-          expCarouselIndex++;
-          updateExpCarousel();
-        });
-      }
-
-      /* Draggable progress bar for Experiences */
-      var expProgressEl = document.querySelector(".experiences__progress");
-      if (expProgressEl && progressBar) {
-        var isDragging = false;
-
-        function getExpMaxIndex() {
-          if (!expTrack) return 0;
-          return expTrack.children.length - getExpVisibleCards();
-        }
-
-        function setIndexFromDragX(clientX, snap) {
-          var trackEl = document.querySelector(".experiences__progress-track");
-          if (!trackEl) return;
-          var rect = trackEl.getBoundingClientRect();
-          var ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-          var maxIdx = getExpMaxIndex();
-          if (snap) {
-            expCarouselIndex = Math.round(ratio * maxIdx);
-            updateExpCarousel();
-          } else {
-            expCarouselIndex = ratio * maxIdx;
-            var cards = expTrack ? expTrack.children : [];
-            if (cards.length) {
-              var cardWidth = cards[0].offsetWidth;
-              var gap = 24;
-              var offset = expCarouselIndex * (cardWidth + gap);
-              expTrack.style.transition = "none";
-              expTrack.style.transform = "translateX(" + (-offset) + "px)";
-            }
-            var totalCards = expTrack ? expTrack.children.length : 1;
-            var visibleCards = getExpVisibleCards();
-            var thumbWidth = (visibleCards / totalCards) * 100;
-            var maxTranslate = ((100 - thumbWidth) / thumbWidth) * 100;
-            progressBar.style.transform = "translateX(" + ratio * maxTranslate + "%)";
+        /* ---- Arrow disabled state ---- */
+        function updateArrows(maxIndex) {
+          if (prevBtn) {
+            var atStart = index <= 0;
+            prevBtn.style.opacity        = atStart ? "0.4" : "1";
+            prevBtn.style.pointerEvents  = atStart ? "none" : "";
+          }
+          if (nextBtn) {
+            var atEnd = index >= maxIndex;
+            nextBtn.style.opacity        = atEnd ? "0.4" : "1";
+            nextBtn.style.pointerEvents  = atEnd ? "none" : "";
           }
         }
 
-        expProgressEl.addEventListener("mousedown", function (e) {
-          isDragging = true;
+        /* ---- Core update ---- */
+        function update(animate) {
+          var cards      = track.children;
+          var total      = cards.length;
+          var visible    = getVisible();
+          var maxIndex   = Math.max(0, total - visible);
+
+          if (index > maxIndex) index = maxIndex;
+          if (index < 0)        index = 0;
+
+          var cardWidth = cards[0] ? cards[0].offsetWidth : 0;
+          var gap       = 24; // matches CSS gap: 1.5rem (24px)
+          var offset    = index * (cardWidth + gap);
+
+          track.style.transition = animate === false
+            ? "none"
+            : "transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+          track.style.transform = "translateX(" + (-offset) + "px)";
+
+          /* Progress bar */
+          if (progressBar) {
+            var thumbWidth   = (visible / total) * 100;
+            progressBar.style.width = thumbWidth + "%";
+            var thumbTravel  = maxIndex > 0 ? index / maxIndex : 0;
+            var maxTranslate = ((100 - thumbWidth) / thumbWidth) * 100;
+            progressBar.style.transform = "translateX(" + thumbTravel * maxTranslate + "%)";
+          }
+
+          updateArrows(maxIndex);
+
+          if (onUpdate) onUpdate(index, maxIndex);
+        }
+
+        /* ---- Arrow clicks ---- */
+        if (prevBtn) {
+          prevBtn.addEventListener("click", function () {
+            index--;
+            update();
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener("click", function () {
+            index++;
+            update();
+          });
+        }
+
+        /* ---- Drag-to-scroll on the track ---- */
+        var dragStartX  = 0;
+        var dragStartIdx = 0;
+        var isDragging  = false;
+
+        function onDragStart(clientX) {
+          isDragging   = true;
+          dragStartX   = clientX;
+          dragStartIdx = index;
+          track.style.cursor = "grabbing";
           document.body.style.userSelect = "none";
-          setIndexFromDragX(e.clientX, false);
+        }
+
+        function onDragMove(clientX) {
+          if (!isDragging) return;
+          var cards    = track.children;
+          var total    = cards.length;
+          var visible  = getVisible();
+          var maxIndex = Math.max(0, total - visible);
+          var cardWidth = cards[0] ? cards[0].offsetWidth : 0;
+          var gap       = 24;
+          var delta     = clientX - dragStartX;
+          // Convert pixel drag to fractional index
+          var newIndex  = dragStartIdx - delta / (cardWidth + gap);
+          index = Math.max(0, Math.min(maxIndex, newIndex));
+
+          var offset = index * (cardWidth + gap);
+          track.style.transition = "none";
+          track.style.transform  = "translateX(" + (-offset) + "px)";
+
+          if (progressBar) {
+            var thumbWidth   = (visible / total) * 100;
+            progressBar.style.width = thumbWidth + "%";
+            var thumbTravel  = maxIndex > 0 ? index / maxIndex : 0;
+            var maxTranslate = ((100 - thumbWidth) / thumbWidth) * 100;
+            progressBar.style.transform = "translateX(" + thumbTravel * maxTranslate + "%)";
+          }
+        }
+
+        function onDragEnd() {
+          if (!isDragging) return;
+          isDragging = false;
+          track.style.cursor = "";
+          document.body.style.userSelect = "";
+          // Snap to nearest integer index
+          index = Math.round(index);
+          update();
+        }
+
+        // Mouse
+        track.addEventListener("mousedown", function (e) {
+          e.preventDefault();
+          onDragStart(e.clientX);
         });
         window.addEventListener("mousemove", function (e) {
-          if (!isDragging) return;
-          setIndexFromDragX(e.clientX, false);
+          onDragMove(e.clientX);
         });
-        window.addEventListener("mouseup", function (e) {
-          if (!isDragging) return;
-          isDragging = false;
-          document.body.style.userSelect = "";
-          setIndexFromDragX(e.clientX, true);
+        window.addEventListener("mouseup", function () {
+          onDragEnd();
         });
-        expProgressEl.addEventListener("touchstart", function (e) {
-          isDragging = true;
-          setIndexFromDragX(e.touches[0].clientX, false);
+
+        // Touch
+        track.addEventListener("touchstart", function (e) {
+          onDragStart(e.touches[0].clientX);
         }, { passive: true });
         window.addEventListener("touchmove", function (e) {
-          if (!isDragging) return;
-          setIndexFromDragX(e.touches[0].clientX, false);
+          if (isDragging) onDragMove(e.touches[0].clientX);
         }, { passive: true });
-        window.addEventListener("touchend", function (e) {
-          if (!isDragging) return;
-          isDragging = false;
-          if (e.changedTouches.length) {
-            setIndexFromDragX(e.changedTouches[0].clientX, true);
-          }
+        window.addEventListener("touchend", function () {
+          onDragEnd();
         });
+
+        /* ---- Progress bar scrub ---- */
+        if (progressEl && progressBar) {
+          var scrubbing = false;
+
+          function setFromProgressX(clientX, snap) {
+            var trackEl = progressEl.querySelector(".experiences__progress-track, .testimonials__progress-track");
+            if (!trackEl) trackEl = progressEl;
+            var rect     = trackEl.getBoundingClientRect();
+            var ratio    = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+            var cards    = track.children;
+            var total    = cards.length;
+            var visible  = getVisible();
+            var maxIndex = Math.max(0, total - visible);
+
+            if (snap) {
+              index = Math.round(ratio * maxIndex);
+              update();
+            } else {
+              index = ratio * maxIndex;
+              var cardWidth = cards[0] ? cards[0].offsetWidth : 0;
+              var gap       = 24;
+              var offset    = index * (cardWidth + gap);
+              track.style.transition = "none";
+              track.style.transform  = "translateX(" + (-offset) + "px)";
+              var thumbWidth   = (visible / total) * 100;
+              progressBar.style.width = thumbWidth + "%";
+              var maxTranslate = ((100 - thumbWidth) / thumbWidth) * 100;
+              progressBar.style.transform = "translateX(" + ratio * maxTranslate + "%)";
+            }
+          }
+
+          progressEl.addEventListener("mousedown", function (e) {
+            scrubbing = true;
+            document.body.style.userSelect = "none";
+            setFromProgressX(e.clientX, false);
+          });
+          window.addEventListener("mousemove", function (e) {
+            if (scrubbing) setFromProgressX(e.clientX, false);
+          });
+          window.addEventListener("mouseup", function (e) {
+            if (!scrubbing) return;
+            scrubbing = false;
+            document.body.style.userSelect = "";
+            setFromProgressX(e.clientX, true);
+          });
+          progressEl.addEventListener("touchstart", function (e) {
+            scrubbing = true;
+            setFromProgressX(e.touches[0].clientX, false);
+          }, { passive: true });
+          window.addEventListener("touchmove", function (e) {
+            if (scrubbing) setFromProgressX(e.touches[0].clientX, false);
+          }, { passive: true });
+          window.addEventListener("touchend", function (e) {
+            if (!scrubbing) return;
+            scrubbing = false;
+            if (e.changedTouches.length) setFromProgressX(e.changedTouches[0].clientX, true);
+          });
+        }
+
+        /* ---- Initial render ---- */
+        update(false);
+
+        /* ---- Return a reset fn for resize ---- */
+        return function reset() {
+          index = 0;
+          update(false);
+        };
       }
 
-      updateExpCarousel(false);
+      /* ---------- Experiences Carousel ---------- */
+      var expReset = initCarousel({
+        track:       document.querySelector(".experiences__track"),
+        prev:        document.querySelector(".carousel-arrow--prev"),
+        next:        document.querySelector(".carousel-arrow--next"),
+        progressEl:  document.querySelector(".experiences__progress"),
+        progressBar: document.querySelector(".experiences__progress-bar"),
+        getVisible: function () {
+          var w = window.innerWidth;
+          if (w < 768)  return 1;
+          if (w < 1024) return 2;
+          return 3;
+        },
+      });
 
       /* ---------- Testimonials Carousel ---------- */
-      var testTrack = document.querySelector(".testimonials__track");
+      var testTrack         = document.querySelector(".testimonials__track");
       var testDotsContainer = document.querySelector(".testimonials__dots");
-      var testPage = 0;
+      var testPrev          = document.querySelector(".testimonials__arrow--prev");
+      var testNext          = document.querySelector(".testimonials__arrow--next");
 
-      function getTestVisibleCards() {
-        var w = window.innerWidth;
-        if (w < 768) return 1;
-        if (w < 1024) return 2;
-        return 3;
-      }
-
-      function buildTestDots() {
+      /* Build dot indicators */
+      function buildTestDots(currentPage) {
         if (!testTrack || !testDotsContainer) return;
-        var totalCards = testTrack.children.length;
-        var visibleCards = getTestVisibleCards();
-        var dotCount = Math.max(1, totalCards - visibleCards + 1);
+        var total   = testTrack.children.length;
+        var visible = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+        var dotCount = Math.max(1, total - visible + 1);
         testDotsContainer.innerHTML = "";
         for (var d = 0; d < dotCount; d++) {
           var dot = document.createElement("span");
-          dot.className = "testimonials__dot" + (d === 0 ? " testimonials__dot--active" : "");
-          (function (idx) {
-            dot.addEventListener("click", function () {
-              testPage = idx;
-              updateTestCarousel();
-            });
-          })(d);
+          dot.className = "testimonials__dot" + (d === (currentPage || 0) ? " testimonials__dot--active" : "");
           testDotsContainer.appendChild(dot);
         }
       }
 
-      function updateTestCarousel() {
-        if (!testTrack) return;
-        var cards = testTrack.children;
-        var totalCards = cards.length;
-        var visibleCards = getTestVisibleCards();
-        var maxPage = totalCards - visibleCards;
+      buildTestDots(0);
 
-        if (testPage > maxPage) testPage = maxPage;
-        if (testPage < 0) testPage = 0;
-
-        var cardWidth = cards[0].offsetWidth;
-        var gap = 24;
-        var offset = testPage * (cardWidth + gap);
-
-        testTrack.style.transition = "transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-        testTrack.style.transform = "translateX(" + (-offset) + "px)";
-
-        var dots = testDotsContainer
-          ? testDotsContainer.querySelectorAll(".testimonials__dot")
-          : [];
-        dots.forEach(function (dot, i) {
-          dot.classList.toggle("testimonials__dot--active", i === testPage);
-        });
-      }
-
-      buildTestDots();
-      updateTestCarousel();
+      var testReset = initCarousel({
+        track: testTrack,
+        prev:  testPrev,
+        next:  testNext,
+        getVisible: function () {
+          var w = window.innerWidth;
+          if (w < 768)  return 1;
+          if (w < 1024) return 2;
+          return 3;
+        },
+        onUpdate: function (page) {
+          /* Sync dots */
+          if (!testDotsContainer) return;
+          var dots = testDotsContainer.querySelectorAll(".testimonials__dot");
+          dots.forEach(function (dot, i) {
+            dot.classList.toggle("testimonials__dot--active", i === Math.round(page));
+          });
+        },
+      });
 
       /* ---------- Mobile Slide-Out Panel ---------- */
-      var hamburger = document.querySelector(".navbar__hamburger");
-      var mobilePanel = document.getElementById("mobilePanel");
+      var hamburger     = document.querySelector(".navbar__hamburger");
+      var mobilePanel   = document.getElementById("mobilePanel");
       var mobileBackdrop = document.getElementById("mobileBackdrop");
 
       function openPanel() {
@@ -266,14 +362,10 @@ export default function ClientAnimations() {
       function togglePanel() {
         if (!mobilePanel) return;
         var isOpen = mobilePanel.classList.contains("active");
-        if (isOpen) {
-          closePanel();
-        } else {
-          openPanel();
-        }
+        if (isOpen) closePanel(); else openPanel();
       }
 
-      if (hamburger) hamburger.addEventListener("click", togglePanel);
+      if (hamburger)     hamburger.addEventListener("click", togglePanel);
       if (mobileBackdrop) mobileBackdrop.addEventListener("click", closePanel);
 
       var toggles = document.querySelectorAll(".mobile-panel__toggle");
@@ -303,10 +395,11 @@ export default function ClientAnimations() {
       window.addEventListener("resize", function () {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
-          updateExpCarousel(false);
-          testPage = 0;
-          buildTestDots();
-          updateTestCarousel();
+          if (expReset)  expReset();
+          if (testReset) {
+            buildTestDots(0);
+            testReset();
+          }
         }, 250);
       });
 
