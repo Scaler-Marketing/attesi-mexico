@@ -77,7 +77,7 @@
 /* ── PHILOSOPHY ── */
 .ret-philosophy__inner {
   display: grid;
-  grid-template-columns: 1fr 280px;
+  grid-template-columns: 1fr 17.5rem;
   gap: 5rem;
   align-items: start;
 }
@@ -168,8 +168,8 @@
 }
 
 .ret-type-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(56, 44, 30, 0.09);
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.75rem 2rem rgba(56, 44, 30, 0.09);
 }
 
 .ret-type-card__icon {
@@ -197,7 +197,7 @@
 /* ── WHAT'S INCLUDED ── */
 .ret-included__inner {
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: 1fr 26.25rem;
   gap: 5rem;
   align-items: center;
 }
@@ -238,8 +238,8 @@
 }
 
 .ret-included__dot {
-  width: 7px;
-  height: 7px;
+  width: 0.4375rem;
+  height: 0.4375rem;
   border-radius: 50%;
   background: var(--brand-orange);
   flex-shrink: 0;
@@ -274,13 +274,13 @@
   font-weight: 400;
   color: var(--brand-white);
   line-height: 1.55;
-  border-left: 3px solid var(--brand-orange);
+  border-left: 0.1875rem solid var(--brand-orange);
   padding-left: 2rem;
   margin: 0;
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
+@media (max-width: 64rem) {
   .ret-philosophy__inner,
   .ret-included__inner {
     grid-template-columns: 1fr;
@@ -302,7 +302,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 40rem) {
   .ret-hero {
     height: 75vh;
   }

@@ -707,17 +707,19 @@ export default async function ExperienceDetailPage({ params }) {
         )}
         <div className="exp-detail-hero__overlay" />
         <div className="exp-detail-hero__content container">
-          <a href="/experiences" className="exp-detail-hero__back">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            All Experiences
-          </a>
-          {exp.category && (
-            <span className="exp-detail-hero__category">
-              {CATEGORY_LABELS[exp.category] || exp.category}
-            </span>
-          )}
+          <div className="exp-detail-hero__meta">
+            <a href="/experiences" className="exp-detail-hero__back">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M13 8H3M7 12l-4-4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              All Experiences
+            </a>
+            {exp.category && (
+              <span className="exp-detail-hero__category">
+                {CATEGORY_LABELS[exp.category] || exp.category}
+              </span>
+            )}
+          </div>
           <h1 className="exp-detail-hero__title">{exp.title}</h1>
           {exp.tagline && (
             <p className="exp-detail-hero__tagline">{exp.tagline}</p>
@@ -786,15 +788,21 @@ export default async function ExperienceDetailPage({ params }) {
       {exp.faqs && exp.faqs.length > 0 && (
         <section className="exp-detail-faqs section exp-detail-faqs--alt">
           <div className="container exp-detail-faqs__inner">
-            <h2 className="exp-detail-faqs__heading">
-              Frequently Asked Questions
-            </h2>
+            <h2 className="exp-detail-faqs__heading">Frequently Asked Questions</h2>
+            <p className="exp-detail-faqs__sub">Everything you need to know before your experience.</p>
             <div className="exp-detail-faqs__list">
               {exp.faqs.map((faq, i) => (
                 <details key={i} className="exp-detail-faq">
                   <summary className="exp-detail-faq__question">
-                    {faq.question}
-                    <span className="exp-detail-faq__icon" aria-hidden="true">+</span>
+                    <div className="exp-detail-faq__question-left">
+                      <span className="exp-detail-faq__eyebrow">Everything you need to know</span>
+                      <span className="exp-detail-faq__question-text">{faq.question}</span>
+                    </div>
+                    <span className="exp-detail-faq__icon" aria-hidden="true">
+                      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
                   </summary>
                   <p className="exp-detail-faq__answer">{faq.answer}</p>
                 </details>

@@ -112,7 +112,7 @@
   font-style: italic;
   color: var(--brand-dark);
   font-size: 1.125rem;
-  border-left: 3px solid var(--brand-orange);
+  border-left: 0.1875rem solid var(--brand-orange);
   padding-left: 1.25rem;
   margin-top: 1.5rem;
 }
@@ -134,7 +134,7 @@
 }
 
 .gi-intro__poem {
-  border-left: 3px solid var(--brand-orange);
+  border-left: 0.1875rem solid var(--brand-orange);
   padding-left: 1.75rem;
   font-family: var(--font-body);
   font-style: italic;
@@ -191,8 +191,8 @@
 }
 
 .gi-practice-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(56, 44, 30, 0.1);
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.75rem 2rem rgba(56, 44, 30, 0.1);
 }
 
 .gi-practice-card__icon {
@@ -282,7 +282,7 @@
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
+@media (max-width: 64rem) {
   .gi-practices__cards {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -293,7 +293,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .gi-hero {
     height: 75vh;
     align-items: flex-end;
@@ -317,7 +317,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 30rem) {
   .gi-stats__grid {
     grid-template-columns: 1fr;
   }
