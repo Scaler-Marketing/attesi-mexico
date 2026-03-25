@@ -7,16 +7,39 @@ export const heroSlidesQuery = `*[_type == "heroSlide"] | order(order asc) {
   order
 }`;
 
-// ─── Experiences ─────────────────────────────────────────────────────────────
+// ─── Experiences (listing + homepage cards) ──────────────────────────────────
 export const experiencesQuery = `*[_type == "experience"] | order(order asc) {
   _id,
   title,
-  description,
-  image,
-  ctaLabel,
-  ctaUrl,
+  "slug": slug.current,
+  tagline,
+  category,
+  cardImage,
+  cardDescription,
   order
 }`;
+
+// ─── Single Experience (detail page) ─────────────────────────────────────────
+export const experienceBySlugQuery = `*[_type == "experience" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  tagline,
+  category,
+  cardImage,
+  cardDescription,
+  heroImage,
+  about,
+  highlights,
+  gallery,
+  faqs,
+  seoTitle,
+  seoDescription,
+  order
+}`;
+
+// ─── All Experience Slugs (for generateStaticParams) ─────────────────────────
+export const experienceSlugsQuery = `*[_type == "experience" && defined(slug.current)] { "slug": slug.current }`;
 
 // ─── Stats ────────────────────────────────────────────────────────────────────
 export const statsQuery = `*[_type == "stat"] | order(order asc) {
