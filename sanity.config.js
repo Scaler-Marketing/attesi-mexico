@@ -35,6 +35,10 @@ const deskStructure = (S) =>
       S.listItem().title("Why Choose Items").child(
         S.documentTypeList("whyChooseItem").title("Why Choose Items")
       ),
+      S.divider(),
+      S.listItem().title("Team Members").child(
+        S.documentTypeList("teamMember").title("Team Members")
+      ),
     ]);
 
 export default defineConfig({
