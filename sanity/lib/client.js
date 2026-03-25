@@ -4,5 +4,5 @@ export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "jki68fc0",
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2024-01-01",
-  useCdn: true, // false for draft/preview mode
+  useCdn: false, // always fetch from origin — CDN can lag after seeding
 });

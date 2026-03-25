@@ -8,6 +8,8 @@ import { client } from "../../sanity/lib/client";
 import { facilitiesQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
 
+export const revalidate = 60; // revalidate every 60 seconds
+
 export const metadata = {
   title: "Facilities — Attesi Mexico",
   description:
