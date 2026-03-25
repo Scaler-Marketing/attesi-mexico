@@ -164,10 +164,11 @@
 
 .exp-detail-about__highlights-title {
   font-family: var(--font-display);
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--brand-white);
   margin-bottom: 1.25rem;
+  letter-spacing: -0.01em;
 }
 
 .exp-detail-about__highlights-list {
@@ -190,12 +191,14 @@
 }
 
 .exp-detail-about__highlight-dot {
-  width: 0.375rem;
-  height: 0.375rem;
-  border-radius: 50%;
-  background: var(--brand-orange);
+  width: 1rem;
+  height: 1rem;
   flex-shrink: 0;
-  margin-top: 0.45rem;
+  margin-top: 0.2rem;
+  color: var(--brand-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ── GALLERY ── */

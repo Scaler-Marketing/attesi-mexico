@@ -279,7 +279,7 @@ export default function ClientAnimations() {
         };
       }
 
-      /* ---------- Experiences Carousel ---------- */
+      /* ---------- Experiences Carousel (homepage) ---------- */
       var expReset = initCarousel({
         track:       document.querySelector(".experiences__track"),
         prev:        document.querySelector(".carousel-arrow--prev"),
@@ -293,6 +293,42 @@ export default function ClientAnimations() {
           return 3;
         },
       });
+
+      /* ---------- Facilities Listing Carousel ---------- */
+      var facCarouselTrack = document.querySelector(".fac-carousel-track");
+      if (facCarouselTrack) {
+        initCarousel({
+          track:       facCarouselTrack,
+          prev:        document.querySelector(".fac-carousel-prev"),
+          next:        document.querySelector(".fac-carousel-next"),
+          progressEl:  document.querySelector(".fac-carousel-progress"),
+          progressBar: document.querySelector(".fac-carousel-progress .experiences__progress-bar"),
+          getVisible: function () {
+            var w = window.innerWidth;
+            if (w < 768)  return 1;
+            if (w < 1024) return 2;
+            return 3;
+          },
+        });
+      }
+
+      /* ---------- Experiences Listing Carousel ---------- */
+      var expListCarouselTrack = document.querySelector(".exp-carousel-track");
+      if (expListCarouselTrack) {
+        initCarousel({
+          track:       expListCarouselTrack,
+          prev:        document.querySelector(".exp-carousel-prev"),
+          next:        document.querySelector(".exp-carousel-next"),
+          progressEl:  document.querySelector(".exp-carousel-progress"),
+          progressBar: document.querySelector(".exp-carousel-progress .experiences__progress-bar"),
+          getVisible: function () {
+            var w = window.innerWidth;
+            if (w < 768)  return 1;
+            if (w < 1024) return 2;
+            return 3;
+          },
+        });
+      }
 
       /* ---------- Testimonials Carousel ---------- */
       var testTrack         = document.querySelector(".testimonials__track");

@@ -165,6 +165,83 @@ export default async function ExperiencesPage() {
         </div>
       </section>
 
+      {/* ── FEATURED EXPERIENCES CAROUSEL ── */}
+      <section className="exp-carousel section" id="exp-carousel">
+        <div className="container">
+          <div className="experiences__header">
+            <div className="experiences__header-left">
+              <h2 className="experiences__title">Featured Experiences</h2>
+              <p className="experiences__subtitle">
+                A curated selection of what awaits you at Attesi — from ancient ceremonies to mountain hikes.
+              </p>
+            </div>
+            <div className="experiences__arrows">
+              <button className="carousel-arrow exp-carousel-prev" aria-label="Previous experience">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button className="carousel-arrow exp-carousel-next" aria-label="Next experience">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div className="experiences__track-wrapper">
+            <div className="experiences__track exp-carousel-track">
+              {experiences.map((exp) => (
+                <a
+                  key={exp._id + "-carousel"}
+                  href={`/experiences/${exp.slug}`}
+                  className="exp-card"
+                >
+                  <div className="exp-card__img-wrap">
+                    {exp.cardImageUrl ? (
+                      <img
+                        src={exp.cardImageUrl}
+                        alt={exp.title}
+                        className="exp-card__img"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="exp-card__img-placeholder">
+                        <span className="exp-card__img-initial">{exp.title.charAt(0)}</span>
+                      </div>
+                    )}
+                    {exp.category && (
+                      <span className="exp-card__category">
+                        {CATEGORY_LABELS[exp.category] || exp.category}
+                      </span>
+                    )}
+                  </div>
+                  <div className="exp-card__body">
+                    {exp.tagline && (
+                      <span className="exp-card__tagline">{exp.tagline}</span>
+                    )}
+                    <h2 className="exp-card__title">{exp.title}</h2>
+                    {exp.cardDescription && (
+                      <p className="exp-card__desc">{exp.cardDescription}</p>
+                    )}
+                    <span className="exp-card__cta">
+                      Learn More
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="experiences__progress exp-carousel-progress">
+            <div className="experiences__progress-track">
+              <div className="experiences__progress-bar"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── INTRO ── */}
       <section className="exp-intro section">
         <div className="container exp-intro__inner">
