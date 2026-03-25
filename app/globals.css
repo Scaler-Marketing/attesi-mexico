@@ -446,6 +446,27 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(181, 116, 58, 0.12) !important;
   font-weight: 600;
 }
+/* "View All" header link in dropdown */
+.navbar__dropdown-view-all {
+  grid-column: 1 / -1;
+  border-bottom: 0.0625rem solid rgba(181, 116, 58, 0.15);
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.navbar__dropdown-view-all-link {
+  display: block;
+  padding: 0.375rem 1rem 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-orange) !important;
+  border-radius: 0.5rem;
+  transition: background var(--transition);
+}
+.navbar__dropdown-view-all-link:hover {
+  background: rgba(181, 116, 58, 0.08) !important;
+}
 
 /* CTA */
 .navbar__cta {
@@ -887,19 +908,20 @@ h1, h2, h3, h4, h5, h6 {
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 50%;
-  border: 0.0938rem solid var(--brand-earth);
+  border: 0.125rem solid var(--brand-earth);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--brand-earth);
   cursor: pointer;
-  transition: opacity 0.25s ease, border-color 0.2s ease, color 0.2s ease;
-  background: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.25s ease;
+  background: transparent;
   user-select: none;
 }
 .carousel-arrow:hover {
+  background: var(--brand-orange);
   border-color: var(--brand-orange);
-  color: var(--brand-orange);
+  color: var(--brand-white);
 }
 
 /* Bleed past container — show partial cards on both edges */
@@ -1501,6 +1523,21 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.1em;
   color: var(--brand-orange);
   margin-bottom: 1.25rem;
+  display: block;
+}
+a.footer__heading--link {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--brand-orange);
+  margin-bottom: 1.25rem;
+  display: block;
+  transition: opacity var(--transition);
+}
+a.footer__heading--link:hover {
+  opacity: 0.75;
 }
 .footer__col ul {
   display: flex;

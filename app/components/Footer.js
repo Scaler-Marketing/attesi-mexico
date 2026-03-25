@@ -1,14 +1,49 @@
-const generalLinks = ["Home", "About Us", "Our Team", "Global Impact", "History", "Philosophy", "Blog", "Testimonials", "Contact Us", "FAQs"];
-const experiencesLinks = ["Migrating Monarchs", "Temazcal Ceremony", "Guided Mountain Hikes", "Farm to Table", "Natural Spring Cold Plunge", "Apiary", "Farm Tour", "Bonfire", "Yoga and Meditation", "Breathwork"];
-const facilitiesLinks = ["Midrash", "Sabata", "Cafe", "Central Garden", "Outdoor Spaces", "Retreat Center", "Farm", "Huertos", "Natural Spring Mikvah"];
+const generalLinks = [
+  ["Home",          "/"],
+  ["About Us",      "/about"],
+  ["Our Team",      "/team"],
+  ["Global Impact", "/global-impact"],
+  ["History",       "/history"],
+  ["Philosophy",    "/philosophy"],
+  ["Blog",          "/blog"],
+  ["Contact Us",    "/contact"],
+  ["FAQs",          "/faqs"],
+];
+const experiencesLinks = [
+  ["Migrating Monarchs",         "/experiences/migrating-monarchs"],
+  ["Temazcal Ceremony",          "/experiences/temazcal-ceremony"],
+  ["Guided Mountain Hikes",      "/experiences/guided-mountain-hikes"],
+  ["Farm to Table",              "/experiences/farm-to-table"],
+  ["Natural Spring Cold Plunge", "/experiences/natural-spring-cold-plunge"],
+  ["Apiary",                     "/experiences/apiary"],
+  ["Farm Tour",                  "/experiences/farm-tour"],
+  ["Bonfire",                    "/experiences/bonfire"],
+  ["Yoga and Meditation",        "/experiences/yoga-and-meditation"],
+  ["Breathwork",                 "/experiences/breathwork"],
+];
+const facilitiesLinks = [
+  ["Midrash",               "/facilities/midrash"],
+  ["Sabata",                "/facilities/sabata"],
+  ["Cafe",                  "/facilities/cafe"],
+  ["Central Garden",        "/facilities/central-garden"],
+  ["Outdoor Spaces",        "/facilities/outdoor-spaces"],
+  ["Retreat Center",        "/facilities/retreat-center"],
+  ["Farm",                  "/facilities/farm"],
+  ["Huertos",               "/facilities/huertos"],
+  ["Natural Spring Mikvah", "/facilities/natural-spring-mikvah"],
+];
 
-function FooterCol({ heading, links }) {
+function FooterCol({ heading, headingHref, links }) {
   return (
     <div className="footer__col">
-      <h4 className="footer__heading">{heading}</h4>
+      {headingHref ? (
+        <a href={headingHref} className="footer__heading footer__heading--link">{heading}</a>
+      ) : (
+        <h4 className="footer__heading">{heading}</h4>
+      )}
       <ul role="list">
-        {links.map((link) => (
-          <li key={link}><a href="#">{link}</a></li>
+        {links.map(([label, href]) => (
+          <li key={label}><a href={href}>{label}</a></li>
         ))}
       </ul>
     </div>
@@ -30,8 +65,8 @@ export default function Footer() {
           </div>
 
           <FooterCol heading="GENERAL" links={generalLinks} />
-          <FooterCol heading="EXPERIENCES" links={experiencesLinks} />
-          <FooterCol heading="FACILITIES" links={facilitiesLinks} />
+          <FooterCol heading="EXPERIENCES" headingHref="/experiences" links={experiencesLinks} />
+          <FooterCol heading="FACILITIES" headingHref="/facilities" links={facilitiesLinks} />
 
           <div className="footer__col">
             <h4 className="footer__heading">CONTACT</h4>

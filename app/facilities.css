@@ -80,21 +80,25 @@
 }
 
 /* ── GRID ── */
-.fac-cards {
+/* facilities page uses exp-cards class (shared with experiences) */
+.fac-cards,
+.fac-grid-section .exp-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
 /* Grid cards don't need carousel flex sizing */
-.fac-grid .exp-card {
+.fac-grid .exp-card,
+.fac-grid-section .exp-card {
   flex: unset;
   min-width: unset;
 }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 64rem) {
-  .fac-cards {
+  .fac-cards,
+  .fac-grid-section .exp-cards {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -102,7 +106,8 @@
   .fac-hero {
     height: 72vh;
   }
-  .fac-cards {
+  .fac-cards,
+  .fac-grid-section .exp-cards {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }

@@ -39,25 +39,33 @@ const experiencesItems = [
   ["Breathwork",                 "/experiences/breathwork"],
 ];
 
-function DesktopDropdown({ label, items, pathname }) {
-  // Mark the parent button as active if any child route matches
-  const isParentActive = items.some(([, href]) => href !== "#" && pathname.startsWith(href));
+function DesktopDropdown({ label, href, items, pathname }) {
+  // Mark the parent button as active if any child route matches or if on the listing page
+  const isParentActive = (href && pathname.startsWith(href)) ||
+    items.some(([, itemHref]) => itemHref !== "#" && pathname.startsWith(itemHref));
 
   return (
     <li className="navbar__dropdown">
-      <button
+      <a
+        href={href || "#"}
         className={`navbar__link navbar__link--dropdown${isParentActive ? " navbar__link--active" : ""}`}
-        aria-expanded="false"
         aria-haspopup="true"
       >
         {label} <ChevronDown />
-      </button>
+      </a>
       <ul className="navbar__dropdown-menu" role="list">
-        {items.map(([name, href]) => {
-          const isActive = href !== "#" && pathname === href;
+        {href && (
+          <li className="navbar__dropdown-view-all" style={{ gridColumn: "1 / -1" }}>
+            <a href={href} className="navbar__dropdown-view-all-link">
+              View All {label}
+            </a>
+          </li>
+        )}
+        {items.map(([name, itemHref]) => {
+          const isActive = itemHref !== "#" && pathname === itemHref;
           return (
             <li key={name}>
-              <a href={href} className={isActive ? "navbar__dropdown-item--active" : ""}>
+              <a href={itemHref} className={isActive ? "navbar__dropdown-item--active" : ""}>
                 {name}
               </a>
             </li>
@@ -68,8 +76,9 @@ function DesktopDropdown({ label, items, pathname }) {
   );
 }
 
-function MobileAccordion({ label, items, pathname }) {
-  const isParentActive = items.some(([, href]) => href !== "#" && pathname.startsWith(href));
+function MobileAccordion({ label, href, items, pathname }) {
+  const isParentActive = (href && pathname.startsWith(href)) ||
+    items.some(([, itemHref]) => itemHref !== "#" && pathname.startsWith(itemHref));
 
   return (
     <li className="mobile-panel__accordion">
@@ -81,11 +90,18 @@ function MobileAccordion({ label, items, pathname }) {
         <ChevronDown width={12} height={8} />
       </button>
       <ul className="mobile-panel__sub" role="list">
-        {items.map(([name, href]) => {
-          const isActive = href !== "#" && pathname === href;
+        {href && (
+          <li>
+            <a href={href} style={{ fontWeight: 600, color: "var(--brand-orange)" }}>
+              View All {label}
+            </a>
+          </li>
+        )}
+        {items.map(([name, itemHref]) => {
+          const isActive = itemHref !== "#" && pathname === itemHref;
           return (
             <li key={name}>
-              <a href={href} className={isActive ? "mobile-panel__sub-item--active" : ""}>
+              <a href={itemHref} className={isActive ? "mobile-panel__sub-item--active" : ""}>
                 {name}
               </a>
             </li>
@@ -115,8 +131,8 @@ export default function Navbar() {
               </a>
             </li>
             <DesktopDropdown label="About" items={aboutItems} pathname={pathname} />
-            <DesktopDropdown label="Facilities" items={facilitiesItems} pathname={pathname} />
-            <DesktopDropdown label="Experiences" items={experiencesItems} pathname={pathname} />
+            <DesktopDropdown label="Facilities" href="/facilities" items={facilitiesItems} pathname={pathname} />
+            <DesktopDropdown label="Experiences" href="/experiences" items={experiencesItems} pathname={pathname} />
             <li>
               <a href="/blog" className={`navbar__link${pathname === "/blog" ? " navbar__link--active" : ""}`}>
                 Blog
@@ -148,8 +164,8 @@ export default function Navbar() {
               </a>
             </li>
             <MobileAccordion label="About" items={aboutItems} pathname={pathname} />
-            <MobileAccordion label="Facilities" items={facilitiesItems} pathname={pathname} />
-            <MobileAccordion label="Experiences" items={experiencesItems} pathname={pathname} />
+            <MobileAccordion label="Facilities" href="/facilities" items={facilitiesItems} pathname={pathname} />
+            <MobileAccordion label="Experiences" href="/experiences" items={experiencesItems} pathname={pathname} />
             <li>
               <a href="/blog" className={`mobile-panel__link${pathname === "/blog" ? " mobile-panel__link--active" : ""}`}>
                 Blog
