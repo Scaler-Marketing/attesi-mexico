@@ -117,6 +117,25 @@ h1, h2, h3, h4, h5, h6 {
   padding-left: var(--section-px);
   padding-right: var(--section-px);
 }
+/* Client First v2 container sizes */
+.container-large {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding-left: var(--section-px);
+  padding-right: var(--section-px);
+}
+.container-medium {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding-left: var(--section-px);
+  padding-right: var(--section-px);
+}
+.container-small {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding-left: var(--section-px);
+  padding-right: var(--section-px);
+}
 
 .section {
   padding-top: var(--section-py);

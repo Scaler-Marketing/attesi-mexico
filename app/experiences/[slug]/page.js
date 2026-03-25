@@ -787,7 +787,7 @@ export default async function ExperienceDetailPage({ params }) {
       {/* ── FAQs ── */}
       {exp.faqs && exp.faqs.length > 0 && (
         <section className="exp-detail-faqs section exp-detail-faqs--alt">
-          <div className="container exp-detail-faqs__inner">
+          <div className="container-medium exp-detail-faqs__inner">
             <h2 className="exp-detail-faqs__heading">Frequently Asked Questions</h2>
             <p className="exp-detail-faqs__sub">Everything you need to know before your experience.</p>
             <div className="exp-detail-faqs__list">
