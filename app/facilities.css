@@ -147,6 +147,17 @@
   padding: 1.75rem;
 }
 
+.fac-card__eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 0.5rem;
+}
+
 .fac-card__title {
   font-family: var(--font-display);
   font-size: 1.25rem;

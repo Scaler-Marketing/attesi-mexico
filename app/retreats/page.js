@@ -15,32 +15,42 @@ const RETREAT_TYPES = [
   {
     title: "Wellness Retreats",
     icon: "✦",
+    category: "Wellness & Healing",
     description:
       "Immersive programs combining yoga, meditation, breathwork, temazcal ceremony, cold plunge, and farm-to-table nourishment. Designed to restore the body, quiet the mind, and reconnect with what matters.",
+    image: "https://attesi.mx/wp-content/uploads/2022/12/home-slider-attesi-2.jpg",
   },
   {
     title: "Corporate Retreats",
     icon: "◈",
+    category: "Team & Leadership",
     description:
       "Step away from the office and into nature. Our corporate retreat programs create the conditions for deeper connection, creative thinking, and team alignment — far from the noise of everyday work.",
+    image: "https://attesi.mx/wp-content/uploads/2022/09/Eventos-a-tu-medida-scaled.jpg",
   },
   {
     title: "Family & Community Retreats",
     icon: "◉",
+    category: "Family & Community",
     description:
       "Attesi was built around family and community. Our family retreat programs offer a shared experience of nature, learning, and celebration that brings people closer together.",
+    image: "https://attesi.mx/wp-content/uploads/2022/11/slider-day-visit-3.jpg",
   },
   {
     title: "Jewish Life Retreats",
     icon: "✡",
+    category: "Jewish Life",
     description:
       "Shabbat, holidays, and meaningful Jewish experiences in a natural setting. Attesi's Jewish retreat programs weave together tradition, community, and the beauty of the land.",
+    image: "https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg",
   },
   {
     title: "Custom Programs",
     icon: "◇",
+    category: "Bespoke",
     description:
       "Have a specific vision? We work with retreat leaders, facilitators, and organizations to design fully bespoke programs that align with your goals, group size, and timeline.",
+    image: "https://attesi.mx/wp-content/uploads/2022/11/cards-home-servides-1-2.jpg",
   },
 ];
 
@@ -128,13 +138,23 @@ export default async function RetreatsPage() {
           </p>
           <div className="ret-types__grid">
             {RETREAT_TYPES.map((type) => (
-              <div key={type.title} className="ret-type-card">
-                <span className="ret-type-card__icon" aria-hidden="true">
-                  {type.icon}
-                </span>
-                <h3 className="ret-type-card__title">{type.title}</h3>
-                <p className="ret-type-card__text">{type.description}</p>
-              </div>
+              <article key={type.title} className="exp-card">
+                <div className="exp-card__image">
+                  <img
+                    src={type.image}
+                    alt={type.title}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="exp-card__body">
+                  <span className="fac-card__eyebrow">{type.category}</span>
+                  <h3 className="exp-card__title">{type.title}</h3>
+                  <p className="exp-card__text">{type.description}</p>
+                  <a href="/contact" className="btn-primary btn--sm">
+                    Enquire
+                  </a>
+                </div>
+              </article>
             ))}
           </div>
         </div>

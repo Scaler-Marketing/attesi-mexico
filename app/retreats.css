@@ -156,7 +156,19 @@
 .ret-types__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
+  gap: 2rem;
+}
+
+/* Shared eyebrow label for exp-card based layouts */
+.fac-card__eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 0.5rem;
 }
 
 .ret-type-card {

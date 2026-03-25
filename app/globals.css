@@ -836,6 +836,7 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================ */
 .experiences {
   background: var(--brand-cream);
+  overflow: hidden; /* clip horizontal bleed without hiding vertical content */
 }
 .experiences__header {
   display: flex;
@@ -881,8 +882,13 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--brand-orange);
 }
 
+/* Bleed past container — show partial cards on both edges */
 .experiences__track-wrapper {
-  overflow: hidden;
+  overflow: visible;
+  margin-left: calc(-1 * var(--section-px));
+  margin-right: calc(-1 * var(--section-px));
+  padding-left: var(--section-px);
+  padding-right: var(--section-px);
 }
 .experiences__track {
   display: flex;
@@ -1188,6 +1194,7 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================ */
 .testimonials {
   background: var(--brand-cream);
+  overflow: hidden; /* clip horizontal bleed */
 }
 .testimonials__header {
   display: flex;
@@ -1207,8 +1214,13 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--brand-earth);
 }
 
+/* Bleed past container — show partial cards on both edges */
 .testimonials__track-wrapper {
-  overflow: hidden;
+  overflow: visible;
+  margin-left: calc(-1 * var(--section-px));
+  margin-right: calc(-1 * var(--section-px));
+  padding-left: var(--section-px);
+  padding-right: var(--section-px);
 }
 .testimonials__track {
   display: flex;

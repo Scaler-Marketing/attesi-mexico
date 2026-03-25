@@ -123,19 +123,18 @@ export default async function FacilitiesPage() {
         <div className="container">
           <div className="fac-cards">
             {FACILITIES.map((fac) => (
-              <article key={fac.slug} className="fac-card">
-                <div className="fac-card__img-wrap">
+              <article key={fac.slug} className="exp-card">
+                <div className="exp-card__image">
                   <img
                     src={fac.image}
                     alt={fac.title}
-                    className="fac-card__img"
                     loading="lazy"
                   />
-                  <span className="fac-card__category">{fac.category}</span>
                 </div>
-                <div className="fac-card__body">
-                  <h2 className="fac-card__title">{fac.title}</h2>
-                  <p className="fac-card__desc">{fac.description}</p>
+                <div className="exp-card__body">
+                  <span className="fac-card__eyebrow">{fac.category}</span>
+                  <h2 className="exp-card__title">{fac.title}</h2>
+                  <p className="exp-card__text">{fac.description}</p>
                 </div>
               </article>
             ))}
