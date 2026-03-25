@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import CTA from "../../components/CTA";
 import ClientAnimations from "../../components/ClientAnimations";
+import FaqAccordion from "../../components/FaqAccordion";
 import { client } from "../../../sanity/lib/client";
 import {
   experienceBySlugQuery,
@@ -790,24 +791,7 @@ export default async function ExperienceDetailPage({ params }) {
           <div className="container-medium exp-detail-faqs__inner">
             <h2 className="exp-detail-faqs__heading">Frequently Asked Questions</h2>
             <p className="exp-detail-faqs__sub">Everything you need to know before your experience.</p>
-            <div className="exp-detail-faqs__list">
-              {exp.faqs.map((faq, i) => (
-                <details key={i} className="exp-detail-faq">
-                  <summary className="exp-detail-faq__question">
-                    <div className="exp-detail-faq__question-left">
-                      <span className="exp-detail-faq__eyebrow">Everything you need to know</span>
-                      <span className="exp-detail-faq__question-text">{faq.question}</span>
-                    </div>
-                    <span className="exp-detail-faq__icon" aria-hidden="true">
-                      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                  </summary>
-                  <p className="exp-detail-faq__answer">{faq.answer}</p>
-                </details>
-              ))}
-            </div>
+            <FaqAccordion faqs={exp.faqs} title={exp.title} />
           </div>
         </section>
       )}
