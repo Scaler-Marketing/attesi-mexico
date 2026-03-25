@@ -5,6 +5,7 @@ import testimonial from "./testimonial";
 import findYourWayCard from "./findYourWayCard";
 import whyChooseItem from "./whyChooseItem";
 import siteSettings from "./siteSettings";
+import teamMember from "./teamMember";
 
 export const schemaTypes = [
   siteSettings,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   testimonial,
   findYourWayCard,
   whyChooseItem,
+  teamMember,
 ];

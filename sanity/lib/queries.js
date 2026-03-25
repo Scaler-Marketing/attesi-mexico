@@ -71,3 +71,13 @@ export const whyChooseQuery = `*[_type == "whyChooseItem"] | order(order asc) {
   description,
   order
 }`;
+
+// ─── Team Members ─────────────────────────────────────────────────────────────
+export const teamMembersQuery = `*[_type == "teamMember"] | order(order asc) {
+  _id,
+  name,
+  role,
+  bio,
+  photo,
+  order
+}`;
