@@ -1,5 +1,6 @@
 import heroSlide from "./heroSlide";
 import experience from "./experience";
+import facility from "./facility";
 import stat from "./stat";
 import testimonial from "./testimonial";
 import findYourWayCard from "./findYourWayCard";
@@ -11,6 +12,7 @@ export const schemaTypes = [
   siteSettings,
   heroSlide,
   experience,
+  facility,
   stat,
   testimonial,
   findYourWayCard,

@@ -41,6 +41,36 @@ export const experienceBySlugQuery = `*[_type == "experience" && slug.current ==
 // ─── All Experience Slugs (for generateStaticParams) ─────────────────────────
 export const experienceSlugsQuery = `*[_type == "experience" && defined(slug.current)] { "slug": slug.current }`;
 
+// ─── Facilities (listing + detail pages) ─────────────────────────────────────
+export const facilitiesQuery = `*[_type == "facility"] | order(order asc) {
+  _id,
+  title,
+  "slug": slug.current,
+  category,
+  cardImage,
+  cardDescription,
+  order
+}`;
+
+export const facilityBySlugQuery = `*[_type == "facility" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  category,
+  cardImage,
+  cardDescription,
+  heroImage,
+  about,
+  highlights,
+  gallery,
+  faqs,
+  seoTitle,
+  seoDescription,
+  order
+}`;
+
+export const facilitySlugsQuery = `*[_type == "facility" && defined(slug.current)] { "slug": slug.current }`;
+
 // ─── Stats ────────────────────────────────────────────────────────────────────
 export const statsQuery = `*[_type == "stat"] | order(order asc) {
   _id,

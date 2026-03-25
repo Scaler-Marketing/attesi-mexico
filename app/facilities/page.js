@@ -3,148 +3,118 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
+import Link from "next/link";
+import { client } from "../../sanity/lib/client";
+import { facilitiesQuery } from "../../sanity/lib/queries";
+import { urlFor } from "../../sanity/lib/image";
 
 export const metadata = {
   title: "Facilities — Attesi Mexico",
   description:
-    "Explore the spaces that make up Attesi Mexico — from the Midrash gathering hall and Sabata retreat center to the farm, natural spring mikvah, and open-air gardens.",
+    "Explore the spaces that make Attesi a place apart — from farm-to-table dining and natural spring immersion to glamping retreats and working gardens.",
 };
 
-/* ─── Hardcoded facilities data ──────────────────────────────────────────── */
-const FACILITIES = [
-  {
-    slug: "midrash",
-    title: "Midrash",
-    category: "Gathering & Study",
-    description:
-      "A dedicated space for learning, reflection, and gathering. The Midrash is the intellectual and spiritual heart of Attesi — where ideas are shared, Torah is studied, and community comes together.",
-    image: "https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg",
-  },
-  {
-    slug: "sabata",
-    title: "Sabata",
-    category: "Retreat & Ceremony",
-    description:
-      "An intimate space designed for retreat, ceremony, and deep practice. The Sabata hosts temazcal ceremonies, breathwork sessions, and small-group workshops in a setting that honors intention and presence.",
-    image: "https://attesi.mx/wp-content/uploads/2022/12/home-slider-attesi-2.jpg",
-  },
-  {
-    slug: "cafe",
-    title: "Attesi Market Café",
-    category: "Food & Community",
-    description:
-      "A warm gathering place for coffee, fresh food, and conversation. The Attesi Market Café serves seasonal, locally-sourced fare in a relaxed setting that brings community together around the table.",
-    image: "https://attesi.mx/wp-content/uploads/2022/11/cards-home-servides-2-2.jpg",
-  },
-  {
-    slug: "central-garden",
-    title: "Central Garden",
-    category: "Nature & Landscape",
-    description:
-      "The living center of Attesi. The Central Garden is a carefully tended space of seasonal plants, fruit trees, and herbs — a place to walk, breathe, and reconnect with the rhythms of the land.",
-    image: "https://attesi.mx/wp-content/uploads/2022/11/cards-home-servides-1-2.jpg",
-  },
-  {
-    slug: "outdoor-spaces",
-    title: "Outdoor Spaces",
-    category: "Nature & Landscape",
-    description:
-      "From open meadows to shaded seating areas, the outdoor spaces at Attesi are designed for gathering, reflection, and simply being in nature. Surrounded by mountains and open sky.",
-    image: "https://attesi.mx/wp-content/uploads/2022/09/Eventos-a-tu-medida-scaled.jpg",
-  },
-  {
-    slug: "retreat-center",
-    title: "Retreat Center",
-    category: "Retreat & Wellness",
-    description:
-      "A fully equipped retreat facility that welcomes groups from around the world. The Retreat Center offers accommodation, workshop spaces, and all the infrastructure needed for transformative group experiences.",
-    image: "https://attesi.mx/wp-content/uploads/2022/11/slider-day-visit-3.jpg",
-  },
-  {
-    slug: "farm",
-    title: "The Farm",
-    category: "Food & Farm",
-    description:
-      "A working regenerative farm producing seasonal vegetables, herbs, and fruit. The farm is the foundation of Attesi's commitment to sustainable living — and the source of much of the food served on site.",
-    image: "https://attesi.mx/wp-content/uploads/2022/11/cards-home-servides-1-2.jpg",
-  },
-  {
-    slug: "huertos",
-    title: "Huertos",
-    category: "Food & Farm",
-    description:
-      "Raised garden beds and growing plots tended by community members and guests. The Huertos are a hands-on space for learning about cultivation, soil health, and the joy of growing your own food.",
-    image: "https://attesi.mx/wp-content/uploads/2022/11/cards-home-servides-2-2.jpg",
-  },
-  {
-    slug: "natural-spring-mikvah",
-    title: "Natural Spring Mikvah",
-    category: "Wellness & Ritual",
-    description:
-      "Fed by a natural spring of exceptional purity, the Mikvah at Attesi is a place of ritual immersion, cold plunge, and spiritual renewal. A rare and sacred facility set within the natural landscape.",
-    image: "https://attesi.mx/wp-content/uploads/2022/12/home-slider-attesi-2.jpg",
-  },
-];
+const CATEGORY_LABELS = {
+  dining: "Dining",
+  wellness: "Wellness",
+  nature: "Nature & Gardens",
+  accommodation: "Accommodation",
+  community: "Community",
+  farm: "Farm & Agriculture",
+};
 
 export default async function FacilitiesPage() {
+  let facilities = [];
+  try {
+    facilities = await client.fetch(facilitiesQuery);
+  } catch (e) {
+    // Sanity unavailable — empty state shown below
+  }
+
   return (
     <>
       <Navbar />
-
-      {/* ── HERO ── */}
-      <section className="fac-hero">
-        <div className="fac-hero__bg" />
-        <div className="fac-hero__overlay" />
-        <div className="fac-hero__content container">
-          <span className="fac-hero__eyebrow">The Spaces</span>
-          <h1 className="fac-hero__title">Our Facilities</h1>
-          <p className="fac-hero__subtitle">
-            Every space at Attesi has been designed with intention — to support
-            community, nourish the body, and create the conditions for
-            meaningful experience.
-          </p>
-        </div>
-      </section>
-
-      {/* ── INTRO ── */}
-      <section className="fac-intro section">
-        <div className="container fac-intro__inner">
-          <p className="fac-intro__lead">
-            From the Midrash gathering hall to the natural spring mikvah, from
-            the working farm to the retreat center — each facility at Attesi
-            plays a role in the life of the community and the experience of
-            our guests.
-          </p>
-        </div>
-      </section>
-
-      {/* ── FACILITIES GRID ── */}
-      <section className="fac-grid section">
-        <div className="container">
-          <div className="fac-cards">
-            {FACILITIES.map((fac) => (
-              <article key={fac.slug} className="exp-card">
-                <div className="exp-card__image">
-                  <img
-                    src={fac.image}
-                    alt={fac.title}
-                    loading="lazy"
-                  />
-                </div>
-                <div className="exp-card__body">
-                  <span className="fac-card__eyebrow">{fac.category}</span>
-                  <h2 className="exp-card__title">{fac.title}</h2>
-                  <p className="exp-card__text">{fac.description}</p>
-                </div>
-              </article>
-            ))}
+      <main>
+        {/* ── Hero ──────────────────────────────────────────────────────── */}
+        <section className="fac-hero">
+          <div className="fac-hero__bg">
+            <img
+              src="https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg"
+              alt="Attesi facilities"
+              loading="eager"
+            />
           </div>
-        </div>
-      </section>
+          <div className="fac-hero__overlay" />
+          <div className="container fac-hero__content">
+            <span className="section-tag">The Spaces of Attesi</span>
+            <h1 className="fac-hero__title">Places Built for Presence</h1>
+            <p className="fac-hero__subtitle">
+              Every space at Attesi is designed with intention — to nourish, restore, and connect you to the land and community around you.
+            </p>
+          </div>
+        </section>
 
-      {/* ── CTA ── */}
-      <CTA />
+        {/* ── Intro ─────────────────────────────────────────────────────── */}
+        <section className="fac-intro section">
+          <div className="container fac-intro__inner">
+            <div className="fac-intro__text">
+              <h2>More Than Amenities</h2>
+              <p>
+                At Attesi, the facilities are not separate from the experience — they are the experience. From the restaurant that serves vegetables grown steps away, to the natural spring that flows year-round, each space reflects the values of intentional living, community, and deep connection to the land.
+              </p>
+            </div>
+          </div>
+        </section>
 
+        {/* ── Facilities Grid ───────────────────────────────────────────── */}
+        <section className="fac-grid-section section">
+          <div className="container">
+            {facilities.length === 0 ? (
+              <p className="fac-empty">Facilities coming soon. Check back shortly.</p>
+            ) : (
+              <div className="exp-cards">
+                {facilities.map((fac) => {
+                  const imgUrl = fac.cardImage
+                    ? urlFor(fac.cardImage).width(800).height(560).fit("crop").url()
+                    : null;
+                  const categoryLabel = CATEGORY_LABELS[fac.category] || fac.category || "";
+
+                  return (
+                    <article key={fac._id} className="exp-card">
+                      <div className="exp-card__image">
+                        {imgUrl ? (
+                          <img src={imgUrl} alt={fac.title} loading="lazy" />
+                        ) : (
+                          <div className="exp-card__placeholder">
+                            <span>{fac.title.charAt(0)}</span>
+                          </div>
+                        )}
+                        {categoryLabel && (
+                          <span className="exp-card__badge">{categoryLabel}</span>
+                        )}
+                      </div>
+                      <div className="exp-card__body">
+                        <h3 className="exp-card__title">{fac.title}</h3>
+                        {fac.cardDescription && (
+                          <p className="exp-card__desc">{fac.cardDescription}</p>
+                        )}
+                        <Link
+                          href={`/facilities/${fac.slug}`}
+                          className="btn-primary btn--sm"
+                        >
+                          Explore
+                        </Link>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </section>
+
+        <CTA />
+      </main>
       <Footer />
       <ClientAnimations />
     </>
