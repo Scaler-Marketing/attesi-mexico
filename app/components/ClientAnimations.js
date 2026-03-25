@@ -7,7 +7,7 @@ export default function ClientAnimations() {
     let resizeTimer;
 
     /* ============================================================
-       PHASE 1 — Swiper (loads immediately, no GSAP dependency)
+       PHASE 1 — Swiper (loads immediately)
        ============================================================ */
     async function initSwiper() {
       const { default: Swiper } = await import("swiper");
@@ -16,7 +16,7 @@ export default function ClientAnimations() {
       new Swiper(".hero-swiper", {
         modules: [Autoplay, EffectFade, Pagination],
         loop: true,
-        speed: 600,           // was 1000 — snappier fade like Webflow
+        speed: 600,
         autoplay: {
           delay: 5000,
           disableOnInteraction: false,
@@ -33,148 +33,28 @@ export default function ClientAnimations() {
     }
 
     /* ============================================================
-       PHASE 2 — GSAP animations (loads after Swiper is running)
+       PHASE 2 — UI interactions (no GSAP, no ScrollTrigger)
        ============================================================ */
-    async function initGSAP() {
-      const gsapModule = await import("gsap");
-      const gsap = gsapModule.default || gsapModule.gsap;
-      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+    function initUI() {
 
-      gsap.registerPlugin(ScrollTrigger);
-
-      /* ---------- Navbar Scroll Behavior ---------- */
+      /* ---------- Navbar Scroll Behavior (native scroll) ---------- */
       var navbar = document.getElementById("navbar");
       var heroSection = document.getElementById("hero");
 
-      if (navbar && heroSection) {
-        ScrollTrigger.create({
-          trigger: heroSection,
-          start: "center top",
-          onEnter: function () {
-            navbar.classList.add("navbar--scrolled");
-          },
-          onLeaveBack: function () {
-            navbar.classList.remove("navbar--scrolled");
-          },
-        });
-      }
-
-      /* ---------- Hero Entrance Animation ---------- */
-      var heroTitle = document.querySelector(".hero__title");
-      var heroSubtitle = document.querySelector(".hero__subtitle");
-      var heroButtons = document.querySelector(".hero__buttons");
-
-      if (heroTitle) {
-        var heroTl = gsap.timeline({ delay: 0.3 });
-        heroTl
-          .to(heroTitle, {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: "power3.out",
-          })
-          .to(
-            heroSubtitle,
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.7,
-              ease: "power3.out",
-            },
-            "-=0.5"
-          )
-          .to(
-            heroButtons,
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.7,
-              ease: "power3.out",
-            },
-            "-=0.4"
-          );
-      }
-
-      /* ---------- Scroll Fade-Up Animations ---------- */
-      var animateElements = document.querySelectorAll("[data-animate]");
-
-      animateElements.forEach(function (el) {
-        gsap.to(el, {
-          scrollTrigger: {
-            trigger: el,
-            start: "top 85%",
-            once: true,
-            onEnter: function () {
-              el.classList.add("is-visible");
-            },
-          },
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-        });
-      });
-
-      /* ---------- Intro Heading — Scroll Color Sweep (per-char) ---------- */
-      var introHeading = document.getElementById("introHeading");
-
-      if (introHeading) {
-        var text = introHeading.textContent;
-        var html = "";
-        for (var i = 0; i < text.length; i++) {
-          var ch = text[i];
-          if (ch === " ") {
-            html += " ";
-          } else {
-            html += '<span class="intro-char">' + ch + "</span>";
-          }
+      function handleNavbarScroll() {
+        if (!navbar) return;
+        var threshold = heroSection
+          ? heroSection.offsetTop + heroSection.offsetHeight / 2
+          : 200;
+        if (window.scrollY > threshold) {
+          navbar.classList.add("navbar--scrolled");
+        } else {
+          navbar.classList.remove("navbar--scrolled");
         }
-        introHeading.innerHTML = html;
-
-        var charSpans = introHeading.querySelectorAll(".intro-char");
-
-        gsap.to(charSpans, {
-          color: "#b5743a",
-          stagger: {
-            each: 0.015,
-            ease: "none",
-          },
-          duration: 0.6,
-          ease: "power1.inOut",
-          scrollTrigger: {
-            trigger: introHeading,
-            start: "top 80%",
-            end: "bottom 45%",
-            scrub: 1.5,
-          },
-        });
       }
 
-      /* ---------- Counter Animation ---------- */
-      var counters = document.querySelectorAll("[data-count]");
-
-      counters.forEach(function (counter) {
-        var target = parseInt(counter.getAttribute("data-count"), 10);
-
-        ScrollTrigger.create({
-          trigger: counter,
-          start: "top 85%",
-          once: true,
-          onEnter: function () {
-            gsap.to(
-              { val: 0 },
-              {
-                val: target,
-                duration: 2,
-                ease: "power1.out",
-                onUpdate: function () {
-                  counter.textContent = Math.round(this.targets()[0].val);
-                },
-              }
-            );
-          },
-        });
-      });
+      window.addEventListener("scroll", handleNavbarScroll, { passive: true });
+      handleNavbarScroll(); // run once on load
 
       /* ---------- Experiences Carousel ---------- */
       var expTrack = document.querySelector(".experiences__track");
@@ -204,15 +84,8 @@ export default function ClientAnimations() {
         var gap = 24;
         var offset = expCarouselIndex * (cardWidth + gap);
 
-        if (animate === false) {
-          gsap.set(expTrack, { x: -offset });
-        } else {
-          gsap.to(expTrack, {
-            x: -offset,
-            duration: 0.35,        // was 0.5 — snappier
-            ease: "power2.out",
-          });
-        }
+        expTrack.style.transition = animate === false ? "none" : "transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+        expTrack.style.transform = "translateX(" + (-offset) + "px)";
 
         if (progressBar) {
           var thumbWidth = (visibleCards / totalCards) * 100;
@@ -220,8 +93,7 @@ export default function ClientAnimations() {
           var maxIdx = totalCards - visibleCards;
           var thumbTravel = maxIdx > 0 ? expCarouselIndex / maxIdx : 0;
           var maxTranslate = ((100 - thumbWidth) / thumbWidth) * 100;
-          progressBar.style.transform =
-            "translateX(" + thumbTravel * maxTranslate + "%)";
+          progressBar.style.transform = "translateX(" + thumbTravel * maxTranslate + "%)";
         }
       }
 
@@ -238,7 +110,7 @@ export default function ClientAnimations() {
         });
       }
 
-      /* Draggable progress bar for Experiences — fluid, no snapping during drag */
+      /* Draggable progress bar for Experiences */
       var expProgressEl = document.querySelector(".experiences__progress");
       if (expProgressEl && progressBar) {
         var isDragging = false;
@@ -254,22 +126,19 @@ export default function ClientAnimations() {
           var rect = trackEl.getBoundingClientRect();
           var ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
           var maxIdx = getExpMaxIndex();
-          /* During drag: use exact ratio for fluid thumb movement.
-             On release: snap to nearest card. */
           if (snap) {
             expCarouselIndex = Math.round(ratio * maxIdx);
             updateExpCarousel();
           } else {
-            /* Move thumb visually without GSAP snap */
-            expCarouselIndex = ratio * maxIdx;  // float during drag
+            expCarouselIndex = ratio * maxIdx;
             var cards = expTrack ? expTrack.children : [];
             if (cards.length) {
               var cardWidth = cards[0].offsetWidth;
               var gap = 24;
               var offset = expCarouselIndex * (cardWidth + gap);
-              gsap.set(expTrack, { x: -offset });
+              expTrack.style.transition = "none";
+              expTrack.style.transform = "translateX(" + (-offset) + "px)";
             }
-            /* Update thumb position directly */
             var totalCards = expTrack ? expTrack.children.length : 1;
             var visibleCards = getExpVisibleCards();
             var thumbWidth = (visibleCards / totalCards) * 100;
@@ -291,9 +160,8 @@ export default function ClientAnimations() {
           if (!isDragging) return;
           isDragging = false;
           document.body.style.userSelect = "";
-          setIndexFromDragX(e.clientX, true);  // snap on release
+          setIndexFromDragX(e.clientX, true);
         });
-        /* Touch support */
         expProgressEl.addEventListener("touchstart", function (e) {
           isDragging = true;
           setIndexFromDragX(e.touches[0].clientX, false);
@@ -313,7 +181,7 @@ export default function ClientAnimations() {
 
       updateExpCarousel(false);
 
-      /* ---------- Testimonials Horizontal Scroll (1 card at a time) ---------- */
+      /* ---------- Testimonials Carousel ---------- */
       var testTrack = document.querySelector(".testimonials__track");
       var testDotsContainer = document.querySelector(".testimonials__dots");
       var testPage = 0;
@@ -358,11 +226,8 @@ export default function ClientAnimations() {
         var gap = 24;
         var offset = testPage * (cardWidth + gap);
 
-        gsap.to(testTrack, {
-          x: -offset,
-          duration: 0.35,        // was 0.5 — snappier
-          ease: "power2.out",
-        });
+        testTrack.style.transition = "transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+        testTrack.style.transform = "translateX(" + (-offset) + "px)";
 
         var dots = testDotsContainer
           ? testDotsContainer.querySelectorAll(".testimonials__dot")
@@ -411,7 +276,6 @@ export default function ClientAnimations() {
       if (hamburger) hamburger.addEventListener("click", togglePanel);
       if (mobileBackdrop) mobileBackdrop.addEventListener("click", closePanel);
 
-      /* Accordion toggles */
       var toggles = document.querySelectorAll(".mobile-panel__toggle");
       toggles.forEach(function (btn) {
         btn.addEventListener("click", function () {
@@ -445,17 +309,18 @@ export default function ClientAnimations() {
           updateTestCarousel();
         }, 250);
       });
+
+      return function cleanup() {
+        window.removeEventListener("scroll", handleNavbarScroll);
+      };
     }
 
-    /* Run Swiper first (fast), then GSAP animations */
     initSwiper();
-    initGSAP();
+    var cleanup = initUI();
 
     return () => {
       clearTimeout(resizeTimer);
-      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-        ScrollTrigger.getAll().forEach((st) => st.kill());
-      });
+      if (cleanup) cleanup();
     };
   }, []);
 

@@ -39,19 +39,7 @@ p, li, figcaption { text-wrap: pretty; }
   overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0;
 }
 
-/* Lenis smooth scroll */
-html.lenis, html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
+/* Lenis removed — using native scroll */
 
 /* ---------- FONT FACES ---------- */
 @font-face {
@@ -689,29 +677,20 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--brand-white);
   line-height: 1.1;
   margin-bottom: 1.25rem;
-  opacity: 0;
-  transform: translateY(1.25rem);
 }
-
 .hero__subtitle {
   font-family: var(--font-body);
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: 400;
   color: rgba(255, 249, 237, 0.9);
   margin-bottom: 2rem;
-  opacity: 0;
-  transform: translateY(1.25rem);
 }
-
 .hero__buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
-  opacity: 0;
-  transform: translateY(1.25rem);
 }
-
 /* Swiper pagination — custom pill dots.
    IMPORTANT: Swiper's own CSS sets left:0; width:100% on horizontal pagination.
    We must NOT use left:50% + translateX(-50%) as that double-shifts the container.
@@ -1484,14 +1463,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ============================================================
    SCROLL ANIMATION BASE STATES
    ============================================================ */
-[data-animate] {
-  opacity: 0;
-  transform: translateY(1.875rem);
-}
-[data-animate].is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* [data-animate] scroll animations removed — GSAP stripped for performance */
 
 /* ============================================================
    RESPONSIVE
