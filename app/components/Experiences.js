@@ -1,46 +1,46 @@
 import { urlFor } from "../../sanity/lib/image";
 
-// Fallback cards using existing WordPress images
+// Fallback cards — matches the 10 experiences in /experiences
 const FALLBACK_CARDS = [
   {
     image: "https://attesi.mx/wp-content/uploads/2022/11/cards-home-servides-1-2.jpg",
-    alt: "Glamping lodge at sunset",
-    title: "Nature Lodge Stay",
-    text: "Immerse yourself in the beauty of our eco-conscious lodging surrounded by the mountains.",
-    ctaLabel: "View Experience",
-    ctaUrl: "#",
+    alt: "Monarch butterflies at Attesi",
+    title: "Migrating Monarchs",
+    text: "Witness thousands of monarch butterflies in their winter sanctuary — a once-in-a-lifetime encounter with nature.",
+    ctaLabel: "Learn More",
+    ctaUrl: "/experiences/migrating-monarchs",
   },
   {
     image: "https://attesi.mx/wp-content/uploads/2022/12/home-slider-attesi-2.jpg",
-    alt: "Mountain vista from Attesi",
-    title: "Guided Mountain Hikes",
-    text: "Explore the highlands with expert guides through trails winding through forests and valleys.",
-    ctaLabel: "View Experience",
-    ctaUrl: "#",
+    alt: "Temazcal ceremony at Attesi",
+    title: "Temazcal Ceremony",
+    text: "An ancient ritual of heat, steam, and guided intention — a powerful space for release and inner renewal.",
+    ctaLabel: "Learn More",
+    ctaUrl: "/experiences/temazcal-ceremony",
   },
   {
     image: "https://attesi.mx/wp-content/uploads/2022/11/cards-home-servides-2-2.jpg",
-    alt: "Farm to table dining",
+    alt: "Farm to table dining at Attesi",
     title: "Farm to Table",
-    text: "Savor locally-sourced meals prepared with ingredients from our own gardens and regional farms.",
-    ctaLabel: "View Experience",
-    ctaUrl: "#",
+    text: "Pick fresh vegetables from our garden and cook a nourishing meal — connection to food, nature, and community.",
+    ctaLabel: "Learn More",
+    ctaUrl: "/experiences/farm-to-table",
   },
   {
     image: "https://attesi.mx/wp-content/uploads/2022/11/slider-day-visit-3.jpg",
-    alt: "Day visit at Attesi",
-    title: "Day Visit",
-    text: "Enjoy a full day of wellness, farm tours, and natural springs without an overnight stay.",
-    ctaLabel: "View Experience",
-    ctaUrl: "#",
+    alt: "Guided mountain hike at Attesi",
+    title: "Guided Mountain Hikes",
+    text: "Explore the highlands with expert guides through forest trails opening to spectacular panoramic views.",
+    ctaLabel: "Learn More",
+    ctaUrl: "/experiences/guided-mountain-hikes",
   },
   {
     image: "https://attesi.mx/wp-content/uploads/2022/09/Eventos-a-tu-medida-scaled.jpg",
-    alt: "Custom events at Attesi",
-    title: "Custom Events",
-    text: "Host bespoke gatherings, retreats, and celebrations in a natural setting designed for connection.",
-    ctaLabel: "View Experience",
-    ctaUrl: "#",
+    alt: "Yoga and meditation at Attesi",
+    title: "Yoga and Meditation",
+    text: "Begin your morning in stillness or close your day with a guided practice — grounding, restoring, reconnecting.",
+    ctaLabel: "Learn More",
+    ctaUrl: "/experiences/yoga-and-meditation",
   },
 ];
 
@@ -48,12 +48,17 @@ export default function Experiences({ cards = [] }) {
   const resolvedCards =
     cards.length > 0
       ? cards.map((card) => ({
-          image: card.image ? urlFor(card.image).width(800).url() : null,
+          // Support both old schema (image/description) and new schema (cardImage/cardDescription/slug)
+          image: card.cardImage
+            ? urlFor(card.cardImage).width(800).url()
+            : card.image
+            ? urlFor(card.image).width(800).url()
+            : null,
           alt: card.title || "Attesi Experience",
           title: card.title,
-          text: card.description,
-          ctaLabel: card.ctaLabel || "View Experience",
-          ctaUrl: card.ctaUrl || "#",
+          text: card.cardDescription || card.description || "",
+          ctaLabel: "Learn More",
+          ctaUrl: card.slug ? `/experiences/${card.slug}` : card.ctaUrl || "/experiences",
         }))
       : FALLBACK_CARDS;
 

@@ -1,0 +1,182 @@
+/* ============================================================
+   Facilities Page — facilities.css
+   ============================================================ */
+
+/* ── HERO ── */
+.fac-hero {
+  position: relative;
+  height: 80vh;
+  min-height: 32rem;
+  max-height: 52rem;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.fac-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg');
+  background-size: cover;
+  background-position: center 40%;
+  transform: scale(1.03);
+  transition: transform 8s ease;
+}
+
+.fac-hero:hover .fac-hero__bg {
+  transform: scale(1);
+}
+
+.fac-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(27, 20, 10, 0.88) 0%,
+    rgba(27, 20, 10, 0.45) 55%,
+    rgba(27, 20, 10, 0.15) 100%
+  );
+}
+
+.fac-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 5rem;
+  max-width: 52rem;
+}
+
+.fac-hero__eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 1rem;
+}
+
+.fac-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 600;
+  color: var(--brand-white);
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
+}
+
+.fac-hero__subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: rgba(255, 249, 237, 0.88);
+  line-height: 1.65;
+  max-width: 44rem;
+}
+
+/* ── INTRO ── */
+.fac-intro__inner {
+  max-width: 52rem;
+}
+
+.fac-intro__lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+  color: var(--brand-dark);
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+/* ── GRID ── */
+.fac-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* ── CARD ── */
+.fac-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--brand-white);
+  border: 1px solid rgba(181, 116, 58, 0.15);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.fac-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 36px rgba(56, 44, 30, 0.11);
+}
+
+.fac-card__img-wrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.fac-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.fac-card:hover .fac-card__img {
+  transform: scale(1.06);
+}
+
+.fac-card__category {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(27, 20, 10, 0.72);
+  backdrop-filter: blur(6px);
+  color: var(--brand-orange);
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 100vw;
+}
+
+.fac-card__body {
+  flex: 1;
+  padding: 1.75rem;
+}
+
+.fac-card__title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--brand-dark);
+  line-height: 1.2;
+  margin-bottom: 0.875rem;
+}
+
+.fac-card__desc {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--brand-earth);
+  line-height: 1.65;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .fac-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .fac-hero {
+    height: 72vh;
+  }
+
+  .fac-cards {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

@@ -1,0 +1,317 @@
+/* ============================================================
+   Retreats Page — retreats.css
+   ============================================================ */
+
+/* ── HERO ── */
+.ret-hero {
+  position: relative;
+  height: 85vh;
+  min-height: 34rem;
+  max-height: 54rem;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.ret-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://attesi.mx/wp-content/uploads/2022/09/Eventos-a-tu-medida-scaled.jpg');
+  background-size: cover;
+  background-position: center 35%;
+  transform: scale(1.03);
+  transition: transform 8s ease;
+}
+
+.ret-hero:hover .ret-hero__bg {
+  transform: scale(1);
+}
+
+.ret-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(27, 20, 10, 0.88) 0%,
+    rgba(27, 20, 10, 0.45) 55%,
+    rgba(27, 20, 10, 0.15) 100%
+  );
+}
+
+.ret-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 5rem;
+  max-width: 52rem;
+}
+
+.ret-hero__eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 1rem;
+}
+
+.ret-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 600;
+  color: var(--brand-white);
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
+}
+
+.ret-hero__subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  color: rgba(255, 249, 237, 0.85);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ── PHILOSOPHY ── */
+.ret-philosophy__inner {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 5rem;
+  align-items: start;
+}
+
+.ret-philosophy__heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--brand-dark);
+  margin-bottom: 1.75rem;
+}
+
+.ret-philosophy__copy p {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--brand-earth);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.ret-philosophy__pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: sticky;
+  top: 6rem;
+}
+
+.ret-pillar {
+  background: var(--brand-dark);
+  border-radius: 0.875rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.ret-pillar__label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 0.375rem;
+}
+
+.ret-pillar__text {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: rgba(255, 249, 237, 0.8);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── RETREAT TYPES ── */
+.ret-types--alt {
+  background: var(--brand-cream);
+}
+
+.ret-types__heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--brand-dark);
+  margin-bottom: 0.75rem;
+}
+
+.ret-types__sub {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--brand-earth);
+  line-height: 1.7;
+  max-width: 44rem;
+  margin-bottom: 3rem;
+}
+
+.ret-types__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.ret-type-card {
+  background: var(--brand-white);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  border: 1px solid rgba(181, 116, 58, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ret-type-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(56, 44, 30, 0.09);
+}
+
+.ret-type-card__icon {
+  display: block;
+  font-size: 1.25rem;
+  color: var(--brand-orange);
+  margin-bottom: 1rem;
+}
+
+.ret-type-card__title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--brand-dark);
+  margin-bottom: 0.75rem;
+}
+
+.ret-type-card__text {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--brand-earth);
+  line-height: 1.65;
+}
+
+/* ── WHAT'S INCLUDED ── */
+.ret-included__inner {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 5rem;
+  align-items: center;
+}
+
+.ret-included__heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--brand-dark);
+  margin-bottom: 0.75rem;
+}
+
+.ret-included__sub {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--brand-earth);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.ret-included__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.ret-included__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--brand-dark);
+  line-height: 1.55;
+}
+
+.ret-included__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--brand-orange);
+  flex-shrink: 0;
+  margin-top: 0.45rem;
+}
+
+.ret-included__image {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.ret-included__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── QUOTE ── */
+.ret-quote--alt {
+  background: var(--brand-forest);
+}
+
+.ret-quote__inner {
+  max-width: 52rem;
+}
+
+.ret-quote__text {
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.5vw, 1.875rem);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--brand-white);
+  line-height: 1.55;
+  border-left: 3px solid var(--brand-orange);
+  padding-left: 2rem;
+  margin: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .ret-philosophy__inner,
+  .ret-included__inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .ret-philosophy__pillars {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .ret-pillar {
+    flex: 1 1 calc(50% - 0.625rem);
+  }
+
+  .ret-types__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .ret-hero {
+    height: 75vh;
+  }
+
+  .ret-types__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ret-pillar {
+    flex: 1 1 100%;
+  }
+}
