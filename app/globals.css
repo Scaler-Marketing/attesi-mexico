@@ -433,6 +433,12 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--brand-orange);
   background: rgba(181, 116, 58, 0.06);
 }
+/* Active dropdown item */
+.navbar__dropdown-item--active {
+  color: var(--brand-orange) !important;
+  background: rgba(181, 116, 58, 0.12) !important;
+  font-weight: 600;
+}
 
 /* CTA */
 .navbar__cta {
@@ -587,7 +593,16 @@ h1, h2, h3, h4, h5, h6 {
 .mobile-panel__sub li a:hover {
   color: var(--brand-orange);
 }
-
+/* Active mobile sub-item */
+.mobile-panel__sub-item--active {
+  color: var(--brand-orange) !important;
+  font-weight: 600;
+}
+/* Active mobile top-level link */
+.mobile-panel__link--active {
+  color: var(--brand-orange) !important;
+  font-weight: 600;
+}
 /* Panel footer — CTA */
 .mobile-panel__footer {
   padding: 1rem 1.5rem 2rem;
