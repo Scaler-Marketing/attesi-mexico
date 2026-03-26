@@ -6,8 +6,9 @@
 /* ── HERO ── */
 .fac-hero {
   position: relative;
-  height: 100vh;
+  height: 85vh;
   min-height: 36rem;
+  max-height: 56rem;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -15,7 +16,7 @@
 .fac-hero__bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg');
+  background-image: url('/assets/hero-slide-2.avif');
   background-size: cover;
   background-position: center 40%;
   transform: scale(1.03);

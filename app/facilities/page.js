@@ -39,13 +39,7 @@ export default async function FacilitiesPage() {
       <main>
         {/* ── Hero ──────────────────────────────────────────────────────── */}
         <section className="fac-hero">
-          <div className="fac-hero__bg">
-            <img
-              src="https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg"
-              alt="Attesi facilities"
-              loading="eager"
-            />
-          </div>
+          <div className="fac-hero__bg" />
           <div className="fac-hero__overlay" />
           <div className="container fac-hero__content">
             <span className="section-tag">The Spaces of Attesi</span>

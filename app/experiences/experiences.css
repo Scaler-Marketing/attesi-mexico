@@ -6,8 +6,9 @@
 /* ── HERO ── */
 .exp-hero {
   position: relative;
-  height: 100vh;
+  height: 85vh;
   min-height: 36rem;
+  max-height: 56rem;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -15,9 +16,9 @@
 .exp-hero__bg {
   position: absolute;
   inset: 0;
-  background-image: url('/assets/hero-slide-1.avif');
+  background-image: url('/assets/hero-slide-3.avif');
   background-size: cover;
-  background-position: center 40%;
+  background-position: center 55%;
   transform: scale(1.03);
   transition: transform 8s ease;
 }
