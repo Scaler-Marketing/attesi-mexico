@@ -139,14 +139,16 @@ export default function ClientAnimations() {
         }
 
         /* ---- Drag-to-scroll on the track ---- */
-        var dragStartX  = 0;
+        var dragStartX   = 0;
         var dragStartIdx = 0;
-        var isDragging  = false;
+        var dragStartTime = 0;
+        var isDragging   = false;
 
         function onDragStart(clientX) {
-          isDragging   = true;
-          dragStartX   = clientX;
-          dragStartIdx = index;
+          isDragging    = true;
+          dragStartX    = clientX;
+          dragStartIdx  = index;
+          dragStartTime = Date.now();
           track.style.cursor = "grabbing";
           document.body.style.userSelect = "none";
         }
@@ -177,13 +179,23 @@ export default function ClientAnimations() {
           }
         }
 
-        function onDragEnd() {
+        function onDragEnd(clientX) {
           if (!isDragging) return;
           isDragging = false;
           track.style.cursor = "";
           document.body.style.userSelect = "";
-          // Snap to nearest integer index
-          index = Math.round(index);
+          // Use velocity + threshold to decide direction:
+          // A drag > 60px OR a fast flick (>0.3px/ms) advances by 1 slide.
+          var delta    = (clientX !== undefined ? clientX : dragStartX) - dragStartX;
+          var elapsed  = Date.now() - dragStartTime;
+          var velocity = elapsed > 0 ? Math.abs(delta) / elapsed : 0;
+          var THRESHOLD = 60; // px
+          var VELOCITY  = 0.3; // px/ms
+          if (Math.abs(delta) > THRESHOLD || velocity > VELOCITY) {
+            index = dragStartIdx + (delta < 0 ? 1 : -1);
+          } else {
+            index = Math.round(index);
+          }
           update();
         }
 
@@ -195,8 +207,8 @@ export default function ClientAnimations() {
         window.addEventListener("mousemove", function (e) {
           onDragMove(e.clientX);
         });
-        window.addEventListener("mouseup", function () {
-          onDragEnd();
+        window.addEventListener("mouseup", function (e) {
+          onDragEnd(e.clientX);
         });
 
         // Touch
@@ -206,8 +218,9 @@ export default function ClientAnimations() {
         window.addEventListener("touchmove", function (e) {
           if (isDragging) onDragMove(e.touches[0].clientX);
         }, { passive: true });
-        window.addEventListener("touchend", function () {
-          onDragEnd();
+        window.addEventListener("touchend", function (e) {
+          var x = e.changedTouches && e.changedTouches.length ? e.changedTouches[0].clientX : undefined;
+          onDragEnd(x);
         });
 
         /* ---- Progress bar scrub ---- */
