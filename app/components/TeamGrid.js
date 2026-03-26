@@ -34,7 +34,9 @@ function TeamCard({ member }) {
           <p className="team-card__role">{member.role}</p>
         )}
         {member.bio && (
-          <p className="team-card__bio">{member.bio}</p>
+          <p className="team-card__bio">
+            {member.bio.length > 120 ? member.bio.slice(0, 120).trim() + "\u2026" : member.bio}
+          </p>
         )}
         {hasDetail && (
           <span className="team-card__read-more">Read bio →</span>
