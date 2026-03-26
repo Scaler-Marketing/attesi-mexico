@@ -70,7 +70,6 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .team-card:hover {
-  transform: translateY(-0.25rem);
   box-shadow: 0 0.75rem 2rem rgba(56,44,30,0.12);
 }
 .team-card__photo-wrap {

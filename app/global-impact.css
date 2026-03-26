@@ -189,7 +189,6 @@
 }
 
 .gi-practice-card:hover {
-  transform: translateY(-0.25rem);
   box-shadow: 0 0.75rem 2rem rgba(56, 44, 30, 0.1);
 }
 

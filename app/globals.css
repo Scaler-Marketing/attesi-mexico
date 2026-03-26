@@ -855,7 +855,6 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.75rem;
 }
 .value-card:hover {
-  transform: translateY(-0.25rem);
   box-shadow: 0 0.75rem 2.5rem rgba(27, 27, 27, 0.1);
 }
 .value-card__image {
@@ -982,7 +981,6 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
 }
 .exp-card:hover {
-  transform: translateY(-0.25rem);
   box-shadow: 0 0.75rem 2.5rem rgba(27, 27, 27, 0.1);
 }
 /* Image wrapper — carousel and grid */
@@ -1754,8 +1752,12 @@ a.footer__heading--link:hover {
   }
 
   .exp-card {
-    flex: 0 0 calc(85% - 0.75rem);
-    min-width: 16.25rem;
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+  .testimonial-card {
+    flex: 0 0 100%;
+    min-width: 0;
   }
 
   .stats__grid {
@@ -1779,8 +1781,8 @@ a.footer__heading--link:hover {
   }
 
   .testimonial-card {
-    flex: 0 0 calc(85% - 0.75rem);
-    min-width: 17.5rem;
+    flex: 0 0 100%;
+    min-width: 0;
   }
 
   .cta__title {
