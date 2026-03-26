@@ -38,8 +38,8 @@
 .exp-hero__content {
   position: relative;
   z-index: 2;
-  padding-top: 8rem;
-  padding-bottom: 4rem;
+  padding-top: 5rem;
+  padding-bottom: 3rem;
   max-width: 56rem;
 }
 .exp-hero__eyebrow {
