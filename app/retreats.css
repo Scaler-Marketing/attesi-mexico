@@ -5,9 +5,6 @@
 /* ── HERO ── */
 .ret-hero {
   position: relative;
-  height: 85vh;
-  min-height: 34rem;
-  max-height: 54rem;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -41,7 +38,8 @@
 .ret-hero__content {
   position: relative;
   z-index: 2;
-  padding-bottom: 5rem;
+  padding-top: 15rem;
+  padding-bottom: 3rem;
   max-width: 52rem;
 }
 
@@ -274,8 +272,9 @@
 }
 
 @media (max-width: 40rem) {
-  .ret-hero {
-    height: 75vh;
+  .ret-hero__content {
+    padding-top: 10rem;
+    padding-bottom: 3rem;
   }
 
   .ret-types__grid {

@@ -5,9 +5,6 @@
 /* ── HERO ── */
 .gi-hero {
   position: relative;
-  height: 90vh;
-  min-height: 36rem;
-  max-height: 56rem;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -41,8 +38,8 @@
 .gi-hero__content {
   position: relative;
   z-index: 2;
-  padding-top: 14rem;
-  padding-bottom: 4rem;
+  padding-top: 15rem;
+  padding-bottom: 3rem;
   max-width: 52rem;
 }
 
@@ -295,12 +292,8 @@
 }
 
 @media (max-width: 48rem) {
-  .gi-hero {
-    height: 75vh;
-    align-items: flex-end;
-  }
   .gi-hero__content {
-    padding-top: 8rem;
+    padding-top: 10rem;
     padding-bottom: 3rem;
   }
 
