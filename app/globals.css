@@ -757,10 +757,14 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 50% !important;
   background: rgba(255, 255, 255, 0.35) !important;
   opacity: 1 !important;
-  transition: width 0.4s ease, border-radius 0.4s ease !important;
+  transition: width 0.4s ease, border-radius 0.4s ease, background 0.3s ease, transform 0.3s ease !important;
   margin: 0 !important;
   flex-shrink: 0;
   overflow: hidden !important;
+}
+.hero-pagination .swiper-pagination-bullet:not(.swiper-pagination-bullet-active):hover {
+  background: rgba(255, 255, 255, 0.75) !important;
+  transform: scale(1.25);
 }
 .hero-pagination .swiper-pagination-bullet-active {
   width: 2.5rem !important;
