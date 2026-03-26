@@ -129,6 +129,19 @@ export const whyChooseQuery = `*[_type == "whyChooseItem"] | order(order asc) {
 export const teamMembersQuery = `*[_type == "teamMember"] | order(order asc) {
   _id,
   name,
+  "slug": slug.current,
+  role,
+  bio,
+  photo,
+  order
+}`;
+
+export const teamSlugsQuery = `*[_type == "teamMember" && defined(slug.current)]{ "slug": slug.current }`;
+
+export const teamBySlugQuery = `*[_type == "teamMember" && slug.current == $slug][0] {
+  _id,
+  name,
+  "slug": slug.current,
   role,
   bio,
   photo,

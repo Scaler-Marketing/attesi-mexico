@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 function TeamCard({ member }) {
   const initials = member.name
@@ -8,8 +9,10 @@ function TeamCard({ member }) {
     .toUpperCase()
     .slice(0, 2);
 
-  return (
-    <article className="team-card">
+  const hasDetail = Boolean(member.slug);
+
+  const cardContent = (
+    <>
       <div className="team-card__photo-wrap">
         {member.photoUrl ? (
           <Image
@@ -33,7 +36,24 @@ function TeamCard({ member }) {
         {member.bio && (
           <p className="team-card__bio">{member.bio}</p>
         )}
+        {hasDetail && (
+          <span className="team-card__read-more">Read bio →</span>
+        )}
       </div>
+    </>
+  );
+
+  if (hasDetail) {
+    return (
+      <Link href={`/team/${member.slug}`} className="team-card">
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return (
+    <article className="team-card">
+      {cardContent}
     </article>
   );
 }

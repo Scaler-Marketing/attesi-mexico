@@ -1,24 +1,19 @@
-// Fallback testimonials used when Sanity has no data yet
+// Fallback testimonials — used only when Sanity returns no data
 const FALLBACK_TESTIMONIALS = [
   {
-    text: "My stay at Attesi Mexico was absolutely wonderful! The staff were incredibly friendly and attentive, making sure all my needs were met. The location was perfect, allowing easy access to local attractions. I highly recommend this place to anyone looking for a relaxing getaway.",
-    author: "John Doe",
+    text: "Attesi was unlike anything I\u2019ve experienced. The land, the people, the food \u2014 it all felt deeply intentional. I left feeling restored in ways I didn\u2019t expect.",
+    author: "Sarah M.",
     location: "New York, USA",
   },
   {
-    text: "I had an amazing experience at Attesi Mexico. The rooms were spacious and beautifully decorated. I particularly enjoyed the delicious breakfast every morning. The beach was just a short walk away, which made my stay even more enjoyable. I can't wait to return!",
-    author: "Jane Smith",
-    location: "London, UK",
-  },
-  {
-    text: "Attesi Mexico exceeded my expectations! The hospitality was top-notch, and the amenities were fantastic. I loved the pool area and the vibrant atmosphere. It was the perfect place to unwind after a day of exploring. Highly recommended!",
-    author: "Carlos Martinez",
-    location: "Madrid, Spain",
-  },
-  {
-    text: "Staying at Attesi was a truly transformative experience. The natural springs, the organic food, and the warm community made it feel like home. I left feeling renewed and deeply grateful. A must-visit for anyone seeking meaningful rest.",
-    author: "Emily Chen",
+    text: "From the moment we arrived, we felt held by something larger than ourselves. The Shabbat experience alone was worth the journey.",
+    author: "Daniel K.",
     location: "Toronto, Canada",
+  },
+  {
+    text: "I came for a retreat and left with a community. Attesi has a rare gift \u2014 it connects you to the earth and to each other at the same time.",
+    author: "Rachel L.",
+    location: "Los Angeles, USA",
   },
 ];
 
@@ -31,15 +26,16 @@ export default function Testimonials({ testimonials = [] }) {
       <div className="container">
         <div className="testimonials__header" data-animate="">
           <div>
-            <h2 className="testimonials__title">Customer Reviews</h2>
-            <p className="testimonials__subtitle">See what our guests are saying about Attesi Mexico</p>
+            <h2 className="testimonials__title">What Our Guests Say</h2>
+            <p className="testimonials__subtitle">
+              Hear from those who have experienced the land, the community, and the spirit of Attesi.
+            </p>
           </div>
-          <a href="#" className="btn-primary">View All Reviews</a>
         </div>
         <div className="testimonials__track-wrapper">
           <div className="testimonials__track">
-            {resolvedTestimonials.map((t) => (
-              <article className="testimonial-card" data-animate="" key={t.author}>
+            {resolvedTestimonials.map((t, i) => (
+              <article className="testimonial-card" data-animate="" key={t.author || i}>
                 <div className="testimonial-card__brand">
                   <img src="/assets/logo-icon-only.png" alt="Attesi" width="40" height="40" />
                   <span>ATTESI</span>

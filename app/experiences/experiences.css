@@ -6,9 +6,8 @@
 /* ── HERO ── */
 .exp-hero {
   position: relative;
-  height: 85vh;
-  min-height: 34rem;
-  max-height: 54rem;
+  height: 100vh;
+  min-height: 36rem;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -108,7 +107,7 @@
 }
 @media (max-width: 40rem) {
   .exp-hero {
-    height: 75vh;
+    height: 100svh;
   }
   .exp-hero__content {
     padding-top: 8rem;

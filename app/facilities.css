@@ -6,9 +6,8 @@
 /* ── HERO ── */
 .fac-hero {
   position: relative;
-  height: 80vh;
-  min-height: 32rem;
-  max-height: 52rem;
+  height: 100vh;
+  min-height: 36rem;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -105,7 +104,7 @@
 }
 @media (max-width: 40rem) {
   .fac-hero {
-    height: 72vh;
+    height: 100svh;
   }
   .fac-hero__content {
     padding-top: 8rem;
