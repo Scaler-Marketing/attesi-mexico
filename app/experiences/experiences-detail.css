@@ -201,6 +201,12 @@
   justify-content: center;
 }
 
+.exp-detail-about__highlight-icon {
+  flex-shrink: 0;
+  margin-top: 0.175rem;
+  color: var(--brand-orange);
+}
+
 /* ── GALLERY ── */
 .exp-detail-gallery__grid {
   display: grid;

@@ -6,11 +6,11 @@
 /* ── HERO ── */
 .fac-hero {
   position: relative;
-  height: 85vh;
-  min-height: 36rem;
-  max-height: 56rem;
+  height: 70vh;
+  min-height: 38rem;
+  max-height: 52rem;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   overflow: hidden;
 }
 .fac-hero__bg {
@@ -29,16 +29,16 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to top,
-    rgba(27, 20, 10, 0.88) 0%,
-    rgba(27, 20, 10, 0.45) 55%,
-    rgba(27, 20, 10, 0.15) 100%
+    160deg,
+    rgba(27, 20, 10, 0.55) 0%,
+    rgba(27, 20, 10, 0.72) 60%,
+    rgba(27, 20, 10, 0.82) 100%
   );
 }
 .fac-hero__content {
   position: relative;
   z-index: 2;
-  padding-top: 14rem;
+  padding-top: 8rem;
   padding-bottom: 4rem;
   max-width: 52rem;
 }
