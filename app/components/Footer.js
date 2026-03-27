@@ -32,6 +32,12 @@ const facilitiesLinks = [
   ["Huertos",               "/facilities/huertos"],
   ["Natural Spring Mikvah", "/facilities/natural-spring-mikvah"],
 ];
+const lodgingLinks = [
+  ["All Lodging",  "/lodging"],
+  ["Glamping",     "/lodging/glamping"],
+  ["Villas Norte", "/lodging/villas-norte"],
+  ["Villas Paz",   "/lodging/villas-paz"],
+];
 
 function FooterCol({ heading, headingHref, links }) {
   return (
@@ -65,6 +71,7 @@ export default function Footer() {
           </div>
 
           <FooterCol heading="GENERAL" links={generalLinks} />
+          <FooterCol heading="LODGING" headingHref="/lodging" links={lodgingLinks} />
           <FooterCol heading="EXPERIENCES" headingHref="/experiences" links={experiencesLinks} />
           <FooterCol heading="FACILITIES" headingHref="/facilities" links={facilitiesLinks} />
 

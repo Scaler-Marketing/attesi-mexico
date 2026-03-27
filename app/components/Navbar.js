@@ -26,6 +26,11 @@ const facilitiesItems = [
   ["Huertos",               "/facilities/huertos"],
   ["Natural Spring Mikvah", "/facilities/natural-spring-mikvah"],
 ];
+const lodgingItems = [
+  ["Glamping",     "/lodging/glamping"],
+  ["Villas Norte", "/lodging/villas-norte"],
+  ["Villas Paz",   "/lodging/villas-paz"],
+];
 const experiencesItems = [
   ["Migrating Monarchs",         "/experiences/migrating-monarchs"],
   ["Temazcal Ceremony",          "/experiences/temazcal-ceremony"],
@@ -132,6 +137,7 @@ export default function Navbar() {
             </li>
             <DesktopDropdown label="About" items={aboutItems} pathname={pathname} />
             <DesktopDropdown label="Facilities" href="/facilities" items={facilitiesItems} pathname={pathname} />
+            <DesktopDropdown label="Lodging" href="/lodging" items={lodgingItems} pathname={pathname} />
             <DesktopDropdown label="Experiences" href="/experiences" items={experiencesItems} pathname={pathname} />
             <li>
               <a href="/blog" className={`navbar__link${pathname === "/blog" ? " navbar__link--active" : ""}`}>
@@ -165,6 +171,7 @@ export default function Navbar() {
             </li>
             <MobileAccordion label="About" items={aboutItems} pathname={pathname} />
             <MobileAccordion label="Facilities" href="/facilities" items={facilitiesItems} pathname={pathname} />
+            <MobileAccordion label="Lodging" href="/lodging" items={lodgingItems} pathname={pathname} />
             <MobileAccordion label="Experiences" href="/experiences" items={experiencesItems} pathname={pathname} />
             <li>
               <a href="/blog" className={`mobile-panel__link${pathname === "/blog" ? " mobile-panel__link--active" : ""}`}>
