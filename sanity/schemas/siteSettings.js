@@ -56,26 +56,49 @@ export default {
       type: "image",
       options: { hotspot: true },
     },
-    // CTA section
+    // ── Global CTA Section ───────────────────────────────────────────
     {
       name: "ctaHeading",
       title: "CTA Heading",
       type: "string",
+      description: "Main headline on the full-width CTA banner.",
     },
     {
       name: "ctaSubheading",
       title: "CTA Subheading",
       type: "string",
+      description: "Supporting text below the heading.",
     },
     {
       name: "ctaButtonLabel",
-      title: "CTA Button Label",
+      title: "Primary Button Label",
       type: "string",
+      description: "e.g. \"Check Availability\"",
     },
     {
       name: "ctaButtonUrl",
-      title: "CTA Button URL",
-      type: "url",
+      title: "Primary Button URL",
+      type: "string",
+      description: "Link for the primary CTA button (e.g. /contact or https://...).",
+    },
+    {
+      name: "ctaSecondButtonLabel",
+      title: "Secondary Button Label",
+      type: "string",
+      description: "e.g. \"Contact Us\"",
+    },
+    {
+      name: "ctaSecondButtonUrl",
+      title: "Secondary Button URL",
+      type: "string",
+      description: "Link for the secondary CTA button.",
+    },
+    {
+      name: "ctaImage",
+      title: "CTA Background Image",
+      type: "image",
+      options: { hotspot: true },
+      description: "Full-bleed background image for the CTA banner. Recommended: 1800×900px or wider.",
     },
   ],
   preview: {

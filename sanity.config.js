@@ -9,6 +9,7 @@ const deskStructure = (S) =>
     .items([
       S.listItem()
         .title("Site Settings")
+        .icon(() => "⚙️")
         .id("siteSettings")
         .child(
           S.document()
@@ -16,36 +17,63 @@ const deskStructure = (S) =>
             .documentId("siteSettings")
         ),
       S.divider(),
-      S.listItem().title("Hero Slides").child(
-        S.documentTypeList("heroSlide").title("Hero Slides")
-      ),
-      S.listItem().title("Experiences").child(
-        S.documentTypeList("experience").title("Experiences")
-      ),
-      S.listItem().title("Stats").child(
-        S.documentTypeList("stat").title("Stats")
-      ),
-      S.listItem().title("Testimonials").child(
-        S.documentTypeList("testimonial").title("Testimonials")
-      ),
+      S.listItem()
+        .title("Hero Slides")
+        .icon(() => "🖼️")
+        .child(
+          S.documentTypeList("heroSlide").title("Hero Slides")
+        ),
+      S.listItem()
+        .title("Experiences")
+        .icon(() => "🌿")
+        .child(
+          S.documentTypeList("experience").title("Experiences")
+        ),
+      S.listItem()
+        .title("Stats")
+        .icon(() => "📊")
+        .child(
+          S.documentTypeList("stat").title("Stats")
+        ),
+      S.listItem()
+        .title("Testimonials")
+        .icon(() => "💬")
+        .child(
+          S.documentTypeList("testimonial").title("Testimonials")
+        ),
       S.divider(),
-      S.listItem().title("Lodging").child(
-        S.documentTypeList("lodging").title("Lodging")
-      ),
-      S.listItem().title("Facilities").child(
-        S.documentTypeList("facility").title("Facilities")
-      ),
+      S.listItem()
+        .title("Lodging")
+        .icon(() => "🏡")
+        .child(
+          S.documentTypeList("lodging").title("Lodging")
+        ),
+      S.listItem()
+        .title("Facilities")
+        .icon(() => "🏊")
+        .child(
+          S.documentTypeList("facility").title("Facilities")
+        ),
       S.divider(),
-      S.listItem().title("Find Your Way Cards").child(
-        S.documentTypeList("findYourWayCard").title("Find Your Way Cards")
-      ),
-      S.listItem().title("Why Choose Items").child(
-        S.documentTypeList("whyChooseItem").title("Why Choose Items")
-      ),
+      S.listItem()
+        .title("Find Your Way Cards")
+        .icon(() => "🗺️")
+        .child(
+          S.documentTypeList("findYourWayCard").title("Find Your Way Cards")
+        ),
+      S.listItem()
+        .title("Why Choose Items")
+        .icon(() => "✨")
+        .child(
+          S.documentTypeList("whyChooseItem").title("Why Choose Items")
+        ),
       S.divider(),
-      S.listItem().title("Team Members").child(
-        S.documentTypeList("teamMember").title("Team Members")
-      ),
+      S.listItem()
+        .title("Team Members")
+        .icon(() => "👥")
+        .child(
+          S.documentTypeList("teamMember").title("Team Members")
+        ),
     ]);
 
 // ─── Config ───────────────────────────────────────────────────────────────────

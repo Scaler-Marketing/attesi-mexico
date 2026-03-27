@@ -103,7 +103,10 @@ export const siteSettingsQuery = `*[_type == "siteSettings"][0] {
   ctaHeading,
   ctaSubheading,
   ctaButtonLabel,
-  ctaButtonUrl
+  ctaButtonUrl,
+  ctaSecondButtonLabel,
+  ctaSecondButtonUrl,
+  ctaImage
 }`;
 
 // ─── Find Your Way Cards ──────────────────────────────────────────────────────
