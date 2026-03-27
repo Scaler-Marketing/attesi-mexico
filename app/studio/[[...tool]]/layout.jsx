@@ -18,16 +18,34 @@ export default function StudioLayout({ children }) {
           display: none !important;
         }
 
-        /* Larger sidebar icons */
+        /* Larger top-bar icons (search, add, etc.) */
         [data-ui="NavbarLeft"] button svg,
         [data-ui="NavbarRight"] button svg {
           width: 1.375rem !important;
           height: 1.375rem !important;
         }
 
-        /* List item title sizing */
+        /* Sidebar list item — folder icons */
+        [data-ui="PaneItem"] svg {
+          width: 1.5rem !important;
+          height: 1.5rem !important;
+          min-width: 1.5rem !important;
+        }
+
+        /* Sidebar list item — chevron arrows */
+        [data-ui="PaneItem"] [data-ui="Box"] > svg,
+        [data-ui="PaneItem"] > div > div > svg,
+        [data-ui="PaneItem"] [data-sanity-icon] {
+          width: 1.25rem !important;
+          height: 1.25rem !important;
+        }
+
+        /* List item row height and text size */
+        [data-ui="PaneItem"] {
+          min-height: 3rem !important;
+        }
         [data-ui="PaneItem"] [data-ui="Text"]:first-child {
-          font-size: 0.9375rem !important;
+          font-size: 1rem !important;
           font-weight: 500 !important;
         }
 
