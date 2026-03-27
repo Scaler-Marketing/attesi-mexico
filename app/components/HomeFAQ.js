@@ -39,7 +39,7 @@ function FaqItem({ faq, index }) {
         type="button"
       >
         <div className="exp-detail-faq__question-left">
-          <span className="exp-detail-faq__eyebrow">FAQ</span>
+          <span className="exp-detail-faq__eyebrow">General FAQ</span>
           <span className="exp-detail-faq__question-text">{faq.question}</span>
         </div>
         <span className="exp-detail-faq__icon" aria-hidden="true">

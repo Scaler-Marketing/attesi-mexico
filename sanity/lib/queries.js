@@ -147,3 +147,40 @@ export const teamBySlugQuery = `*[_type == "teamMember" && slug.current == $slug
   photo,
   order
 }`;
+
+// ─── Lodging ──────────────────────────────────────────────────────────────────
+export const lodgingsQuery = `*[_type == "lodging"] | order(order asc) {
+  _id,
+  title,
+  "slug": slug.current,
+  tagline,
+  cardImage,
+  cardDescription,
+  guestCapacity,
+  totalUnits,
+  bedTypes,
+  order
+}`;
+
+export const lodgingBySlugQuery = `*[_type == "lodging" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  tagline,
+  cardImage,
+  cardDescription,
+  heroImage,
+  description,
+  guestCapacity,
+  totalUnits,
+  bedTypes,
+  amenities,
+  gallery,
+  faqs,
+  seoTitle,
+  seoDescription,
+  openGraphImage,
+  order
+}`;
+
+export const lodgingSlugsQuery = `*[_type == "lodging" && defined(slug.current)] { "slug": slug.current }`;

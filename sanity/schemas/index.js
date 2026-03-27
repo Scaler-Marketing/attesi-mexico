@@ -1,6 +1,7 @@
 import heroSlide from "./heroSlide";
 import experience from "./experience";
 import facility from "./facility";
+import lodging from "./lodging";
 import stat from "./stat";
 import testimonial from "./testimonial";
 import findYourWayCard from "./findYourWayCard";
@@ -13,6 +14,7 @@ export const schemaTypes = [
   heroSlide,
   experience,
   facility,
+  lodging,
   stat,
   testimonial,
   findYourWayCard,

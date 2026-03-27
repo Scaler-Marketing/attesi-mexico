@@ -27,6 +27,24 @@ const testimonials = [
     location: "Los Angeles, USA",
     order: 3,
   },
+  {
+    text: "The silence here is unlike anything I've found anywhere else. I arrived exhausted and left with a clarity I hadn't felt in years. Attesi is the real thing.",
+    author: "Marcus T.",
+    location: "Chicago, USA",
+    order: 4,
+  },
+  {
+    text: "Every detail — the food, the ceremonies, the land — felt curated with so much care. We came as strangers and left as family. We're already planning our return.",
+    author: "Leila R.",
+    location: "Mexico City, Mexico",
+    order: 5,
+  },
+  {
+    text: "I've been on many retreats but nothing has touched me the way Attesi did. The combination of nature, community, and intentional living is something truly special.",
+    author: "James W.",
+    location: "London, UK",
+    order: 6,
+  },
 ];
 
 async function seedTestimonials() {
