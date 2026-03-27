@@ -59,13 +59,6 @@ function DesktopDropdown({ label, href, items, pathname }) {
         {label} <ChevronDown />
       </a>
       <ul className="navbar__dropdown-menu" role="list">
-        {href && (
-          <li className="navbar__dropdown-view-all" style={{ gridColumn: "1 / -1" }}>
-            <a href={href} className="navbar__dropdown-view-all-link">
-              View All {label}
-            </a>
-          </li>
-        )}
         {items.map(([name, itemHref]) => {
           const isActive = itemHref !== "#" && pathname === itemHref;
           return (
@@ -76,6 +69,13 @@ function DesktopDropdown({ label, href, items, pathname }) {
             </li>
           );
         })}
+        {href && (
+          <li className="navbar__dropdown-view-all" style={{ gridColumn: "1 / -1" }}>
+            <a href={href} className="navbar__dropdown-view-all-link">
+              View All {label}
+            </a>
+          </li>
+        )}
       </ul>
     </li>
   );
@@ -95,13 +95,6 @@ function MobileAccordion({ label, href, items, pathname }) {
         <ChevronDown width={12} height={8} />
       </button>
       <ul className="mobile-panel__sub" role="list">
-        {href && (
-          <li>
-            <a href={href} style={{ fontWeight: 600, color: "var(--brand-orange)" }}>
-              View All {label}
-            </a>
-          </li>
-        )}
         {items.map(([name, itemHref]) => {
           const isActive = itemHref !== "#" && pathname === itemHref;
           return (
@@ -112,6 +105,13 @@ function MobileAccordion({ label, href, items, pathname }) {
             </li>
           );
         })}
+        {href && (
+          <li>
+            <a href={href} style={{ fontWeight: 600, color: "var(--brand-orange)" }}>
+              View All {label}
+            </a>
+          </li>
+        )}
       </ul>
     </li>
   );
@@ -144,15 +144,10 @@ export default function Navbar() {
                 Blog
               </a>
             </li>
-            <li>
-              <a href="/contact" className={`navbar__link${pathname === "/contact" ? " navbar__link--active" : ""}`}>
-                Contact
-              </a>
-            </li>
           </ul>
         </nav>
 
-        <a href="#contact" className="btn-primary navbar__cta">Get In Touch</a>
+        <a href="/contact" className="btn-primary navbar__cta">Contact Us</a>
 
         <button className="navbar__hamburger" aria-label="Toggle menu" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -178,15 +173,10 @@ export default function Navbar() {
                 Blog
               </a>
             </li>
-            <li>
-              <a href="/contact" className={`mobile-panel__link${pathname === "/contact" ? " mobile-panel__link--active" : ""}`}>
-                Contact
-              </a>
-            </li>
           </ul>
         </nav>
         <div className="mobile-panel__footer">
-          <a href="#contact" className="btn-primary mobile-panel__cta">Get In Touch</a>
+          <a href="/contact" className="btn-primary mobile-panel__cta">Contact Us</a>
         </div>
       </div>
     </header>
