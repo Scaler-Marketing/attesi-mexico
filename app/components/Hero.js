@@ -15,7 +15,7 @@ export default function Hero({ slides = [], settings = null }) {
     slides.length > 0
       ? slides.map((slide, i) => ({
           src: urlFor(slide.image).width(1800).url(),
-          alt: slide.title || "Attesi Mexico",
+          alt: slide.altText || slide.title || "Attesi Mexico",
           eager: i === 0,
         }))
       : FALLBACK_SLIDES;
