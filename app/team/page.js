@@ -5,7 +5,7 @@ import TeamHero from "../components/TeamHero";
 import TeamGrid from "../components/TeamGrid";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
-import { client } from "../../sanity/lib/client";
+import { sanityFetch } from "../../sanity/lib/live";
 import { teamMembersQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
 
@@ -30,7 +30,8 @@ const FALLBACK_TEAM = [
 export default async function TeamPage() {
   let sanityMembers = [];
   try {
-    sanityMembers = await client.fetch(teamMembersQuery);
+    const { data } = await sanityFetch({ query: teamMembersQuery });
+    sanityMembers = data || [];
   } catch (e) {
     // Silently fall back to hardcoded data if Sanity is unavailable
   }

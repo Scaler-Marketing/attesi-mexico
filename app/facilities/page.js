@@ -4,11 +4,9 @@ import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
 import Link from "next/link";
-import { client } from "../../sanity/lib/client";
+import { sanityFetch } from "../../sanity/lib/live";
 import { facilitiesQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
-
-export const revalidate = 60; // revalidate every 60 seconds
 
 export const metadata = {
   title: "Facilities — Attesi Mexico",
@@ -28,7 +26,8 @@ const CATEGORY_LABELS = {
 export default async function FacilitiesPage() {
   let facilities = [];
   try {
-    facilities = await client.fetch(facilitiesQuery);
+    const { data } = await sanityFetch({ query: facilitiesQuery });
+    facilities = data || [];
   } catch (e) {
     // Sanity unavailable — empty state shown below
   }

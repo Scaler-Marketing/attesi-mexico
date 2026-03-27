@@ -6,6 +6,7 @@ import CTA from "../../components/CTA";
 import ClientAnimations from "../../components/ClientAnimations";
 import FaqAccordion from "../../components/FaqAccordion";
 import Link from "next/link";
+import { sanityFetch } from "../../../sanity/lib/live";
 import { client } from "../../../sanity/lib/client";
 import {
   facilityBySlugQuery,
@@ -17,7 +18,7 @@ import { PortableText } from "@portabletext/react";
 /* ─── Static params for ISR ──────────────────────────────────────────────── */
 export async function generateStaticParams() {
   try {
-    const slugs = await client.fetch(facilitySlugsQuery);
+    const { data: slugs } = await sanityFetch({ query: facilitySlugsQuery });
     return (slugs || []).map((s) => ({ slug: s.slug }));
   } catch {
     return [
@@ -37,9 +38,7 @@ export async function generateStaticParams() {
 /* ─── Metadata ───────────────────────────────────────────────────────────── */
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const fac = await client
-    .fetch(facilityBySlugQuery, { slug })
-    .catch(() => null);
+  const { data: fac } = await sanityFetch({ query: facilityBySlugQuery, params: { slug } }).catch(() => ({ data: null }));
   if (!fac) return { title: "Facility — Attesi Mexico" };
   return {
     title: fac.seoTitle || `${fac.title} — Attesi Mexico`,
@@ -88,7 +87,8 @@ export default async function FacilityDetailPage({ params }) {
 
   let fac = null;
   try {
-    fac = await client.fetch(facilityBySlugQuery, { slug });
+    const { data } = await sanityFetch({ query: facilityBySlugQuery, params: { slug } });
+    fac = data;
   } catch (e) {
     // Sanity unavailable
   }

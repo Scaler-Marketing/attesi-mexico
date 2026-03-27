@@ -1,9 +1,10 @@
-import { client } from "../sanity/lib/client";
+import { sanityFetch } from "../sanity/lib/live";
 import {
   heroSlidesQuery,
   experiencesQuery,
   testimonialsQuery,
   siteSettingsQuery,
+  homePageQuery,
 } from "../sanity/lib/queries";
 
 import Navbar from "./components/Navbar";
@@ -17,28 +18,31 @@ import HomeFAQ from "./components/HomeFAQ";
 import Footer from "./components/Footer";
 import ClientAnimations from "./components/ClientAnimations";
 
-// Revalidate every 60 seconds (ISR)
-export const revalidate = 60;
-
 export default async function Home() {
-  // Fetch all content in parallel — falls back gracefully if Sanity has no data yet
-  const [heroSlides, experiences, testimonials, siteSettings] =
-    await Promise.all([
-      client.fetch(heroSlidesQuery).catch(() => []),
-      client.fetch(experiencesQuery).catch(() => []),
-      client.fetch(testimonialsQuery).catch(() => []),
-      client.fetch(siteSettingsQuery).catch(() => null),
-    ]);
+  // Fetch all content in parallel — sanityFetch handles Draft Mode + stega automatically
+  const [
+    { data: heroSlides },
+    { data: experiences },
+    { data: testimonials },
+    { data: siteSettings },
+    { data: homePage },
+  ] = await Promise.all([
+    sanityFetch({ query: heroSlidesQuery }).catch(() => ({ data: [] })),
+    sanityFetch({ query: experiencesQuery }).catch(() => ({ data: [] })),
+    sanityFetch({ query: testimonialsQuery }).catch(() => ({ data: [] })),
+    sanityFetch({ query: siteSettingsQuery }).catch(() => ({ data: null })),
+    sanityFetch({ query: homePageQuery }).catch(() => ({ data: null })),
+  ]);
 
   return (
     <>
       <Navbar />
       <Hero slides={heroSlides} settings={siteSettings} />
-      <Intro settings={siteSettings} />
+      <Intro page={homePage} />
       <FindYourWay />
       <Experiences cards={experiences} />
       <Testimonials testimonials={testimonials} />
-      <HomeFAQ />
+      <HomeFAQ page={homePage} />
       <CTA settings={siteSettings} />
       <Footer />
       <ClientAnimations />

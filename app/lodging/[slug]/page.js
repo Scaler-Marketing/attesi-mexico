@@ -7,6 +7,7 @@ import ClientAnimations from "../../components/ClientAnimations";
 import FaqAccordion from "../../components/FaqAccordion";
 import LodgingGallery from "../../components/LodgingGallery";
 import Link from "next/link";
+import { sanityFetch } from "../../../sanity/lib/live";
 import { client } from "../../../sanity/lib/client";
 import {
   lodgingBySlugQuery,
@@ -18,7 +19,7 @@ import { PortableText } from "@portabletext/react";
 /* ─── Static params for ISR ──────────────────────────────────────────────── */
 export async function generateStaticParams() {
   try {
-    const slugs = await client.fetch(lodgingSlugsQuery);
+    const { data: slugs } = await sanityFetch({ query: lodgingSlugsQuery });
     return (slugs || []).map((s) => ({ slug: s.slug }));
   } catch {
     return ["glamping", "villas-norte", "villas-paz"].map((slug) => ({ slug }));
@@ -28,9 +29,7 @@ export async function generateStaticParams() {
 /* ─── Metadata ───────────────────────────────────────────────────────────── */
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const lodge = await client
-    .fetch(lodgingBySlugQuery, { slug })
-    .catch(() => null);
+  const { data: lodge } = await sanityFetch({ query: lodgingBySlugQuery, params: { slug } }).catch(() => ({ data: null }));
   if (!lodge) return { title: "Lodging — Attesi Mexico" };
 
   const ogImage = lodge.openGraphImage
@@ -84,7 +83,8 @@ export default async function LodgingDetailPage({ params }) {
 
   let lodge = null;
   try {
-    lodge = await client.fetch(lodgingBySlugQuery, { slug });
+    const { data } = await sanityFetch({ query: lodgingBySlugQuery, params: { slug } });
+    lodge = data;
   } catch (e) {
     // Sanity unavailable
   }

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 
-const faqs = [
+const FALLBACK_FAQS = [
   {
     question: "What is included in a stay at Attesi Lodge?",
     answer:
@@ -69,15 +69,18 @@ function FaqItem({ faq, index }) {
   );
 }
 
-export default function HomeFAQ() {
+export default function HomeFAQ({ page }) {
+  const eyebrow = page?.faqEyebrow || "FAQs";
+  const heading = page?.faqHeading || "Frequently Asked Questions";
+  const subheading = page?.faqSubheading || "Everything you need to know before your stay at Attesi Lodge.";
+  const faqs = page?.faqs?.length > 0 ? page.faqs : FALLBACK_FAQS;
+
   return (
     <section className="home-faq section">
       <div className="container-medium">
-        <p className="section-tag">FAQs</p>
-        <h2 className="exp-detail-faqs__heading">Frequently Asked Questions</h2>
-        <p className="exp-detail-faqs__sub">
-          Everything you need to know before your stay at Attesi Lodge.
-        </p>
+        <p className="section-tag">{eyebrow}</p>
+        <h2 className="exp-detail-faqs__heading">{heading}</h2>
+        <p className="exp-detail-faqs__sub">{subheading}</p>
         <div className="exp-detail-faqs__list">
           {faqs.map((faq, i) => (
             <FaqItem key={i} faq={faq} index={i} />

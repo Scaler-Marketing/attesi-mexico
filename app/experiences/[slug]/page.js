@@ -5,6 +5,7 @@ import Footer from "../../components/Footer";
 import CTA from "../../components/CTA";
 import ClientAnimations from "../../components/ClientAnimations";
 import FaqAccordion from "../../components/FaqAccordion";
+import { sanityFetch } from "../../../sanity/lib/live";
 import { client } from "../../../sanity/lib/client";
 import {
   experienceBySlugQuery,
@@ -17,7 +18,7 @@ import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 /* ─── Static params for ISR ──────────────────────────────────────────────── */
 export async function generateStaticParams() {
   try {
-    const slugs = await client.fetch(experienceSlugsQuery);
+    const { data: slugs } = await sanityFetch({ query: experienceSlugsQuery });
     return (slugs || []).map((s) => ({ slug: s.slug }));
   } catch {
     // Return known slugs as fallback so pages still build
@@ -638,7 +639,7 @@ const FALLBACK_CONTENT = {
 /* ─── Fetch helper ───────────────────────────────────────────────────────── */
 async function fetchExperience(slug) {
   try {
-    const exp = await client.fetch(experienceBySlugQuery, { slug });
+    const { data: exp } = await sanityFetch({ query: experienceBySlugQuery, params: { slug } });
     if (exp) return exp;
   } catch {
     // fall through to hardcoded

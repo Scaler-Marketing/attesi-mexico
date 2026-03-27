@@ -4,11 +4,9 @@ import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
 import Link from "next/link";
-import { client } from "../../sanity/lib/client";
+import { sanityFetch } from "../../sanity/lib/live";
 import { lodgingsQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
-
-export const revalidate = 60;
 
 export const metadata = {
   title: "Lodging — Attesi Mexico",
@@ -25,7 +23,8 @@ export const metadata = {
 export default async function LodgingPage() {
   let lodgings = [];
   try {
-    lodgings = await client.fetch(lodgingsQuery);
+    const { data } = await sanityFetch({ query: lodgingsQuery });
+    lodgings = data || [];
   } catch (e) {
     // Sanity unavailable — empty state shown below
   }

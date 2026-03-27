@@ -187,3 +187,86 @@ export const lodgingBySlugQuery = `*[_type == "lodging" && slug.current == $slug
 }`;
 
 export const lodgingSlugsQuery = `*[_type == "lodging" && defined(slug.current)] { "slug": slug.current }`;
+
+// ─── Home Page (singleton) ────────────────────────────────────────────────────
+export const homePageQuery = `*[_type == "homePage"][0] {
+  introEyebrow,
+  introHeading,
+  introBody,
+  introButtonLabel,
+  introButtonUrl,
+  faqEyebrow,
+  faqHeading,
+  faqSubheading,
+  faqs[] {
+    question,
+    answer
+  }
+}`;
+
+// ─── Global Impact Page (singleton) ──────────────────────────────────────────
+export const globalImpactPageQuery = `*[_type == "globalImpactPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage,
+  philosophyEyebrow,
+  philosophyHeading,
+  philosophyBody,
+  practicesEyebrow,
+  practicesHeading,
+  practicesBody,
+  practiceCards[] {
+    icon,
+    title,
+    body
+  },
+  practicesTagline,
+  impactStats[] {
+    value,
+    label
+  },
+  visionEyebrow,
+  visionHeading,
+  visionBody
+}`;
+
+// ─── Retreats Page (singleton) ────────────────────────────────────────────────
+export const retreatsPageQuery = `*[_type == "retreatsPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage,
+  introEyebrow,
+  introHeading,
+  introBody,
+  typesHeading,
+  retreatTypes[] {
+    title,
+    description,
+    image
+  },
+  itineraryEyebrow,
+  itineraryHeading,
+  itinerarySubheading,
+  itineraryDays[] {
+    day,
+    title,
+    activities
+  }
+}`;
+
+// ─── Contact Page (singleton) ─────────────────────────────────────────────────
+export const contactPageQuery = `*[_type == "contactPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage,
+  formHeading,
+  formSubheading,
+  mapEyebrow,
+  mapHeading,
+  mapAddress,
+  mapDirectionsUrl,
+  mapEmbedUrl
+}`;

@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
-import { client } from "../../sanity/lib/client";
+import { sanityFetch } from "../../sanity/lib/live";
 import { experiencesQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
 
@@ -131,7 +131,8 @@ const CATEGORY_LABELS = {
 export default async function ExperiencesPage() {
   let sanityExperiences = [];
   try {
-    sanityExperiences = await client.fetch(experiencesQuery);
+    const { data } = await sanityFetch({ query: experiencesQuery });
+    sanityExperiences = data || [];
   } catch (e) {
     // Silently fall back to hardcoded data
   }

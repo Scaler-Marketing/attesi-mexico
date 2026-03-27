@@ -1,12 +1,51 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
+import { presentationTool } from "sanity/presentation";
 import { schemaTypes } from "./sanity/schemas/index.js";
+import { resolve } from "./sanity/presentation/resolve.js";
 
 // ─── Desk Structure ───────────────────────────────────────────────────────────
 const deskStructure = (S) =>
   S.list()
     .title("Content")
     .items([
+      // ── Pages ──────────────────────────────────────────────────────
+      S.listItem()
+        .title("Home Page")
+        .icon(() => "🏠")
+        .id("homePage")
+        .child(
+          S.document()
+            .schemaType("homePage")
+            .documentId("homePage")
+        ),
+      S.listItem()
+        .title("Global Impact Page")
+        .icon(() => "🌍")
+        .id("globalImpactPage")
+        .child(
+          S.document()
+            .schemaType("globalImpactPage")
+            .documentId("globalImpactPage")
+        ),
+      S.listItem()
+        .title("Retreats Page")
+        .icon(() => "🧘")
+        .id("retreatsPage")
+        .child(
+          S.document()
+            .schemaType("retreatsPage")
+            .documentId("retreatsPage")
+        ),
+      S.listItem()
+        .title("Contact Page")
+        .icon(() => "✉️")
+        .id("contactPage")
+        .child(
+          S.document()
+            .schemaType("contactPage")
+            .documentId("contactPage")
+        ),
       S.listItem()
         .title("Site Settings")
         .icon(() => "⚙️")
@@ -17,6 +56,7 @@ const deskStructure = (S) =>
             .documentId("siteSettings")
         ),
       S.divider(),
+      // ── Homepage Sections ───────────────────────────────────────────
       S.listItem()
         .title("Hero Slides")
         .icon(() => "🖼️")
@@ -84,7 +124,18 @@ export default defineConfig({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   plugins: [
     structureTool({ structure: deskStructure }),
-    // visionTool intentionally removed — not needed for content editors
+    presentationTool({
+      resolve,
+      previewUrl: {
+        // The live site URL — used in production. When the Studio is embedded
+        // in the same Next.js app at /studio, origin is implicit and can be omitted.
+        // We keep it explicit so the Presentation Tool works from the deployed Studio.
+        origin: process.env.NEXT_PUBLIC_SITE_URL || "https://attesi-mexico.vercel.app",
+        previewMode: {
+          enable: "/api/draft-mode/enable",
+        },
+      },
+    }),
   ],
   schema: {
     types: schemaTypes,

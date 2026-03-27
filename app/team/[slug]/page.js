@@ -7,6 +7,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import CTA from "../../components/CTA";
 import ClientAnimations from "../../components/ClientAnimations";
+import { sanityFetch } from "../../../sanity/lib/live";
 import { client } from "../../../sanity/lib/client";
 import { teamBySlugQuery, teamSlugsQuery } from "../../../sanity/lib/queries";
 import { urlFor } from "../../../sanity/lib/image";
@@ -14,7 +15,7 @@ import { urlFor } from "../../../sanity/lib/image";
 /* ─── Static params for ISR ──────────────────────────────────────────────── */
 export async function generateStaticParams() {
   try {
-    const slugs = await client.fetch(teamSlugsQuery);
+    const { data: slugs } = await sanityFetch({ query: teamSlugsQuery });
     return (slugs || []).map((s) => ({ slug: s.slug }));
   } catch {
     return [
@@ -33,7 +34,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   try {
-    const member = await client.fetch(teamBySlugQuery, { slug });
+    const { data: member } = await sanityFetch({ query: teamBySlugQuery, params: { slug } });
     if (!member) return { title: "Team Member — Attesi Mexico" };
     return {
       title: `${member.name} — Attesi Mexico`,
@@ -50,7 +51,8 @@ export default async function TeamMemberPage({ params }) {
   const { slug } = await params;
   let member = null;
   try {
-    member = await client.fetch(teamBySlugQuery, { slug });
+    const { data } = await sanityFetch({ query: teamBySlugQuery, params: { slug } });
+    member = data;
   } catch (e) {
     // Sanity unavailable
   }

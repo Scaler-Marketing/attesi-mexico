@@ -20,6 +20,9 @@ importers:
       '@sanity/image-url':
         specifier: ^2.0.3
         version: 2.0.3
+      '@sanity/presentation':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@sanity/ui':
         specifier: ^2.16.22
         version: 2.16.22(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.4(react@19.2.4))(react-is@18.3.1)(react@19.2.4)(styled-components@6.3.12(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
@@ -1911,6 +1914,10 @@ packages:
   '@sanity/presentation-comlink@1.0.33':
     resolution: {integrity: sha512-8egBjVuXT3O0dChWf7C/zzvNCG5FgA8cK9hHPDArAcrtY1MbNkCqCrC04Nm7egJ/s4vZBcZx4F/dt0GPXfhYNg==}
     engines: {node: '>=18'}
+
+  '@sanity/presentation@2.0.0':
+    resolution: {integrity: sha512-JZuWjOWTz1L7u4pl5ut5pPg+hMA9DPA8K6sQoNN9Z1qlvQYURQGBxaGkqtCa35iaj3zOkmgoOAhp5jIowlsmWA==}
+    engines: {node: '>=16.14'}
 
   '@sanity/preview-kit@6.2.0':
     resolution: {integrity: sha512-IAcct25tZqMAs9IHXA+JSh8OSwB+cbT4UFIWem5GagidHDvyZoyOKaZZQMzUoU7doll+n0Bb2DrWWL53xXG87Q==}
@@ -8071,6 +8078,8 @@ snapshots:
     transitivePeerDependencies:
       - '@sanity/client'
       - '@sanity/types'
+
+  '@sanity/presentation@2.0.0': {}
 
   '@sanity/preview-kit@6.2.0(@sanity/types@3.99.0(@types/react@19.2.14))(react@19.2.4)':
     dependencies:

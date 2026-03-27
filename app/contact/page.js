@@ -1,23 +1,29 @@
-"use client";
-
 import "../contact.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ClientAnimations from "../components/ClientAnimations";
-import { useState } from "react";
+import ContactForm from "../components/ContactForm";
+import { sanityFetch } from "../../sanity/lib/live";
+import { contactPageQuery } from "../../sanity/lib/queries";
 
-export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+export const metadata = {
+  title: "Contact — Attesi Mexico",
+  description:
+    "Get in touch with the Attesi team to plan your retreat, ask about our facilities, or learn more about what we offer.",
+};
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-    // Simulate form submission — replace with real endpoint when ready
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
-    setSubmitted(true);
-  }
+export default async function ContactPage() {
+  const { data: page } = await sanityFetch({ query: contactPageQuery }).catch(
+    () => ({ data: null })
+  );
+
+  const mapAddress = page?.mapAddress || "Manzana 004, 51009\nBarrio de San Miguel\nState of Mexico, Mexico";
+  const mapDirectionsUrl =
+    page?.mapDirectionsUrl ||
+    "https://maps.google.com/?q=Manzana+004+51009+Barrio+de+San+Miguel+State+of+Mexico";
+  const mapEmbedUrl =
+    page?.mapEmbedUrl ||
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.0!2d-99.6!3d19.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDE4JzAwLjAiTiA5OcKwMzYnMDAuMCJX!5e0!3m2!1sen!2smx!4v1234567890";
 
   return (
     <>
@@ -28,10 +34,15 @@ export default function ContactPage() {
           <div className="contact-hero__bg" />
           <div className="contact-hero__overlay" />
           <div className="contact-hero__content container">
-            <span className="contact-hero__eyebrow">Get in Touch</span>
-            <h1 className="contact-hero__title">Contact Us</h1>
+            <span className="contact-hero__eyebrow">
+              {page?.heroEyebrow || "Get in Touch"}
+            </span>
+            <h1 className="contact-hero__title">
+              {page?.heroHeading || "Contact Us"}
+            </h1>
             <p className="contact-hero__subtitle">
-              We would love to hear from you. Whether you are planning a retreat, have a question about our facilities, or simply want to learn more about Attesi, reach out and we will get back to you shortly.
+              {page?.heroSubheading ||
+                "We would love to hear from you. Whether you are planning a retreat, have a question about our facilities, or simply want to learn more about Attesi, reach out and we will get back to you shortly."}
             </p>
           </div>
         </section>
@@ -39,7 +50,6 @@ export default function ContactPage() {
         {/* ── Main Contact Section ───────────────────────────────────────── */}
         <section className="contact-main section">
           <div className="container contact-main__inner">
-
             {/* Info Column */}
             <aside className="contact-info">
               <div>
@@ -48,7 +58,8 @@ export default function ContactPage() {
                   Let&apos;s Plan Your Experience
                 </h2>
                 <p className="contact-info__intro">
-                  Our team is here to help you design the perfect retreat, event, or stay at Attesi. Reach out through any of the channels below.
+                  Our team is here to help you design the perfect retreat, event, or stay at Attesi.
+                  Reach out through any of the channels below.
                 </p>
               </div>
 
@@ -95,9 +106,9 @@ export default function ContactPage() {
                   <div className="contact-info__item-body">
                     <span className="contact-info__item-label">Location</span>
                     <address className="contact-info__item-value">
-                      Manzana 004, 51009<br />
-                      Barrio de San Miguel<br />
-                      State of Mexico, Mexico
+                      {mapAddress.split("\n").map((line, i) => (
+                        <span key={i}>{line}{i < mapAddress.split("\n").length - 1 && <br />}</span>
+                      ))}
                     </address>
                   </div>
                 </div>
@@ -105,7 +116,9 @@ export default function ContactPage() {
 
               {/* Social */}
               <div>
-                <p className="contact-info__item-label" style={{ marginBottom: "0.75rem" }}>Follow Us</p>
+                <p className="contact-info__item-label" style={{ marginBottom: "0.75rem" }}>
+                  Follow Us
+                </p>
                 <div className="contact-info__social">
                   <a href="#" aria-label="Instagram" className="contact-info__social-link">
                     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -126,151 +139,12 @@ export default function ContactPage() {
               </div>
             </aside>
 
-            {/* Form Column */}
+            {/* Form Column — client component for interactivity */}
             <div className="contact-form-wrap">
-              {submitted ? (
-                <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
-                  <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>✓</div>
-                  <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", color: "var(--brand-dark)", marginBottom: "0.75rem" }}>
-                    Message Received
-                  </h3>
-                  <p style={{ color: "var(--brand-earth)", lineHeight: "1.7" }}>
-                    Thank you for reaching out. A member of our team will be in touch with you shortly.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <h2 className="contact-form__heading">Send Us a Message</h2>
-                  <p className="contact-form__sub">
-                    Tell us about your group, dates, and what you are looking for. We will get back to you within 24 hours.
-                  </p>
-                  <form className="contact-form" onSubmit={handleSubmit} noValidate>
-                    <div className="contact-form__row">
-                      <div className="contact-form__field">
-                        <label className="contact-form__label" htmlFor="firstName">
-                          First Name <span>*</span>
-                        </label>
-                        <input
-                          id="firstName"
-                          name="firstName"
-                          type="text"
-                          className="contact-form__input"
-                          placeholder="Sarah"
-                          required
-                        />
-                      </div>
-                      <div className="contact-form__field">
-                        <label className="contact-form__label" htmlFor="lastName">
-                          Last Name <span>*</span>
-                        </label>
-                        <input
-                          id="lastName"
-                          name="lastName"
-                          type="text"
-                          className="contact-form__input"
-                          placeholder="Cohen"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="contact-form__field">
-                      <label className="contact-form__label" htmlFor="email">
-                        Email Address <span>*</span>
-                      </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        className="contact-form__input"
-                        placeholder="sarah@example.com"
-                        required
-                      />
-                    </div>
-
-                    <div className="contact-form__field">
-                      <label className="contact-form__label" htmlFor="phone">
-                        Phone / WhatsApp
-                      </label>
-                      <input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        className="contact-form__input"
-                        placeholder="+1 (555) 000-0000"
-                      />
-                    </div>
-
-                    <div className="contact-form__field">
-                      <label className="contact-form__label" htmlFor="interest">
-                        I am interested in
-                      </label>
-                      <select id="interest" name="interest" className="contact-form__select">
-                        <option value="">Select an option…</option>
-                        <option value="retreat">Planning a Retreat</option>
-                        <option value="accommodation">Accommodation Inquiry</option>
-                        <option value="experience">Booking an Experience</option>
-                        <option value="event">Private Event or Celebration</option>
-                        <option value="group">Group or Corporate Retreat</option>
-                        <option value="other">General Inquiry</option>
-                      </select>
-                    </div>
-
-                    <div className="contact-form__row">
-                      <div className="contact-form__field">
-                        <label className="contact-form__label" htmlFor="guests">
-                          Number of Guests
-                        </label>
-                        <input
-                          id="guests"
-                          name="guests"
-                          type="number"
-                          min="1"
-                          className="contact-form__input"
-                          placeholder="e.g. 12"
-                        />
-                      </div>
-                      <div className="contact-form__field">
-                        <label className="contact-form__label" htmlFor="dates">
-                          Preferred Dates
-                        </label>
-                        <input
-                          id="dates"
-                          name="dates"
-                          type="text"
-                          className="contact-form__input"
-                          placeholder="e.g. June 2026"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="contact-form__field">
-                      <label className="contact-form__label" htmlFor="message">
-                        Message <span>*</span>
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        className="contact-form__textarea"
-                        placeholder="Tell us a little about your group and what you are hoping to experience at Attesi…"
-                        rows={5}
-                        required
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="contact-form__submit"
-                      disabled={loading}
-                    >
-                      {loading ? "Sending…" : "Send Message"}
-                    </button>
-                    <p className="contact-form__note">
-                      We typically respond within 24 hours. Your information is kept private and never shared.
-                    </p>
-                  </form>
-                </>
-              )}
+              <ContactForm
+                heading={page?.formHeading}
+                subheading={page?.formSubheading}
+              />
             </div>
           </div>
         </section>
@@ -279,30 +153,39 @@ export default function ContactPage() {
         <section className="contact-map section">
           <div className="container contact-map__inner">
             <div className="contact-map__copy">
-              <span className="contact-map__eyebrow">Find Us</span>
+              <span className="contact-map__eyebrow">
+                {page?.mapEyebrow || "Find Us"}
+              </span>
               <h2 className="contact-map__heading">
-                Located in the Highlands of the State of Mexico
+                {page?.mapHeading || "Located in the Highlands of the State of Mexico"}
               </h2>
               <address className="contact-map__address">
-                Manzana 004, 51009<br />
-                Barrio de San Miguel<br />
-                State of Mexico, Mexico
+                {mapAddress.split("\n").map((line, i) => (
+                  <span key={i}>{line}{i < mapAddress.split("\n").length - 1 && <br />}</span>
+                ))}
               </address>
               <a
-                href="https://maps.google.com/?q=Manzana+004+51009+Barrio+de+San+Miguel+State+of+Mexico"
+                href={mapDirectionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="contact-map__directions"
               >
                 Get Directions
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </a>
             </div>
             <div className="contact-map__embed">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.0!2d-99.6!3d19.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDE4JzAwLjAiTiA5OcKwMzYnMDAuMCJX!5e0!3m2!1sen!2smx!4v1234567890"
+                src={mapEmbedUrl}
                 title="Attesi Mexico location map"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

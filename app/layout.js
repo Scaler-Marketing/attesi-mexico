@@ -3,6 +3,10 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 import { Analytics } from "@vercel/analytics/react";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity";
+import { SanityLive } from "../sanity/lib/live";
+import DisableDraftMode from "./components/DisableDraftMode";
 
 export const metadata = {
   title: "Attesi Mexico — Nature Retreat & Lodge",
@@ -24,7 +28,9 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const { isEnabled: isDraftMode } = await draftMode();
+
   return (
     <html lang="en">
       <head>
@@ -55,6 +61,15 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
+        {/* SanityLive enables real-time content updates — always mounted */}
+        <SanityLive />
+        {/* VisualEditing + DisableDraftMode only render when Draft Mode is active */}
+        {isDraftMode && (
+          <>
+            <VisualEditing />
+            <DisableDraftMode />
+          </>
+        )}
         <Analytics />
       </body>
     </html>

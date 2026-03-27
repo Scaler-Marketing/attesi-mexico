@@ -3,6 +3,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
+import { sanityFetch } from "../../sanity/lib/live";
+import { retreatsPageQuery, siteSettingsQuery } from "../../sanity/lib/queries";
 
 export const metadata = {
   title: "Retreats — Attesi Mexico",
@@ -10,8 +12,8 @@ export const metadata = {
     "Attesi offers a holistic retreat experience rooted in nature, wellness, and community. From private group retreats to curated wellness programs, discover how to bring your group to Attesi.",
 };
 
-/* ─── Retreat types ──────────────────────────────────────────────────────── */
-const RETREAT_TYPES = [
+/* ─── Fallback data ──────────────────────────────────────────────────────── */
+const FALLBACK_RETREAT_TYPES = [
   {
     title: "Wellness Retreats",
     icon: "✦",
@@ -54,7 +56,13 @@ const RETREAT_TYPES = [
   },
 ];
 
-/* ─── What's included ────────────────────────────────────────────────────── */
+const WELLNESS_PILLARS = [
+  { label: "Body", text: "Nourishing food, movement, cold water, and rest." },
+  { label: "Mind", text: "Stillness, reflection, and space to think clearly." },
+  { label: "Spirit", text: "Connection to tradition, community, and the land." },
+  { label: "Nature", text: "Forest bathing, fresh spring water, open skies." },
+];
+
 const INCLUDED = [
   "Accommodation in our retreat facilities",
   "Farm-to-table meals prepared with ingredients from our gardens",
@@ -64,15 +72,15 @@ const INCLUDED = [
   "Shabbat and holiday programming (for Jewish life retreats)",
 ];
 
-/* ─── Wellness philosophy from ClickUp task 868h69dx2 ────────────────────── */
-const WELLNESS_PILLARS = [
-  { label: "Body", text: "Nourishing food, movement, cold water, and rest." },
-  { label: "Mind", text: "Stillness, reflection, and space to think clearly." },
-  { label: "Spirit", text: "Connection to tradition, community, and the land." },
-  { label: "Nature", text: "Forest bathing, fresh spring water, open skies." },
-];
-
 export default async function RetreatsPage() {
+  const [{ data: page }, { data: siteSettings }] = await Promise.all([
+    sanityFetch({ query: retreatsPageQuery }).catch(() => ({ data: null })),
+    sanityFetch({ query: siteSettingsQuery }).catch(() => ({ data: null })),
+  ]);
+
+  const retreatTypes =
+    page?.retreatTypes?.length > 0 ? page.retreatTypes : FALLBACK_RETREAT_TYPES;
+
   return (
     <>
       <Navbar />
@@ -82,11 +90,15 @@ export default async function RetreatsPage() {
         <div className="ret-hero__bg" />
         <div className="ret-hero__overlay" />
         <div className="ret-hero__content container">
-          <span className="ret-hero__eyebrow">Bring Your Group</span>
-          <h1 className="ret-hero__title">Retreats at Attesi</h1>
+          <span className="ret-hero__eyebrow">
+            {page?.heroEyebrow || "Bring Your Group"}
+          </span>
+          <h1 className="ret-hero__title">
+            {page?.heroHeading || "Retreats at Attesi"}
+          </h1>
           <p className="ret-hero__subtitle">
-            A place to step away from the noise, reconnect with what matters,
-            and return home transformed.
+            {page?.heroSubheading ||
+              "A place to step away from the noise, reconnect with what matters, and return home transformed."}
           </p>
         </div>
       </section>
@@ -95,12 +107,12 @@ export default async function RetreatsPage() {
       <section className="ret-philosophy section">
         <div className="container ret-philosophy__inner">
           <div className="ret-philosophy__copy">
-            <h2 className="ret-philosophy__heading">A Holistic Approach to Retreat</h2>
+            <h2 className="ret-philosophy__heading">
+              {page?.introHeading || "A Holistic Approach to Retreat"}
+            </h2>
             <p>
-              At Attesi, wellness is not a program — it is a way of life. Our
-              approach is rooted in the belief that true wellbeing comes from
-              attending to the whole person: body, mind, spirit, and our
-              relationship with the natural world.
+              {page?.introBody ||
+                "At Attesi, wellness is not a program — it is a way of life. Our approach is rooted in the belief that true wellbeing comes from attending to the whole person: body, mind, spirit, and our relationship with the natural world."}
             </p>
             <p>
               We believe in slow food over fast food, in breathing fresh air and
@@ -130,18 +142,20 @@ export default async function RetreatsPage() {
       {/* ── RETREAT TYPES ── */}
       <section className="ret-types section ret-types--alt">
         <div className="container">
-          <h2 className="ret-types__heading">Retreat Programs</h2>
+          <h2 className="ret-types__heading">
+            {page?.typesHeading || "Retreat Programs"}
+          </h2>
           <p className="ret-types__sub">
             We host a range of retreat formats, from intimate personal programs
             to large group experiences. All are shaped by the same commitment
             to depth, care, and connection.
           </p>
           <div className="ret-types__grid">
-            {RETREAT_TYPES.map((type) => (
+            {retreatTypes.map((type) => (
               <article key={type.title} className="exp-card">
                 <div className="exp-card__image">
                   <img
-                    src={type.image}
+                    src={type.image || "https://attesi.mx/wp-content/uploads/2022/12/home-slider-attesi-2.jpg"}
                     alt={type.title}
                     loading="lazy"
                   />
@@ -164,7 +178,7 @@ export default async function RetreatsPage() {
       <section className="ret-included section">
         <div className="container ret-included__inner">
           <div className="ret-included__copy">
-            <h2 className="ret-included__heading">What's Included</h2>
+            <h2 className="ret-included__heading">What&apos;s Included</h2>
             <p className="ret-included__sub">
               Every retreat at Attesi is fully supported. We take care of the
               details so your group can focus on what matters.
@@ -192,14 +206,14 @@ export default async function RetreatsPage() {
       <section className="ret-quote section ret-quote--alt">
         <div className="container ret-quote__inner">
           <blockquote className="ret-quote__text">
-            "Surrounded by mountains, gardens, and open skies, guests are
-            invited to slow down, breathe deeply, and reconnect."
+            &ldquo;Surrounded by mountains, gardens, and open skies, guests are
+            invited to slow down, breathe deeply, and reconnect.&rdquo;
           </blockquote>
         </div>
       </section>
 
       {/* ── CTA ── */}
-      <CTA />
+      <CTA settings={siteSettings} />
 
       <Footer />
       <ClientAnimations />
