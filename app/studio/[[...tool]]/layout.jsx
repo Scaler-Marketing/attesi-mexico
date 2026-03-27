@@ -12,35 +12,39 @@ export default function StudioLayout({ children }) {
   return (
     <>
       <style>{`
-        /* Hide top-nav tool tabs (Structure / Vision) */
+        /* ─── Hide tool tabs (Structure / Vision) ─────────────────── */
         [data-ui="NavbarTabsMenu"],
         [data-ui="ToolMenuButton"] {
           display: none !important;
         }
 
-        /* Larger top-bar icons (search, add, etc.) */
-        [data-ui="NavbarLeft"] button svg,
-        [data-ui="NavbarRight"] button svg {
-          width: 1.375rem !important;
-          height: 1.375rem !important;
-        }
-
-        /* Sidebar list item — folder icons */
-        [data-ui="PaneItem"] svg {
-          width: 1.5rem !important;
-          height: 1.5rem !important;
-          min-width: 1.5rem !important;
-        }
-
-        /* Sidebar list item — chevron arrows */
-        [data-ui="PaneItem"] [data-ui="Box"] > svg,
-        [data-ui="PaneItem"] > div > div > svg,
-        [data-ui="PaneItem"] [data-sanity-icon] {
+        /* ─── Global SVG icon sizing — targets ALL icons in Studio ── */
+        /* Broad catch-all: every svg inside the studio root */
+        body svg {
           width: 1.25rem !important;
           height: 1.25rem !important;
+          min-width: 1.25rem !important;
+          min-height: 1.25rem !important;
         }
 
-        /* List item row height and text size */
+        /* Slightly larger for top navbar */
+        header svg,
+        [data-ui="Navbar"] svg {
+          width: 1.375rem !important;
+          height: 1.375rem !important;
+          min-width: 1.375rem !important;
+          min-height: 1.375rem !important;
+        }
+
+        /* Rich-text toolbar — slightly smaller so they fit */
+        [role="toolbar"] svg {
+          width: 1.125rem !important;
+          height: 1.125rem !important;
+          min-width: 1.125rem !important;
+          min-height: 1.125rem !important;
+        }
+
+        /* ─── Sidebar list item sizing ────────────────────────────── */
         [data-ui="PaneItem"] {
           min-height: 3rem !important;
         }
@@ -49,7 +53,7 @@ export default function StudioLayout({ children }) {
           font-weight: 500 !important;
         }
 
-        /* Publish button — warm brown */
+        /* ─── Brand accent ────────────────────────────────────────── */
         [data-ui="Button"][data-tone="primary"] {
           background-color: #9b6a3c !important;
           border-color: #9b6a3c !important;

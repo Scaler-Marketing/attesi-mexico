@@ -4,27 +4,18 @@ import config from "../../../sanity.config";
 import { useEffect } from "react";
 
 const STUDIO_CSS = `
-  /* Hide Structure / Vision tool tabs */
+  /* ── Hide Structure / Vision tool tabs ─────────────────────── */
   [data-ui="NavbarTabsMenu"],
   [data-ui="ToolMenuButton"] { display: none !important; }
 
-  /* Sidebar rows taller */
+  /* ── Sidebar list item sizing ────────────────────────────────── */
   [data-ui="PaneItem"] { min-height: 3rem !important; }
-
-  /* Folder + chevron icons larger */
-  [data-ui="PaneItem"] svg {
-    width: 1.375rem !important;
-    height: 1.375rem !important;
-    min-width: 1.375rem !important;
-  }
-
-  /* List item text */
   [data-ui="PaneItem"] [data-ui="Text"] span {
     font-size: 0.9375rem !important;
     font-weight: 500 !important;
   }
 
-  /* Publish button — warm brown */
+  /* ── Brand accent ────────────────────────────────────────────── */
   [data-ui="Button"][data-tone="primary"] {
     background-color: #9b6a3c !important;
     border-color: #9b6a3c !important;
@@ -34,21 +25,24 @@ const STUDIO_CSS = `
     border-color: #7d5530 !important;
   }
 
-  /* Selected item highlight */
-  [data-ui="PaneItem"][data-selected="true"] {
-    background-color: rgba(155, 106, 60, 0.15) !important;
-  }
-
   /* Input focus ring */
   [data-ui="TextInput"]:focus-within,
   [data-ui="TextArea"]:focus-within {
     box-shadow: 0 0 0 1px #9b6a3c !important;
   }
+
+  /* Selected item highlight */
+  [data-ui="PaneItem"][data-selected="true"] {
+    background-color: rgba(155, 106, 60, 0.15) !important;
+  }
 `;
 
 export default function StudioPage() {
   useEffect(() => {
-    if (document.getElementById("attesi-studio-css")) return;
+    // Remove any stale version first so updates always take effect
+    const existing = document.getElementById("attesi-studio-css");
+    if (existing) existing.remove();
+
     const style = document.createElement("style");
     style.id = "attesi-studio-css";
     style.textContent = STUDIO_CSS;

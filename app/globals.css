@@ -17,7 +17,9 @@ html {
   scroll-padding-top: 0;
 }
 
-img, picture, video, canvas, svg { display: block; max-width: 100%; }
+img, picture, video, canvas { display: block; max-width: 100%; }
+/* svg intentionally excluded — Sanity Studio uses width:1em on icons and max-width:100% breaks them */
+svg { display: block; }
 ul[role="list"], ol[role="list"] { list-style: none; }
 input, button, textarea, select { font: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: none; }
