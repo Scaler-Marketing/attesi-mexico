@@ -1,5 +1,5 @@
 // ─── Hero Slides ─────────────────────────────────────────────────────────────
-export const heroSlidesQuery = `*[_type == "heroSlide" && isActive != false] | order(sortOrder asc) {
+export const heroSlidesQuery = `*[_type == "heroSlide" && isActive != false && defined(image.asset)] | order(sortOrder asc) {
   _id,
   title,
   altText,

@@ -11,14 +11,17 @@ const FALLBACK_SLIDES = [
 
 export default function Hero({ slides = [], settings = null }) {
   // Use Sanity slides if available, otherwise fall back to local assets
-  const resolvedSlides =
-    slides.length > 0
-      ? slides.map((slide, i) => ({
-          src: urlFor(slide.image).width(1800).url(),
-          alt: slide.altText || slide.title || "Attesi Mexico",
-          eager: i === 0,
-        }))
-      : FALLBACK_SLIDES;
+  // Filter out slides that have no image uploaded yet, then map to src/alt
+  const sanitySlides = slides
+    .filter((slide) => slide.image && slide.image.asset)
+    .map((slide, i) => ({
+      src: urlFor(slide.image).width(1800).url(),
+      alt: slide.altText || slide.title || "Attesi Mexico",
+      eager: i === 0,
+    }));
+
+  // Fall back to local assets if no Sanity slides have images yet
+  const resolvedSlides = sanitySlides.length > 0 ? sanitySlides : FALLBACK_SLIDES;
 
   const heading = settings?.heroHeading || null;
   const subheading = settings?.heroSubheading || null;
