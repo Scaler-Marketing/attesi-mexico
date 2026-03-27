@@ -139,22 +139,52 @@ export default function ClientAnimations() {
         }
 
         /* ---- Drag-to-scroll on the track ---- */
-        var dragStartX   = 0;
-        var dragStartIdx = 0;
+        var dragStartX    = 0;
+        var dragStartY    = 0;
+        var dragStartIdx  = 0;
         var dragStartTime = 0;
-        var isDragging   = false;
+        var isDragging    = false;
+        var directionLocked = false; // true = horizontal confirmed, false = cancelled
+        var directionResolved = false; // whether we've determined H or V yet
 
-        function onDragStart(clientX) {
-          isDragging    = true;
+        function onDragStart(clientX, clientY) {
+          isDragging        = true;
+          directionLocked   = false;
+          directionResolved = false;
           dragStartX    = clientX;
+          dragStartY    = clientY !== undefined ? clientY : 0;
           dragStartIdx  = index;
           dragStartTime = Date.now();
           track.style.cursor = "grabbing";
           document.body.style.userSelect = "none";
         }
 
-        function onDragMove(clientX) {
+        function onDragMove(clientX, clientY) {
           if (!isDragging) return;
+
+          // On touch, resolve direction on first meaningful move
+          if (!directionResolved && clientY !== undefined) {
+            var dx = Math.abs(clientX - dragStartX);
+            var dy = Math.abs(clientY - dragStartY);
+            if (dx > 5 || dy > 5) {
+              directionResolved = true;
+              // If more vertical than horizontal → cancel carousel drag
+              if (dy > dx) {
+                isDragging = false;
+                track.style.cursor = "";
+                document.body.style.userSelect = "";
+                // Snap back to integer index cleanly
+                index = dragStartIdx;
+                update();
+                return;
+              } else {
+                directionLocked = true;
+              }
+            } else {
+              return; // not enough movement yet to decide
+            }
+          }
+
           var cards    = track.children;
           var total    = cards.length;
           var visible  = getVisible();
@@ -199,24 +229,26 @@ export default function ClientAnimations() {
           update();
         }
 
-        // Mouse
+        // Mouse — preventDefault blocks vertical scroll so no angle check needed
         track.addEventListener("mousedown", function (e) {
           e.preventDefault();
-          onDragStart(e.clientX);
+          onDragStart(e.clientX, undefined);
+          directionLocked   = true;
+          directionResolved = true;
         });
         window.addEventListener("mousemove", function (e) {
-          onDragMove(e.clientX);
+          onDragMove(e.clientX, undefined);
         });
         window.addEventListener("mouseup", function (e) {
           onDragEnd(e.clientX);
         });
 
-        // Touch
+        // Touch — use angle detection to distinguish H swipe from V scroll
         track.addEventListener("touchstart", function (e) {
-          onDragStart(e.touches[0].clientX);
+          onDragStart(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: true });
         window.addEventListener("touchmove", function (e) {
-          if (isDragging) onDragMove(e.touches[0].clientX);
+          if (isDragging) onDragMove(e.touches[0].clientX, e.touches[0].clientY);
         }, { passive: true });
         window.addEventListener("touchend", function (e) {
           var x = e.changedTouches && e.changedTouches.length ? e.changedTouches[0].clientX : undefined;
