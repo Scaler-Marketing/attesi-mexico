@@ -5,6 +5,7 @@ import Footer from "../../components/Footer";
 import CTA from "../../components/CTA";
 import ClientAnimations from "../../components/ClientAnimations";
 import FaqAccordion from "../../components/FaqAccordion";
+import LodgingGallery from "../../components/LodgingGallery";
 import Link from "next/link";
 import { client } from "../../../sanity/lib/client";
 import {
@@ -98,6 +99,7 @@ export default async function LodgingDetailPage({ params }) {
 
   const galleryImages = (lodge.gallery || []).map((img) => ({
     url: urlFor(img).width(900).height(640).fit("crop").url(),
+    fullUrl: urlFor(img).width(2400).url(),
     alt: img.alt || lodge.title,
     caption: img.caption || null,
   }));
@@ -221,36 +223,8 @@ export default async function LodgingDetailPage({ params }) {
           </div>
         </section>
 
-        {/* ── Photo Gallery ─────────────────────────────────────────────── */}
-        {galleryImages.length > 0 && (
-          <section className="lodging-detail-gallery section">
-            <div className="container">
-              <h2 className="lodging-detail-gallery__heading">Photo Gallery</h2>
-              <div className="lodging-detail-gallery__grid">
-                {galleryImages.map((img, i) => (
-                  <figure
-                    key={i}
-                    className={`lodging-detail-gallery__item${
-                      i === 0 ? " lodging-detail-gallery__item--featured" : ""
-                    }`}
-                  >
-                    <img
-                      src={img.url}
-                      alt={img.alt}
-                      className="lodging-detail-gallery__img"
-                      loading={i < 3 ? "eager" : "lazy"}
-                    />
-                    {img.caption && (
-                      <figcaption className="lodging-detail-gallery__caption">
-                        {img.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+        {/* ── Photo Gallery (Fancybox v6 lightbox) ──────────────────── */}
+        <LodgingGallery images={galleryImages} />
 
         {/* ── FAQs ──────────────────────────────────────────────────────── */}
         {lodge.faqs && lodge.faqs.length > 0 && (

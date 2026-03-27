@@ -24,12 +24,6 @@ const deskStructure = (S) =>
           S.documentTypeList("heroSlide").title("Hero Slides")
         ),
       S.listItem()
-        .title("Experiences")
-        .icon(() => "🌿")
-        .child(
-          S.documentTypeList("experience").title("Experiences")
-        ),
-      S.listItem()
         .title("Stats")
         .icon(() => "📊")
         .child(
@@ -47,6 +41,12 @@ const deskStructure = (S) =>
         .icon(() => "🏡")
         .child(
           S.documentTypeList("lodging").title("Lodging")
+        ),
+      S.listItem()
+        .title("Experiences")
+        .icon(() => "🌿")
+        .child(
+          S.documentTypeList("experience").title("Experiences")
         ),
       S.listItem()
         .title("Facilities")
