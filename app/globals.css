@@ -1883,7 +1883,7 @@ a.footer__heading--link:hover {
 }
 .exp-detail-faq__question-text {
   font-family: var(--font-display);
-  font-size: 1.4375rem;
+  font-size: 1.1875rem;
   font-weight: 600;
   color: var(--brand-dark);
   line-height: 1.3;
