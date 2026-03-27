@@ -15,6 +15,21 @@ const FALLBACK_TESTIMONIALS = [
     author: "Rachel L.",
     location: "Los Angeles, USA",
   },
+  {
+    text: "The silence here is unlike anything I\u2019ve found anywhere else. I arrived exhausted and left with a clarity I hadn\u2019t felt in years. Attesi is the real thing.",
+    author: "Marcus T.",
+    location: "Chicago, USA",
+  },
+  {
+    text: "Every detail \u2014 the food, the ceremonies, the land \u2014 felt curated with so much care. We came as strangers and left as family. We\u2019re already planning our return.",
+    author: "Leila R.",
+    location: "Mexico City, Mexico",
+  },
+  {
+    text: "I\u2019ve been on many retreats but nothing has touched me the way Attesi did. The combination of nature, community, and intentional living is something truly special.",
+    author: "James W.",
+    location: "London, UK",
+  },
 ];
 
 export default function Testimonials({ testimonials = [] }) {
