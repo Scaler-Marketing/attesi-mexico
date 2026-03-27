@@ -38,8 +38,8 @@ export default async function Home() {
       <FindYourWay />
       <Experiences cards={experiences} />
       <Testimonials testimonials={testimonials} />
-      <CTA settings={siteSettings} />
       <HomeFAQ />
+      <CTA settings={siteSettings} />
       <Footer />
       <ClientAnimations />
     </>

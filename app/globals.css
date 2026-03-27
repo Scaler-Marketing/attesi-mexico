@@ -1334,7 +1334,7 @@ h1, h2, h3, h4, h5, h6 {
    TESTIMONIALS
    ============================================================ */
 .testimonials {
-  background: var(--brand-cream);
+  background: var(--brand-white);
   overflow: hidden; /* clip horizontal bleed */
 }
 .testimonials__header {
@@ -1377,7 +1377,7 @@ h1, h2, h3, h4, h5, h6 {
 .testimonial-card {
   flex: 0 0 calc(33.333% - 1rem);
   min-width: 18.75rem;
-  background: rgba(255, 249, 237, 0.6);
+  background: var(--brand-white);
   border: 0.0625rem solid #B5743A;
   border-radius: var(--radius-card);
   padding: 2rem;
@@ -1883,10 +1883,14 @@ a.footer__heading--link:hover {
 }
 .exp-detail-faq__question-text {
   font-family: var(--font-display);
-  font-size: 1.0625rem;
+  font-size: 1.4375rem;
   font-weight: 600;
   color: var(--brand-dark);
   line-height: 1.3;
+  text-decoration: underline;
+  text-decoration-color: #c0392b;
+  text-decoration-thickness: 0.125rem;
+  text-underline-offset: 0.3em;
 }
 .exp-detail-faq__icon {
   width: 2rem;
