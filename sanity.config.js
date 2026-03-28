@@ -94,20 +94,6 @@ const deskStructure = (S) =>
         .child(
           S.documentTypeList("facility").title("Facilities")
         ),
-      S.divider(),
-      S.listItem()
-        .title("Find Your Way Cards")
-        .icon(() => "🗺️")
-        .child(
-          S.documentTypeList("findYourWayCard").title("Find Your Way Cards")
-        ),
-      S.listItem()
-        .title("Why Choose Items")
-        .icon(() => "✨")
-        .child(
-          S.documentTypeList("whyChooseItem").title("Why Choose Items")
-        ),
-      S.divider(),
       S.listItem()
         .title("Team Members")
         .icon(() => "👥")
