@@ -1,0 +1,147 @@
+/* ============================================================
+   FAQs Page — faqs.css
+   ============================================================ */
+
+/* ── HERO ── */
+.faqs-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.faqs-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg');
+  background-size: cover;
+  background-position: center 45%;
+  transform: scale(1.03);
+  transition: transform 8s ease;
+}
+.faqs-hero:hover .faqs-hero__bg {
+  transform: scale(1);
+}
+.faqs-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(27, 20, 10, 0.88) 0%,
+    rgba(27, 20, 10, 0.45) 55%,
+    rgba(27, 20, 10, 0.15) 100%
+  );
+}
+.faqs-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-top: 15rem;
+  padding-bottom: 3rem;
+  max-width: 52rem;
+}
+.faqs-hero__eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 1rem;
+}
+.faqs-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 600;
+  color: var(--brand-white);
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
+}
+.faqs-hero__subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  color: rgba(255, 249, 237, 0.85);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ── TABBED FAQ SECTION ── */
+.faqs-tabs {
+  background: var(--brand-white);
+}
+
+/* Tab navigation */
+.faqs-tabs__nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+  border-bottom: 0.0625rem solid rgba(181, 116, 58, 0.15);
+  padding-bottom: 0;
+}
+.faqs-tabs__tab {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--brand-earth);
+  background: none;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  border-bottom: 0.1875rem solid transparent;
+  margin-bottom: -0.0625rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  border-radius: 0.375rem 0.375rem 0 0;
+}
+.faqs-tabs__tab:hover {
+  color: var(--brand-orange);
+}
+.faqs-tabs__tab--active {
+  color: var(--brand-orange);
+  border-bottom-color: var(--brand-orange);
+}
+
+/* Tab panel */
+.faqs-tabs__panel {
+  margin-bottom: 3rem;
+}
+
+/* Footer CTA */
+.faqs-tabs__footer {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.5rem;
+  background: var(--brand-cream);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(181, 116, 58, 0.12);
+  flex-wrap: wrap;
+}
+.faqs-tabs__footer-text {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--brand-dark);
+  flex: 1;
+  min-width: 14rem;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 48rem) {
+  .faqs-hero__content {
+    padding-top: 10rem;
+    padding-bottom: 3rem;
+  }
+  .faqs-tabs__nav {
+    gap: 0.25rem;
+  }
+  .faqs-tabs__tab {
+    font-size: 0.875rem;
+    padding: 0.625rem 0.875rem;
+  }
+  .faqs-tabs__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+}

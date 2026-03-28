@@ -448,12 +448,12 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(181, 116, 58, 0.12) !important;
   font-weight: 600;
 }
-/* "View All" header link in dropdown */
+/* "View All" footer link in dropdown — divider above it */
 .navbar__dropdown-view-all {
   grid-column: 1 / -1;
-  border-bottom: 0.0625rem solid rgba(181, 116, 58, 0.15);
-  margin-bottom: 0.125rem;
-  padding-bottom: 0.125rem;
+  border-top: 0.0625rem solid rgba(181, 116, 58, 0.15);
+  margin-top: 0.25rem;
+  padding-top: 0.25rem;
 }
 .navbar__dropdown-view-all-link {
   display: block;
@@ -1507,7 +1507,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .footer__grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 1.25fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1.25fr;
   gap: 2rem;
   padding-bottom: 3rem;
 }
@@ -1709,7 +1709,7 @@ a.footer__heading--link:hover {
   }
 
   .footer__grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
   .footer__brand {
