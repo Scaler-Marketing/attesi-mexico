@@ -4,6 +4,7 @@ import {
   experiencesQuery,
   testimonialsQuery,
   siteSettingsQuery,
+  findYourWayQuery,
 } from "../sanity/lib/queries";
 
 import Navbar from "./components/Navbar";
@@ -24,11 +25,13 @@ export default async function Home() {
     { data: experiences },
     { data: testimonials },
     { data: siteSettings },
+    { data: findYourWayCards },
   ] = await Promise.all([
     sanityFetch({ query: heroSlidesQuery }).catch(() => ({ data: [] })),
     sanityFetch({ query: experiencesQuery }).catch(() => ({ data: [] })),
     sanityFetch({ query: testimonialsQuery }).catch(() => ({ data: [] })),
     sanityFetch({ query: siteSettingsQuery }).catch(() => ({ data: null })),
+    sanityFetch({ query: findYourWayQuery }).catch(() => ({ data: [] })),
   ]);
 
   return (
@@ -36,7 +39,7 @@ export default async function Home() {
       <Navbar />
       <Hero slides={heroSlides} settings={siteSettings} />
       <Intro settings={siteSettings} />
-      <FindYourWay settings={siteSettings} />
+      <FindYourWay settings={siteSettings} cards={findYourWayCards} />
       <Experiences cards={experiences} settings={siteSettings} />
       <Testimonials testimonials={testimonials} settings={siteSettings} />
       <HomeFAQ settings={siteSettings} />
