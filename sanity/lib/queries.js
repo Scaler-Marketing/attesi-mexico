@@ -282,3 +282,59 @@ export const contactPageQuery = `*[_type == "contactPage"][0] {
   mapDirectionsUrl,
   mapEmbedUrl
 }`;
+
+// ─── Blog Posts ───────────────────────────────────────────────────────────────
+export const blogPostsQuery = `*[_type == "blogPost"] | order(publishedAt desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  category,
+  coverImage,
+  excerpt,
+  author,
+  authorRole,
+  featured
+}`;
+
+export const featuredBlogPostsQuery = `*[_type == "blogPost" && featured == true] | order(publishedAt desc)[0...3] {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  category,
+  coverImage,
+  excerpt,
+  author,
+  authorRole,
+  featured
+}`;
+
+export const blogPostBySlugQuery = `*[_type == "blogPost" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  category,
+  coverImage,
+  excerpt,
+  body,
+  author,
+  authorRole,
+  seoTitle,
+  seoDescription,
+  openGraphImage,
+  featured
+}`;
+
+export const blogPostSlugsQuery = `*[_type == "blogPost" && defined(slug.current)] { "slug": slug.current }`;
+
+export const relatedBlogPostsQuery = `*[_type == "blogPost" && slug.current != $slug && category == $category] | order(publishedAt desc)[0...3] {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  category,
+  coverImage,
+  excerpt
+}`;

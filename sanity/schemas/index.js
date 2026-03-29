@@ -12,6 +12,7 @@ import findYourWayCard from "./findYourWayCard";
 import whyChooseItem from "./whyChooseItem";
 import siteSettings from "./siteSettings";
 import teamMember from "./teamMember";
+import blogPost from "./blogPost";
 
 export const schemaTypes = [
   // ── Singletons ────────────────────────────────────────────────────
@@ -30,4 +31,5 @@ export const schemaTypes = [
   findYourWayCard,
   whyChooseItem,
   teamMember,
+  blogPost,
 ];

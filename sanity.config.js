@@ -100,6 +100,14 @@ const deskStructure = (S) =>
         .child(
           S.documentTypeList("teamMember").title("Team Members")
         ),
+      S.divider(),
+      // ── Blog ────────────────────────────────────────────────────────
+      S.listItem()
+        .title("Blog Posts")
+        .icon(() => "✍️")
+        .child(
+          S.documentTypeList("blogPost").title("Blog Posts")
+        ),
     ]);
 
 // ─── Config ───────────────────────────────────────────────────────────────────

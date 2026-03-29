@@ -2,11 +2,11 @@
 import { useState, useRef, useEffect } from "react";
 
 const TABS = [
-  { id: "general", label: "General" },
-  { id: "lodging", label: "Lodging" },
-  { id: "experiences", label: "Experiences" },
-  { id: "facilities", label: "Facilities" },
-  { id: "kosher", label: "Kosher & Dining" },
+  { id: "general", label: "General", eyebrow: "General Questions" },
+  { id: "lodging", label: "Lodging", eyebrow: "Lodging & Accommodations" },
+  { id: "experiences", label: "Experiences", eyebrow: "Experiences & Activities" },
+  { id: "facilities", label: "Facilities", eyebrow: "Facilities & Spaces" },
+  { id: "kosher", label: "Kosher & Dining", eyebrow: "Kosher & Dining" },
 ];
 
 const FAQ_DATA = {
@@ -244,6 +244,7 @@ function FaqItem({ question, answer }) {
 export default function FaqsClient() {
   const [activeTab, setActiveTab] = useState("general");
   const faqs = FAQ_DATA[activeTab] || [];
+  const activeTabData = TABS.find((t) => t.id === activeTab);
 
   return (
     <section className="faqs-tabs section">
@@ -266,6 +267,9 @@ export default function FaqsClient() {
 
         {/* FAQ List */}
         <div className="faqs-tabs__panel" role="tabpanel">
+          {activeTabData && (
+            <span className="faqs-tabs__eyebrow">{activeTabData.eyebrow}</span>
+          )}
           <div className="exp-detail-faqs__list">
             {faqs.map((faq, i) => (
               <FaqItem key={i} question={faq.question} answer={faq.answer} />

@@ -58,7 +58,7 @@ function DesktopDropdown({ label, href, items, pathname }) {
       >
         {label} <ChevronDown />
       </a>
-      <ul className="navbar__dropdown-menu" role="list">
+      <ul className={`navbar__dropdown-menu${items.length <= 5 ? " navbar__dropdown-menu--single" : ""}`} role="list">
         {items.map(([name, itemHref]) => {
           const isActive = itemHref !== "#" && pathname === itemHref;
           return (

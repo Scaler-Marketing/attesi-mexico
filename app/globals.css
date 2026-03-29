@@ -408,6 +408,11 @@ h1, h2, h3, h4, h5, h6 {
   transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
   transform: translateX(-50%) translateY(0.25rem);
 }
+/* Single-column dropdown (≤ 5 items) */
+.navbar__dropdown-menu--single {
+  grid-template-columns: 1fr;
+}
+
 /* Invisible hover bridge */
 .navbar__dropdown-menu::before {
   content: '';

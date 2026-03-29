@@ -4,7 +4,7 @@ import CTA from "@/app/components/CTA";
 import ClientAnimations from "@/app/components/ClientAnimations";
 import FaqsClient from "./FaqsClient";
 import { sanityFetch } from "@/sanity/lib/live";
-import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { siteSettingsQuery } from "@/sanity/lib/queries";
 import "../faqs.css";
 
 export const metadata = {
@@ -14,7 +14,7 @@ export const metadata = {
 };
 
 export default async function FaqsPage() {
-  const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
+  const { data: siteSettings } = await sanityFetch({ query: siteSettingsQuery });
 
   return (
     <>

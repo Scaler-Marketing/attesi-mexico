@@ -37,6 +37,7 @@
   padding-top: 15rem;
   padding-bottom: 3rem;
   max-width: 52rem;
+  text-align: left;
 }
 .faqs-hero__eyebrow {
   display: inline-block;
@@ -68,6 +69,18 @@
 /* ── TABBED FAQ SECTION ── */
 .faqs-tabs {
   background: var(--brand-white);
+}
+
+/* Panel eyebrow */
+.faqs-tabs__eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-orange);
+  margin-bottom: 1.5rem;
 }
 
 /* Tab navigation */

@@ -3,7 +3,7 @@ import Footer from "@/app/components/Footer";
 import CTA from "@/app/components/CTA";
 import ClientAnimations from "@/app/components/ClientAnimations";
 import { sanityFetch } from "@/sanity/lib/live";
-import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { siteSettingsQuery } from "@/sanity/lib/queries";
 import "../philosophy.css";
 
 export const metadata = {
@@ -82,7 +82,7 @@ const APPROACH_ITEMS = [
 ];
 
 export default async function PhilosophyPage() {
-  const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
+  const { data: siteSettings } = await sanityFetch({ query: siteSettingsQuery });
 
   return (
     <>
