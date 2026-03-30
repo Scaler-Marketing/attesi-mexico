@@ -11,6 +11,7 @@ import { client } from "../../../sanity/lib/client";
 import {
   facilityBySlugQuery,
   facilitySlugsQuery,
+  siteSettingsQuery,
 } from "../../../sanity/lib/queries";
 import { urlFor } from "../../../sanity/lib/image";
 import { PortableText } from "@portabletext/react";
@@ -84,15 +85,18 @@ const ptComponents = {
 /* ─── Page ───────────────────────────────────────────────────────────────── */
 export default async function FacilityDetailPage({ params }) {
   const { slug } = await params;
-
   let fac = null;
+  let siteSettings = null;
   try {
-    const { data } = await sanityFetch({ query: facilityBySlugQuery, params: { slug } });
-    fac = data;
+    const [{ data: facData }, { data: settings }] = await Promise.all([
+      sanityFetch({ query: facilityBySlugQuery, params: { slug } }),
+      sanityFetch({ query: siteSettingsQuery }),
+    ]);
+    fac = facData;
+    siteSettings = settings;
   } catch (e) {
     // Sanity unavailable
   }
-
   if (!fac) notFound();
 
   const heroUrl = fac.heroImage
@@ -200,7 +204,7 @@ export default async function FacilityDetailPage({ params }) {
           </section>
         )}
 
-        <CTA />
+        <CTA settings={siteSettings} />
       </main>
       <Footer />
       <ClientAnimations />

@@ -10,6 +10,7 @@ import { client } from "../../../sanity/lib/client";
 import {
   experienceBySlugQuery,
   experienceSlugsQuery,
+  siteSettingsQuery,
 } from "../../../sanity/lib/queries";
 import { urlFor } from "../../../sanity/lib/image";
 import { PortableText } from "@portabletext/react";
@@ -670,8 +671,10 @@ const ptComponents = {
 /* ─── Page ───────────────────────────────────────────────────────────────── */
 export default async function ExperienceDetailPage({ params }) {
   const { slug } = await params;
-  const exp = await fetchExperience(slug);
-
+  const [exp, { data: siteSettings }] = await Promise.all([
+    fetchExperience(slug),
+    sanityFetch({ query: siteSettingsQuery }).catch(() => ({ data: null })),
+  ]);
   if (!exp) notFound();
 
   const heroImageUrl = exp.heroImage
@@ -799,7 +802,7 @@ export default async function ExperienceDetailPage({ params }) {
       )}
 
       {/* ── CTA ── */}
-      <CTA />
+      <CTA settings={siteSettings} />
 
       <Footer />
       <ClientAnimations />

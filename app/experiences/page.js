@@ -5,7 +5,7 @@ import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
 import PageHero from "../components/PageHero";
 import { sanityFetch } from "../../sanity/lib/live";
-import { experiencesQuery } from "../../sanity/lib/queries";
+import { experiencesQuery, siteSettingsQuery, experiencesListingPageQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
 
 export const metadata = {
@@ -127,12 +127,23 @@ const CATEGORY_LABELS = {
 
 export default async function ExperiencesPage() {
   let sanityExperiences = [];
+  let siteSettings = null;
+  let page = null;
   try {
-    const { data } = await sanityFetch({ query: experiencesQuery });
-    sanityExperiences = data || [];
+    const [{ data: expData }, { data: settings }, { data: pageData }] = await Promise.all([
+      sanityFetch({ query: experiencesQuery }),
+      sanityFetch({ query: siteSettingsQuery }),
+      sanityFetch({ query: experiencesListingPageQuery }),
+    ]);
+    sanityExperiences = expData || [];
+    siteSettings = settings;
+    page = pageData;
   } catch (e) {
     // Silently fall back to hardcoded data
   }
+  const heroBg = page?.heroImage?.asset
+    ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+    : "url('/assets/hero-slide-3.avif')";
 
   const experiences =
     sanityExperiences && sanityExperiences.length > 0
@@ -150,11 +161,11 @@ export default async function ExperiencesPage() {
 
       {/* ── HERO ── */}
       <PageHero
-        eyebrow="What Awaits You"
-        title="Immersive Experiences"
-        subtitle="From ancient ceremonies to mountain hikes, farm-to-table meals to monarch migrations — every experience at Attesi is a deeper encounter with the land, the community, and yourself."
-        bgImage="url('/assets/hero-slide-3.avif')"
-        bgPosition="center 55%"
+        eyebrow={page?.heroEyebrow || "What Awaits You"}
+        title={page?.heroHeading || "Immersive Experiences"}
+        subtitle={page?.heroSubheading || "From ancient ceremonies to mountain hikes, farm-to-table meals to monarch migrations — every experience at Attesi is a deeper encounter with the land, the community, and yourself."}
+        bgImage={heroBg}
+        bgPos="center 55%"
       />
 
       {/* ── INTRO ── */}
@@ -237,7 +248,7 @@ export default async function ExperiencesPage() {
       </section>
 
       {/* ── CTA ── */}
-      <CTA />
+      <CTA settings={siteSettings} />
 
       <Footer />
       <ClientAnimations />

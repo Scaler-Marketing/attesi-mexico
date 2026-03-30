@@ -6,6 +6,7 @@ import ClientAnimations from "../components/ClientAnimations";
 import PageHero from "../components/PageHero";
 import { sanityFetch } from "../../sanity/lib/live";
 import { globalImpactPageQuery, siteSettingsQuery } from "../../sanity/lib/queries";
+import { urlFor } from "../../sanity/lib/image";
 
 export const metadata = {
   title: "Global Impact — Attesi Mexico",
@@ -63,6 +64,9 @@ export default async function GlobalImpactPage() {
     page?.practiceCards?.length > 0 ? page.practiceCards : FALLBACK_PRACTICE_CARDS;
   const impactStats =
     page?.impactStats?.length > 0 ? page.impactStats : FALLBACK_STATS;
+  const heroBg = page?.heroImage?.asset
+    ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+    : "url('/assets/global-impact-hero.png')";
 
   return (
     <>
@@ -73,7 +77,7 @@ export default async function GlobalImpactPage() {
         eyebrow={page?.heroEyebrow || "Our Commitment"}
         title={page?.heroHeading || "Rooted in the Land. Committed to the Future."}
         subtitle={page?.heroSubheading || "A regenerative approach to living, growing, and giving back to the earth."}
-        bgImage="url('/assets/global-impact-hero.png')"
+        bgImage={heroBg}
         bgPos="center 40%"
       />
 

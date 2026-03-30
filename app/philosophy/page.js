@@ -4,7 +4,8 @@ import CTA from "@/app/components/CTA";
 import ClientAnimations from "@/app/components/ClientAnimations";
 import PageHero from "@/app/components/PageHero";
 import { sanityFetch } from "@/sanity/lib/live";
-import { siteSettingsQuery } from "@/sanity/lib/queries";
+import { siteSettingsQuery, philosophyPageQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 import "../philosophy.css";
 
 export const metadata = {
@@ -83,7 +84,13 @@ const APPROACH_ITEMS = [
 ];
 
 export default async function PhilosophyPage() {
-  const { data: siteSettings } = await sanityFetch({ query: siteSettingsQuery });
+  const [{ data: siteSettings }, { data: page }] = await Promise.all([
+    sanityFetch({ query: siteSettingsQuery }),
+    sanityFetch({ query: philosophyPageQuery }).catch(() => ({ data: null })),
+  ]);
+  const heroBg = page?.heroImage?.asset
+    ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+    : "url('https://attesi.mx/wp-content/uploads/2022/09/Eventos-a-tu-medida-scaled.jpg')";
 
   return (
     <>
@@ -91,10 +98,10 @@ export default async function PhilosophyPage() {
 
       {/* ── HERO ── */}
       <PageHero
-        eyebrow="Our Approach"
-        title="Philosophy & Wellness"
-        subtitle="A holistic approach to living — body, mind, and spirit in harmony with the natural world."
-        bgImage="url('https://attesi.mx/wp-content/uploads/2022/09/Eventos-a-tu-medida-scaled.jpg')"
+        eyebrow={page?.heroEyebrow || "Our Approach"}
+        title={page?.heroHeading || "Philosophy & Wellness"}
+        subtitle={page?.heroSubheading || "A holistic approach to living — body, mind, and spirit in harmony with the natural world."}
+        bgImage={heroBg}
         bgPos="center 40%"
       />
 

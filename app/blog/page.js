@@ -4,7 +4,7 @@ import CTA from "@/app/components/CTA";
 import ClientAnimations from "@/app/components/ClientAnimations";
 import PageHero from "@/app/components/PageHero";
 import { sanityFetch } from "@/sanity/lib/live";
-import { blogPostsQuery, siteSettingsQuery } from "@/sanity/lib/queries";
+import { blogPostsQuery, siteSettingsQuery, blogListingPageQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
 import "../blog.css";
@@ -35,14 +35,18 @@ function formatDate(dateStr) {
 }
 
 export default async function BlogPage() {
-  const [{ data: posts }, { data: siteSettings }] = await Promise.all([
+  const [{ data: posts }, { data: siteSettings }, { data: page }] = await Promise.all([
     sanityFetch({ query: blogPostsQuery }).catch(() => ({ data: [] })),
     sanityFetch({ query: siteSettingsQuery }).catch(() => ({ data: null })),
+    sanityFetch({ query: blogListingPageQuery }).catch(() => ({ data: null })),
   ]);
 
   const allPosts = posts || [];
   const featured = allPosts.filter((p) => p.featured);
   const rest = allPosts.filter((p) => !p.featured);
+  const heroBg = page?.heroImage?.asset
+    ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+    : "url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')";
 
   return (
     <>
@@ -50,10 +54,10 @@ export default async function BlogPage() {
 
       {/* ── HERO ── */}
       <PageHero
-        eyebrow="From the Land"
-        title="The Attesi Journal"
-        subtitle="Stories, insights, and wisdom from our community in the mountains of Mexico."
-        bgImage="url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')"
+        eyebrow={page?.heroEyebrow || "From the Land"}
+        title={page?.heroHeading || "The Attesi Journal"}
+        subtitle={page?.heroSubheading || "Stories, insights, and wisdom from our community in the mountains of Mexico."}
+        bgImage={heroBg}
         bgPos="center 40%"
       />
 

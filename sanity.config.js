@@ -20,6 +20,33 @@ const deskStructure = (S) =>
             .documentId("homePage")
         ),
       S.listItem()
+        .title("About Page")
+        .icon(() => "📖")
+        .id("aboutPage")
+        .child(
+          S.document()
+            .schemaType("aboutPage")
+            .documentId("aboutPage")
+        ),
+      S.listItem()
+        .title("History Page")
+        .icon(() => "🕰️")
+        .id("historyPage")
+        .child(
+          S.document()
+            .schemaType("historyPage")
+            .documentId("historyPage")
+        ),
+      S.listItem()
+        .title("Philosophy Page")
+        .icon(() => "🌿")
+        .id("philosophyPage")
+        .child(
+          S.document()
+            .schemaType("philosophyPage")
+            .documentId("philosophyPage")
+        ),
+      S.listItem()
         .title("Global Impact Page")
         .icon(() => "🌍")
         .id("globalImpactPage")
@@ -27,6 +54,51 @@ const deskStructure = (S) =>
           S.document()
             .schemaType("globalImpactPage")
             .documentId("globalImpactPage")
+        ),
+      S.listItem()
+        .title("Lodging Listing Page")
+        .icon(() => "🏡")
+        .id("lodgingListingPage")
+        .child(
+          S.document()
+            .schemaType("lodgingListingPage")
+            .documentId("lodgingListingPage")
+        ),
+      S.listItem()
+        .title("Experiences Listing Page")
+        .icon(() => "🧭")
+        .id("experiencesListingPage")
+        .child(
+          S.document()
+            .schemaType("experiencesListingPage")
+            .documentId("experiencesListingPage")
+        ),
+      S.listItem()
+        .title("Facilities Listing Page")
+        .icon(() => "🏊")
+        .id("facilitiesListingPage")
+        .child(
+          S.document()
+            .schemaType("facilitiesListingPage")
+            .documentId("facilitiesListingPage")
+        ),
+      S.listItem()
+        .title("Blog Listing Page")
+        .icon(() => "✍️")
+        .id("blogListingPage")
+        .child(
+          S.document()
+            .schemaType("blogListingPage")
+            .documentId("blogListingPage")
+        ),
+      S.listItem()
+        .title("FAQs Page")
+        .icon(() => "❓")
+        .id("faqsPage")
+        .child(
+          S.document()
+            .schemaType("faqsPage")
+            .documentId("faqsPage")
         ),
       S.listItem()
         .title("Retreats Page")

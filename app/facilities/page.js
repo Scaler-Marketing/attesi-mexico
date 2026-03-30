@@ -6,7 +6,7 @@ import ClientAnimations from "../components/ClientAnimations";
 import PageHero from "../components/PageHero";
 import Link from "next/link";
 import { sanityFetch } from "../../sanity/lib/live";
-import { facilitiesQuery } from "../../sanity/lib/queries";
+import { facilitiesQuery, siteSettingsQuery, facilitiesListingPageQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
 
 export const metadata = {
@@ -26,23 +26,33 @@ const CATEGORY_LABELS = {
 
 export default async function FacilitiesPage() {
   let facilities = [];
+  let siteSettings = null;
+  let page = null;
   try {
-    const { data } = await sanityFetch({ query: facilitiesQuery });
-    facilities = data || [];
+    const [{ data: facData }, { data: settings }, { data: pageData }] = await Promise.all([
+      sanityFetch({ query: facilitiesQuery }),
+      sanityFetch({ query: siteSettingsQuery }),
+      sanityFetch({ query: facilitiesListingPageQuery }),
+    ]);
+    facilities = facData || [];
+    siteSettings = settings;
+    page = pageData;
   } catch (e) {
     // Sanity unavailable — empty state shown below
   }
-
+  const heroBg = page?.heroImage?.asset
+    ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+    : "url('/assets/hero-slide-2.avif')";
   return (
     <>
       <Navbar />
 
       {/* ── HERO ── */}
       <PageHero
-        eyebrow="The Spaces of Attesi"
-        title="Places Built for Presence"
-        subtitle="Every space at Attesi is designed with intention — to nourish, restore, and connect you to the land and community around you."
-        bgImage="url('/assets/hero-slide-2.avif')"
+        eyebrow={page?.heroEyebrow || "The Spaces of Attesi"}
+        title={page?.heroHeading || "Places Built for Presence"}
+        subtitle={page?.heroSubheading || "Every space at Attesi is designed with intention — to nourish, restore, and connect you to the land and community around you."}
+        bgImage={heroBg}
         bgPos="center 40%"
       />
 
@@ -106,7 +116,7 @@ export default async function FacilitiesPage() {
           </div>
         </section>
 
-        <CTA />
+        <CTA settings={siteSettings} />
       </main>
       <Footer />
       <ClientAnimations />

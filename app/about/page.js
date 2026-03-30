@@ -4,6 +4,9 @@ import PageHero from "../components/PageHero";
 import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
+import { sanityFetch } from "../../sanity/lib/live";
+import { siteSettingsQuery, aboutPageQuery } from "../../sanity/lib/queries";
+import { urlFor } from "../../sanity/lib/image";
 
 export const metadata = {
   title: "About Attesi — Our Story, Values & Community",
@@ -55,16 +58,23 @@ const VALUES = [
 ];
 
 export default async function AboutPage() {
+  const [{ data: siteSettings }, { data: page }] = await Promise.all([
+    sanityFetch({ query: siteSettingsQuery }).catch(() => ({ data: null })),
+    sanityFetch({ query: aboutPageQuery }).catch(() => ({ data: null })),
+  ]);
+  const heroBg = page?.heroImage?.asset
+    ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+    : "url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')";
   return (
     <>
       <Navbar />
 
       {/* ── HERO ── */}
       <PageHero
-        eyebrow="Our Story"
-        title="About Attesi"
-        subtitle="A place where land, community, and spirit grow together."
-        bgImage="url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')"
+        eyebrow={page?.heroEyebrow || "Our Story"}
+        title={page?.heroHeading || "About Attesi"}
+        subtitle={page?.heroSubheading || "A place where land, community, and spirit grow together."}
+        bgImage={heroBg}
         bgPos="center 40%"
       />
 
@@ -162,7 +172,7 @@ export default async function AboutPage() {
       </section>
 
       {/* ── CTA ── */}
-      <CTA />
+      <CTA settings={siteSettings} />
 
       <Footer />
       <ClientAnimations />

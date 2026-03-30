@@ -4,7 +4,8 @@ import CTA from "@/app/components/CTA";
 import ClientAnimations from "@/app/components/ClientAnimations";
 import PageHero from "@/app/components/PageHero";
 import { sanityFetch } from "@/sanity/lib/live";
-import { siteSettingsQuery } from "@/sanity/lib/queries";
+import { siteSettingsQuery, historyPageQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 import "../history.css";
 
 export const metadata = {
@@ -74,18 +75,23 @@ const MILESTONES = [
 ];
 
 export default async function HistoryPage() {
-  const { data: siteSettings } = await sanityFetch({ query: siteSettingsQuery });
-
+  const [{ data: siteSettings }, { data: page }] = await Promise.all([
+    sanityFetch({ query: siteSettingsQuery }),
+    sanityFetch({ query: historyPageQuery }).catch(() => ({ data: null })),
+  ]);
+  const heroBg = page?.heroImage?.asset
+    ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+    : "url('https://attesi.mx/wp-content/uploads/2022/12/home-slider-attesi-2.jpg')";
   return (
     <>
       <Navbar />
 
       {/* ── HERO ── */}
       <PageHero
-        eyebrow="Our Story"
-        title="The History of Attesi"
-        subtitle="From a simple idea to a living community rooted in land, tradition, and intention."
-        bgImage="url('https://attesi.mx/wp-content/uploads/2022/12/home-slider-attesi-2.jpg')"
+        eyebrow={page?.heroEyebrow || "Our Story"}
+        title={page?.heroHeading || "The History of Attesi"}
+        subtitle={page?.heroSubheading || "From a simple idea to a living community rooted in land, tradition, and intention."}
+        bgImage={heroBg}
         bgPos="center 40%"
       />
 

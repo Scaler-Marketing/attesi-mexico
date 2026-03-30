@@ -5,7 +5,8 @@ import ClientAnimations from "@/app/components/ClientAnimations";
 import FaqsClient from "./FaqsClient";
 import PageHero from "@/app/components/PageHero";
 import { sanityFetch } from "@/sanity/lib/live";
-import { siteSettingsQuery } from "@/sanity/lib/queries";
+import { siteSettingsQuery, faqsPageQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 import "../faqs.css";
 
 export const metadata = {
@@ -15,7 +16,13 @@ export const metadata = {
 };
 
 export default async function FaqsPage() {
-  const { data: siteSettings } = await sanityFetch({ query: siteSettingsQuery });
+  const [{ data: siteSettings }, { data: page }] = await Promise.all([
+    sanityFetch({ query: siteSettingsQuery }),
+    sanityFetch({ query: faqsPageQuery }).catch(() => ({ data: null })),
+  ]);
+  const heroBg = page?.heroImage?.asset
+    ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+    : "url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')";
 
   return (
     <>
@@ -23,10 +30,10 @@ export default async function FaqsPage() {
 
       {/* ── HERO ── */}
       <PageHero
-        eyebrow="Help & Information"
-        title="Frequently Asked Questions"
-        subtitle="Everything you need to know before your visit to Attesi."
-        bgImage="url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')"
+        eyebrow={page?.heroEyebrow || "Help & Information"}
+        title={page?.heroHeading || "Frequently Asked Questions"}
+        subtitle={page?.heroSubheading || "Everything you need to know before your visit to Attesi."}
+        bgImage={heroBg}
         bgPos="center 40%"
       />
 

@@ -21,6 +21,54 @@ export const resolve = {
         locations: [{ title: "Home", href: "/" }],
       }),
     }),
+    aboutPage: defineLocations({
+      select: { title: "heroHeading" },
+      resolve: () => ({
+        locations: [{ title: "About", href: "/about" }],
+      }),
+    }),
+    historyPage: defineLocations({
+      select: { title: "heroHeading" },
+      resolve: () => ({
+        locations: [{ title: "History", href: "/history" }],
+      }),
+    }),
+    philosophyPage: defineLocations({
+      select: { title: "heroHeading" },
+      resolve: () => ({
+        locations: [{ title: "Philosophy", href: "/philosophy" }],
+      }),
+    }),
+    faqsPage: defineLocations({
+      select: { title: "heroHeading" },
+      resolve: () => ({
+        locations: [{ title: "FAQs", href: "/faqs" }],
+      }),
+    }),
+    blogListingPage: defineLocations({
+      select: { title: "heroHeading" },
+      resolve: () => ({
+        locations: [{ title: "Blog", href: "/blog" }],
+      }),
+    }),
+    lodgingListingPage: defineLocations({
+      select: { title: "heroHeading" },
+      resolve: () => ({
+        locations: [{ title: "Lodging", href: "/lodging" }],
+      }),
+    }),
+    experiencesListingPage: defineLocations({
+      select: { title: "heroHeading" },
+      resolve: () => ({
+        locations: [{ title: "Experiences", href: "/experiences" }],
+      }),
+    }),
+    facilitiesListingPage: defineLocations({
+      select: { title: "heroHeading" },
+      resolve: () => ({
+        locations: [{ title: "Facilities", href: "/facilities" }],
+      }),
+    }),
     globalImpactPage: defineLocations({
       select: { title: "heroHeading" },
       resolve: () => ({

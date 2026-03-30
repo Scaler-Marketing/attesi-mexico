@@ -12,6 +12,7 @@ import { client } from "../../../sanity/lib/client";
 import {
   lodgingBySlugQuery,
   lodgingSlugsQuery,
+  siteSettingsQuery,
 } from "../../../sanity/lib/queries";
 import { urlFor } from "../../../sanity/lib/image";
 import { PortableText } from "@portabletext/react";
@@ -82,9 +83,14 @@ export default async function LodgingDetailPage({ params }) {
   const { slug } = await params;
 
   let lodge = null;
+  let siteSettings = null;
   try {
-    const { data } = await sanityFetch({ query: lodgingBySlugQuery, params: { slug } });
-    lodge = data;
+    const [{ data: lodgeData }, { data: settings }] = await Promise.all([
+      sanityFetch({ query: lodgingBySlugQuery, params: { slug } }),
+      sanityFetch({ query: siteSettingsQuery }),
+    ]);
+    lodge = lodgeData;
+    siteSettings = settings;
   } catch (e) {
     // Sanity unavailable
   }
@@ -239,7 +245,7 @@ export default async function LodgingDetailPage({ params }) {
           </section>
         )}
 
-        <CTA />
+        <CTA settings={siteSettings} />
       </main>
       <Footer />
       <ClientAnimations />

@@ -338,3 +338,60 @@ export const relatedBlogPostsQuery = `*[_type == "blogPost" && slug.current != $
   coverImage,
   excerpt
 }`;
+
+// ─── Static page hero queries ─────────────────────────────────────────────────
+export const aboutPageQuery = `*[_type == "aboutPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage
+}`;
+
+export const historyPageQuery = `*[_type == "historyPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage
+}`;
+
+export const philosophyPageQuery = `*[_type == "philosophyPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage
+}`;
+
+export const faqsPageQuery = `*[_type == "faqsPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage
+}`;
+
+export const blogListingPageQuery = `*[_type == "blogListingPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage
+}`;
+
+export const experiencesListingPageQuery = `*[_type == "experiencesListingPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage
+}`;
+
+export const facilitiesListingPageQuery = `*[_type == "facilitiesListingPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage
+}`;
+
+export const lodgingListingPageQuery = `*[_type == "lodgingListingPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage
+}`;

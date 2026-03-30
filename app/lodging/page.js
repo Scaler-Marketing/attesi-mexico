@@ -4,8 +4,9 @@ import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
 import Link from "next/link";
+import PageHero from "../components/PageHero";
 import { sanityFetch } from "../../sanity/lib/live";
-import { lodgingsQuery } from "../../sanity/lib/queries";
+import { lodgingsQuery, siteSettingsQuery, lodgingListingPageQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
 
 export const metadata = {
@@ -22,29 +23,36 @@ export const metadata = {
 
 export default async function LodgingPage() {
   let lodgings = [];
+  let siteSettings = null;
+  let page = null;
   try {
-    const { data } = await sanityFetch({ query: lodgingsQuery });
-    lodgings = data || [];
+    const [{ data: lodgingData }, { data: settings }, { data: pageData }] = await Promise.all([
+      sanityFetch({ query: lodgingsQuery }),
+      sanityFetch({ query: siteSettingsQuery }),
+      sanityFetch({ query: lodgingListingPageQuery }),
+    ]);
+    lodgings = lodgingData || [];
+    siteSettings = settings;
+    page = pageData;
   } catch (e) {
     // Sanity unavailable — empty state shown below
   }
+  const heroBg = page?.heroImage?.asset
+    ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+    : "url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')";
 
   return (
     <>
       <Navbar />
+      {/* ── HERO ── */}
+      <PageHero
+        eyebrow={page?.heroEyebrow || "Where You'll Stay"}
+        title={page?.heroHeading || "Lodging at Attesi"}
+        subtitle={page?.heroSubheading || "Rest deeply in spaces designed to connect you with nature, community, and yourself."}
+        bgImage={heroBg}
+        bgPos="center 40%"
+      />
       <main>
-        {/* ── Hero ──────────────────────────────────────────────────────── */}
-        <section className="lodging-hero">
-          <div className="lodging-hero__bg" />
-          <div className="lodging-hero__overlay" />
-          <div className="container lodging-hero__content">
-            <span className="section-tag">Where You&rsquo;ll Stay</span>
-            <h1 className="lodging-hero__title">Lodging at Attesi</h1>
-            <p className="lodging-hero__subtitle">
-              Rest deeply in spaces designed to connect you with nature, community, and yourself. From glamping tents under the stars to private villas surrounded by gardens, every accommodation at Attesi is an experience in itself.
-            </p>
-          </div>
-        </section>
 
         {/* ── Intro ─────────────────────────────────────────────────────── */}
         <section className="lodging-intro section">
@@ -130,7 +138,7 @@ export default async function LodgingPage() {
           </div>
         </section>
 
-        <CTA />
+        <CTA settings={siteSettings} />
       </main>
       <Footer />
       <ClientAnimations />

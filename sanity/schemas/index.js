@@ -3,6 +3,14 @@ import homePage from "./homePage";
 import globalImpactPage from "./globalImpactPage";
 import retreatsPage from "./retreatsPage";
 import contactPage from "./contactPage";
+import aboutPage from "./aboutPage";
+import historyPage from "./historyPage";
+import philosophyPage from "./philosophyPage";
+import faqsPage from "./faqsPage";
+import blogListingPage from "./blogListingPage";
+import experiencesListingPage from "./experiencesListingPage";
+import facilitiesListingPage from "./facilitiesListingPage";
+import lodgingListingPage from "./lodgingListingPage";
 import experience from "./experience";
 import facility from "./facility";
 import lodging from "./lodging";
@@ -21,6 +29,14 @@ export const schemaTypes = [
   globalImpactPage,
   retreatsPage,
   contactPage,
+  aboutPage,
+  historyPage,
+  philosophyPage,
+  faqsPage,
+  blogListingPage,
+  experiencesListingPage,
+  facilitiesListingPage,
+  lodgingListingPage,
   // ── Repeatable content ────────────────────────────────────────────
   heroSlide,
   experience,
