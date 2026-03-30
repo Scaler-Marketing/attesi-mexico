@@ -156,6 +156,12 @@ const deskStructure = (S) =>
         .child(
           S.documentTypeList("testimonial").title("Testimonials")
         ),
+      S.listItem()
+        .title("Find Your Way Cards")
+        .icon(() => "🗺️")
+        .child(
+          S.documentTypeList("findYourWayCard").title("Find Your Way Cards")
+        ),
       S.divider(),
       S.listItem()
         .title("Lodging")
