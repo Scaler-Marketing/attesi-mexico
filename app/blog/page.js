@@ -42,8 +42,6 @@ export default async function BlogPage() {
   ]);
 
   const allPosts = posts || [];
-  const featured = allPosts.filter((p) => p.featured);
-  const rest = allPosts.filter((p) => !p.featured);
   const heroBg = page?.heroImage?.asset
     ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
     : "url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')";
@@ -61,55 +59,14 @@ export default async function BlogPage() {
         bgPos="center 40%"
       />
 
-      {/* ── FEATURED POSTS ── */}
-      {featured.length > 0 && (
-        <section className="blog-featured section">
-          <div className="container">
-            <span className="section-tag">Featured</span>
-            <div className={`blog-featured__grid blog-featured__grid--${Math.min(featured.length, 3)}`}>
-              {featured.slice(0, 3).map((post, i) => {
-                const imgUrl = post.coverImage?.asset
-                  ? urlFor(post.coverImage).width(i === 0 ? 1200 : 800).height(i === 0 ? 700 : 500).fit("crop").url()
-                  : null;
-                return (
-                  <article key={post._id} className={`blog-card blog-card--featured${i === 0 ? " blog-card--hero" : ""}`}>
-                    <Link href={`/blog/${post.slug}`} className="blog-card__image-wrap">
-                      {imgUrl ? (
-                        <img src={imgUrl} alt={post.coverImage?.alt || post.title} loading={i === 0 ? "eager" : "lazy"} />
-                      ) : (
-                        <div className="blog-card__placeholder" />
-                      )}
-                      {post.category && (
-                        <span className="blog-card__category">{CATEGORY_LABELS[post.category] || post.category}</span>
-                      )}
-                    </Link>
-                    <div className="blog-card__body">
-                      <p className="blog-card__date">{formatDate(post.publishedAt)}</p>
-                      <h2 className="blog-card__title">
-                        <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-                      </h2>
-                      {post.excerpt && <p className="blog-card__excerpt">{post.excerpt}</p>}
-                      <Link href={`/blog/${post.slug}`} className="blog-card__read-more">
-                        Read Article →
-                      </Link>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* ── ALL POSTS GRID ── */}
       <section className="blog-grid-section section">
         <div className="container">
-          {featured.length > 0 && <span className="section-tag">All Posts</span>}
           {allPosts.length === 0 ? (
             <p className="blog-empty">No posts yet — check back soon.</p>
           ) : (
             <div className="blog-grid">
-              {(featured.length > 0 ? rest : allPosts).map((post) => {
+              {allPosts.map((post) => {
                 const imgUrl = post.coverImage?.asset
                   ? urlFor(post.coverImage).width(800).height(500).fit("crop").url()
                   : null;
