@@ -69,6 +69,12 @@ export const resolve = {
         locations: [{ title: "Facilities", href: "/facilities" }],
       }),
     }),
+    teamPage: defineLocations({
+      select: { title: "heroHeading" },
+      resolve: () => ({
+        locations: [{ title: "Team", href: "/team" }],
+      }),
+    }),
     globalImpactPage: defineLocations({
       select: { title: "heroHeading" },
       resolve: () => ({

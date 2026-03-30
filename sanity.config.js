@@ -101,6 +101,15 @@ const deskStructure = (S) =>
             .documentId("faqsPage")
         ),
       S.listItem()
+        .title("Team Page")
+        .icon(() => "👥")
+        .id("teamPage")
+        .child(
+          S.document()
+            .schemaType("teamPage")
+            .documentId("teamPage")
+        ),
+      S.listItem()
         .title("Retreats Page")
         .icon(() => "🧘")
         .id("retreatsPage")

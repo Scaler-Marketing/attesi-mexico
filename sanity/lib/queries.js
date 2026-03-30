@@ -395,3 +395,10 @@ export const lodgingListingPageQuery = `*[_type == "lodgingListingPage"][0] {
   heroSubheading,
   heroImage
 }`;
+
+export const teamPageQuery = `*[_type == "teamPage"][0] {
+  heroEyebrow,
+  heroHeading,
+  heroSubheading,
+  heroImage
+}`;

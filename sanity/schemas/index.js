@@ -11,6 +11,7 @@ import blogListingPage from "./blogListingPage";
 import experiencesListingPage from "./experiencesListingPage";
 import facilitiesListingPage from "./facilitiesListingPage";
 import lodgingListingPage from "./lodgingListingPage";
+import teamPage from "./teamPage";
 import experience from "./experience";
 import facility from "./facility";
 import lodging from "./lodging";
@@ -37,6 +38,7 @@ export const schemaTypes = [
   experiencesListingPage,
   facilitiesListingPage,
   lodgingListingPage,
+  teamPage,
   // ── Repeatable content ────────────────────────────────────────────
   heroSlide,
   experience,
