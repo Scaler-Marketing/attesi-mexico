@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
+import PageHero from "../components/PageHero";
 import Link from "next/link";
 import { sanityFetch } from "../../sanity/lib/live";
 import { facilitiesQuery } from "../../sanity/lib/queries";
@@ -35,20 +36,17 @@ export default async function FacilitiesPage() {
   return (
     <>
       <Navbar />
-      <main>
-        {/* ── Hero ──────────────────────────────────────────────────────── */}
-        <section className="fac-hero">
-          <div className="fac-hero__bg" />
-          <div className="fac-hero__overlay" />
-          <div className="container fac-hero__content">
-            <span className="section-tag">The Spaces of Attesi</span>
-            <h1 className="fac-hero__title">Places Built for Presence</h1>
-            <p className="fac-hero__subtitle">
-              Every space at Attesi is designed with intention — to nourish, restore, and connect you to the land and community around you.
-            </p>
-          </div>
-        </section>
 
+      {/* ── HERO ── */}
+      <PageHero
+        eyebrow="The Spaces of Attesi"
+        title="Places Built for Presence"
+        subtitle="Every space at Attesi is designed with intention — to nourish, restore, and connect you to the land and community around you."
+        bgImage="url('/assets/hero-slide-2.avif')"
+        bgPos="center 40%"
+      />
+
+      <main>
         {/* ── Intro ─────────────────────────────────────────────────────── */}
         <section className="fac-intro section">
           <div className="container fac-intro__inner">

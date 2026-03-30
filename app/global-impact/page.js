@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
+import PageHero from "../components/PageHero";
 import { sanityFetch } from "../../sanity/lib/live";
 import { globalImpactPageQuery, siteSettingsQuery } from "../../sanity/lib/queries";
 
@@ -68,22 +69,13 @@ export default async function GlobalImpactPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="gi-hero">
-        <div className="gi-hero__bg" />
-        <div className="gi-hero__overlay" />
-        <div className="gi-hero__content container">
-          <span className="gi-hero__eyebrow">
-            {page?.heroEyebrow || "Our Commitment"}
-          </span>
-          <h1 className="gi-hero__title">
-            {page?.heroHeading || "Rooted in the Land"}
-          </h1>
-          <p className="gi-hero__subtitle">
-            {page?.heroSubheading ||
-              "A regenerative approach to living, growing, and giving back to the earth."}
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow={page?.heroEyebrow || "Our Commitment"}
+        title={page?.heroHeading || "Rooted in the Land. Committed to the Future."}
+        subtitle={page?.heroSubheading || "A regenerative approach to living, growing, and giving back to the earth."}
+        bgImage="url('/assets/global-impact-hero.png')"
+        bgPos="center 40%"
+      />
 
       {/* ── INTRO ── */}
       <section className="gi-intro section">

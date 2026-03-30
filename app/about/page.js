@@ -1,5 +1,6 @@
 import "../about.css";
 import Navbar from "../components/Navbar";
+import PageHero from "../components/PageHero";
 import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
@@ -59,17 +60,13 @@ export default async function AboutPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="about-hero">
-        <div className="about-hero__bg" />
-        <div className="about-hero__overlay" />
-        <div className="about-hero__content container">
-          <span className="about-hero__eyebrow">Our Story</span>
-          <h1 className="about-hero__title">About Attesi</h1>
-          <p className="about-hero__subtitle">
-            A place where land, community, and spirit grow together.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Our Story"
+        title="About Attesi"
+        subtitle="A place where land, community, and spirit grow together."
+        bgImage="url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')"
+        bgPos="center 40%"
+      />
 
       {/* ── ORIGIN STORY ── */}
       <section className="about-origin section">

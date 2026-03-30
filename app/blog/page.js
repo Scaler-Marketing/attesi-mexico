@@ -2,6 +2,7 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import CTA from "@/app/components/CTA";
 import ClientAnimations from "@/app/components/ClientAnimations";
+import PageHero from "@/app/components/PageHero";
 import { sanityFetch } from "@/sanity/lib/live";
 import { blogPostsQuery, siteSettingsQuery } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -48,17 +49,13 @@ export default async function BlogPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="blog-hero">
-        <div className="blog-hero__bg" />
-        <div className="blog-hero__overlay" />
-        <div className="blog-hero__content container">
-          <span className="blog-hero__eyebrow">From the Land</span>
-          <h1 className="blog-hero__title">The Attesi Journal</h1>
-          <p className="blog-hero__subtitle">
-            Stories, insights, and wisdom from our community in the mountains of Mexico.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="From the Land"
+        title="The Attesi Journal"
+        subtitle="Stories, insights, and wisdom from our community in the mountains of Mexico."
+        bgImage="url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')"
+        bgPos="center 40%"
+      />
 
       {/* ── FEATURED POSTS ── */}
       {featured.length > 0 && (

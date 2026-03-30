@@ -1,70 +1,7 @@
 /* ============================================================
    Philosophy Page — philosophy.css
+   Hero styles live in globals.css (.page-hero)
    ============================================================ */
-
-/* ── HERO ── */
-.phil-hero {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  overflow: hidden;
-}
-.phil-hero__bg {
-  position: absolute;
-  inset: 0;
-  background-image: url('https://attesi.mx/wp-content/uploads/2022/09/Eventos-a-tu-medida-scaled.jpg');
-  background-size: cover;
-  background-position: center 30%;
-  transform: scale(1.03);
-  transition: transform 8s ease;
-}
-.phil-hero:hover .phil-hero__bg {
-  transform: scale(1);
-}
-.phil-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(27, 20, 10, 0.88) 0%,
-    rgba(27, 20, 10, 0.45) 55%,
-    rgba(27, 20, 10, 0.15) 100%
-  );
-}
-.phil-hero__content {
-  position: relative;
-  z-index: 2;
-  padding-top: 15rem;
-  padding-bottom: 3rem;
-  width: 100%;
-}
-.phil-hero__eyebrow {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--brand-orange);
-  margin-bottom: 1rem;
-}
-.phil-hero__title {
-  font-family: var(--font-display);
-  font-size: clamp(2.75rem, 6vw, 5rem);
-  font-weight: 600;
-  color: var(--brand-white);
-  line-height: 1.08;
-  margin-bottom: 1.25rem;
-}
-.phil-hero__subtitle {
-  font-family: var(--font-display);
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
-  color: rgba(255, 249, 237, 0.85);
-  font-style: italic;
-  font-weight: 400;
-  line-height: 1.5;
-}
 
 /* ── SHARED EYEBROW ── */
 .phil-eyebrow {
@@ -246,10 +183,6 @@
   }
 }
 @media (max-width: 40rem) {
-  .phil-hero__content {
-    padding-top: 10rem;
-    padding-bottom: 3rem;
-  }
   .phil-pillars__grid {
     grid-template-columns: 1fr;
   }

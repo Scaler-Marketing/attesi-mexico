@@ -1,69 +1,8 @@
 /* ============================================================
    Facilities Page — facilities.css
+   Hero styles live in globals.css (.page-hero)
    All exp-card sub-classes live in globals.css (shared design system)
    ============================================================ */
-
-/* ── HERO ── */
-.fac-hero {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-}
-.fac-hero__bg {
-  position: absolute;
-  inset: 0;
-  background-image: url('/assets/hero-slide-2.avif');
-  background-size: cover;
-  background-position: center 40%;
-  transform: scale(1.03);
-  transition: transform 8s ease;
-}
-.fac-hero:hover .fac-hero__bg {
-  transform: scale(1);
-}
-.fac-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    160deg,
-    rgba(27, 20, 10, 0.55) 0%,
-    rgba(27, 20, 10, 0.72) 60%,
-    rgba(27, 20, 10, 0.82) 100%
-  );
-}
-.fac-hero__content {
-  position: relative;
-  z-index: 2;
-  padding-top: 15rem;
-  padding-bottom: 3rem;
-  max-width: 52rem;
-}
-.fac-hero__eyebrow {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--brand-orange);
-  margin-bottom: 1rem;
-}
-.fac-hero__title {
-  font-family: var(--font-display);
-  font-size: clamp(2.75rem, 6vw, 5rem);
-  font-weight: 600;
-  color: var(--brand-white);
-  line-height: 1.08;
-  margin-bottom: 1.25rem;
-}
-.fac-hero__subtitle {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  color: rgba(255, 249, 237, 0.88);
-  line-height: 1.65;
-  max-width: 44rem;
-}
 
 /* ── INTRO ── */
 .fac-intro__inner {
@@ -101,10 +40,6 @@
   }
 }
 @media (max-width: 40rem) {
-  .fac-hero__content {
-    padding-top: 10rem;
-    padding-bottom: 3rem;
-  }
   .fac-cards,
   .fac-grid-section .exp-cards {
     grid-template-columns: 1fr;

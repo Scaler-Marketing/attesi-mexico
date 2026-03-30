@@ -2,6 +2,7 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import CTA from "@/app/components/CTA";
 import ClientAnimations from "@/app/components/ClientAnimations";
+import PageHero from "@/app/components/PageHero";
 import { sanityFetch } from "@/sanity/lib/live";
 import { siteSettingsQuery } from "@/sanity/lib/queries";
 import "../history.css";
@@ -80,17 +81,13 @@ export default async function HistoryPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="hist-hero">
-        <div className="hist-hero__bg" />
-        <div className="hist-hero__overlay" />
-        <div className="hist-hero__content container">
-          <span className="hist-hero__eyebrow">Our Story</span>
-          <h1 className="hist-hero__title">The History of Attesi</h1>
-          <p className="hist-hero__subtitle">
-            From a simple idea to a living community rooted in land, tradition, and intention.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Our Story"
+        title="The History of Attesi"
+        subtitle="From a simple idea to a living community rooted in land, tradition, and intention."
+        bgImage="url('https://attesi.mx/wp-content/uploads/2022/12/home-slider-attesi-2.jpg')"
+        bgPos="center 40%"
+      />
 
       {/* ── INTRO ── */}
       <section className="hist-intro section">

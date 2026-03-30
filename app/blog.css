@@ -1,73 +1,8 @@
 /* ============================================================
    Blog — blog.css
    Covers: /blog listing page + /blog/[slug] detail page
+   Hero styles for listing page live in globals.css (.page-hero)
    ============================================================ */
-
-/* ── BLOG HERO ─────────────────────────────────────────────────────────────── */
-.blog-hero {
-  position: relative;
-  min-height: 52vh;
-  display: flex;
-  align-items: flex-end;
-  padding-bottom: 5rem;
-  overflow: hidden;
-}
-
-.blog-hero__bg {
-  position: absolute;
-  inset: 0;
-  background-image: url("https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg");
-  background-size: cover;
-  background-position: center 30%;
-  z-index: 0;
-}
-
-.blog-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(27, 27, 27, 0.25) 0%,
-    rgba(27, 27, 27, 0.65) 100%
-  );
-  z-index: 1;
-}
-
-.blog-hero__content {
-  position: relative;
-  z-index: 2;
-  text-align: left;
-  max-width: 50rem;
-}
-
-.blog-hero__eyebrow {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--brand-orange);
-  margin-bottom: 0.875rem;
-}
-
-.blog-hero__title {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
-  color: var(--brand-white);
-  line-height: 1.05;
-  margin-bottom: 1rem;
-}
-
-.blog-hero__subtitle {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  font-style: italic;
-  color: rgba(255, 249, 237, 0.88);
-  line-height: 1.5;
-  max-width: 40rem;
-}
 
 /* ── FEATURED POSTS ─────────────────────────────────────────────────────────── */
 .blog-featured {
@@ -543,11 +478,6 @@
 }
 
 @media (max-width: 48rem) {
-  .blog-hero {
-    min-height: 60vw;
-    padding-bottom: 3rem;
-  }
-
   .blog-grid,
   .blog-grid--3 {
     grid-template-columns: 1fr;

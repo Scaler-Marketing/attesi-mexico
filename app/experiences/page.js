@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
+import PageHero from "../components/PageHero";
 import { sanityFetch } from "../../sanity/lib/live";
 import { experiencesQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
@@ -13,10 +14,6 @@ export const metadata = {
     "Discover the full range of immersive experiences at Attesi Mexico — from monarch butterfly migrations and temazcal ceremonies to guided mountain hikes, farm-to-table dining, and more.",
 };
 
-/* ─── Hardcoded fallback data ─────────────────────────────────────────────────
-   Used when Sanity returns no results. Content sourced from ClickUp task
-   868h69n3y and subtasks. Replace via Sanity Studio once images are uploaded.
-   ─────────────────────────────────────────────────────────────────────────── */
 const FALLBACK_EXPERIENCES = [
   {
     _id: "1",
@@ -152,96 +149,13 @@ export default async function ExperiencesPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="exp-hero">
-        <div className="exp-hero__bg" />
-        <div className="exp-hero__overlay" />
-        <div className="exp-hero__content container">
-          <span className="exp-hero__eyebrow">What Awaits You</span>
-          <h1 className="exp-hero__title">Immersive Experiences</h1>
-          <p className="exp-hero__subtitle">
-            From ancient ceremonies to mountain hikes, farm-to-table meals to
-            monarch migrations — every experience at Attesi is a deeper encounter
-            with the land, the community, and yourself.
-          </p>
-        </div>
-      </section>
-
-      {/* ── FEATURED EXPERIENCES CAROUSEL ── */}
-      <section className="exp-carousel section" id="exp-carousel">
-        <div className="container">
-          <div className="experiences__header">
-            <div className="experiences__header-left">
-              <h2 className="experiences__title">Featured Experiences</h2>
-              <p className="experiences__subtitle">
-                A curated selection of what awaits you at Attesi — from ancient ceremonies to mountain hikes.
-              </p>
-            </div>
-            <div className="experiences__arrows">
-              <button className="carousel-arrow exp-carousel-prev" aria-label="Previous experience">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              <button className="carousel-arrow exp-carousel-next" aria-label="Next experience">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div className="experiences__track-wrapper">
-            <div className="experiences__track exp-carousel-track">
-              {experiences.map((exp) => (
-                <a
-                  key={exp._id + "-carousel"}
-                  href={`/experiences/${exp.slug}`}
-                  className="exp-card"
-                >
-                  <div className="exp-card__img-wrap">
-                    {exp.cardImageUrl ? (
-                      <img
-                        src={exp.cardImageUrl}
-                        alt={exp.title}
-                        className="exp-card__img"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="exp-card__img-placeholder">
-                        <span className="exp-card__img-initial">{exp.title.charAt(0)}</span>
-                      </div>
-                    )}
-                    {exp.category && (
-                      <span className="exp-card__category">
-                        {CATEGORY_LABELS[exp.category] || exp.category}
-                      </span>
-                    )}
-                  </div>
-                  <div className="exp-card__body">
-                    {exp.tagline && (
-                      <span className="exp-card__tagline">{exp.tagline}</span>
-                    )}
-                    <h2 className="exp-card__title">{exp.title}</h2>
-                    {exp.cardDescription && (
-                      <p className="exp-card__desc">{exp.cardDescription}</p>
-                    )}
-                    <span className="exp-card__cta">
-                      Learn More
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-          <div className="experiences__progress exp-carousel-progress">
-            <div className="experiences__progress-track">
-              <div className="experiences__progress-bar"></div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="What Awaits You"
+        title="Immersive Experiences"
+        subtitle="From ancient ceremonies to mountain hikes, farm-to-table meals to monarch migrations — every experience at Attesi is a deeper encounter with the land, the community, and yourself."
+        bgImage="url('/assets/hero-slide-3.avif')"
+        bgPosition="center 55%"
+      />
 
       {/* ── INTRO ── */}
       <section className="exp-intro section">

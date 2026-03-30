@@ -2,6 +2,7 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import CTA from "@/app/components/CTA";
 import ClientAnimations from "@/app/components/ClientAnimations";
+import PageHero from "@/app/components/PageHero";
 import { sanityFetch } from "@/sanity/lib/live";
 import { siteSettingsQuery } from "@/sanity/lib/queries";
 import "../philosophy.css";
@@ -89,17 +90,13 @@ export default async function PhilosophyPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="phil-hero">
-        <div className="phil-hero__bg" />
-        <div className="phil-hero__overlay" />
-        <div className="phil-hero__content container">
-          <span className="phil-hero__eyebrow">Our Approach</span>
-          <h1 className="phil-hero__title">Philosophy & Wellness</h1>
-          <p className="phil-hero__subtitle">
-            A holistic approach to living — body, mind, and spirit in harmony with the natural world.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Our Approach"
+        title="Philosophy & Wellness"
+        subtitle="A holistic approach to living — body, mind, and spirit in harmony with the natural world."
+        bgImage="url('https://attesi.mx/wp-content/uploads/2022/09/Eventos-a-tu-medida-scaled.jpg')"
+        bgPos="center 40%"
+      />
 
       {/* ── INTRO ── */}
       <section className="phil-intro section">

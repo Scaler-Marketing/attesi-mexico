@@ -1,75 +1,7 @@
 /* ============================================================
    Global Impact Page — global-impact.css
+   Hero styles live in globals.css (.page-hero)
    ============================================================ */
-
-/* ── HERO ── */
-.gi-hero {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-}
-
-.gi-hero__bg {
-  position: absolute;
-  inset: 0;
-  background-image: url('/assets/global-impact-hero.png');
-  background-size: cover;
-  background-position: center 30%;
-  transform: scale(1.03);
-  transition: transform 8s ease;
-}
-
-.gi-hero:hover .gi-hero__bg {
-  transform: scale(1);
-}
-
-.gi-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(27, 20, 10, 0.82) 0%,
-    rgba(27, 20, 10, 0.35) 55%,
-    rgba(27, 20, 10, 0.15) 100%
-  );
-}
-
-.gi-hero__content {
-  position: relative;
-  z-index: 2;
-  padding-top: 15rem;
-  padding-bottom: 3rem;
-  max-width: 52rem;
-}
-
-.gi-hero__eyebrow {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--brand-orange);
-  margin-bottom: 1rem;
-}
-
-.gi-hero__title {
-  font-family: var(--font-display);
-  font-size: clamp(2.75rem, 6vw, 5rem);
-  font-weight: 600;
-  color: var(--brand-white);
-  line-height: 1.08;
-  margin-bottom: 1.25rem;
-}
-
-.gi-hero__subtitle {
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  color: rgba(255, 249, 237, 0.88);
-  line-height: 1.6;
-  max-width: 38rem;
-}
 
 /* ── SHARED SECTION TYPOGRAPHY ── */
 .gi-section-eyebrow {
@@ -291,11 +223,6 @@
 }
 
 @media (max-width: 48rem) {
-  .gi-hero__content {
-    padding-top: 10rem;
-    padding-bottom: 3rem;
-  }
-
   .gi-intro__inner {
     grid-template-columns: 1fr;
     gap: 2.5rem;

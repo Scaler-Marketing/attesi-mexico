@@ -3,6 +3,7 @@ import Footer from "@/app/components/Footer";
 import CTA from "@/app/components/CTA";
 import ClientAnimations from "@/app/components/ClientAnimations";
 import FaqsClient from "./FaqsClient";
+import PageHero from "@/app/components/PageHero";
 import { sanityFetch } from "@/sanity/lib/live";
 import { siteSettingsQuery } from "@/sanity/lib/queries";
 import "../faqs.css";
@@ -21,17 +22,13 @@ export default async function FaqsPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="faqs-hero">
-        <div className="faqs-hero__bg" />
-        <div className="faqs-hero__overlay" />
-        <div className="faqs-hero__content container">
-          <span className="faqs-hero__eyebrow">Help & Information</span>
-          <h1 className="faqs-hero__title">Frequently Asked Questions</h1>
-          <p className="faqs-hero__subtitle">
-            Everything you need to know before your visit to Attesi.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Help & Information"
+        title="Frequently Asked Questions"
+        subtitle="Everything you need to know before your visit to Attesi."
+        bgImage="url('https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg')"
+        bgPos="center 40%"
+      />
 
       {/* ── TABBED FAQ ── */}
       <FaqsClient />
