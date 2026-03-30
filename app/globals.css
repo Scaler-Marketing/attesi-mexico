@@ -1121,7 +1121,8 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   background: var(--brand-orange);
   border-radius: 0.25rem;
-  transition: transform 0.5s ease, width 0.3s ease;
+  /* No CSS transition — JS applies transition only on arrow/button clicks,
+     so the bar tracks the drag cursor with zero lag */
   pointer-events: none;
 }
 

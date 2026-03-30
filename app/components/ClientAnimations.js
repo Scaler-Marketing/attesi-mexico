@@ -116,6 +116,8 @@ export default function ClientAnimations() {
             progressBar.style.width = thumbWidth + "%";
             var thumbTravel  = maxIndex > 0 ? index / maxIndex : 0;
             var maxTranslate = ((100 - thumbWidth) / thumbWidth) * 100;
+            // Apply transition only during animated moves (arrow clicks), not during drag
+            progressBar.style.transition = animate === false ? "none" : "transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), width 0.3s ease";
             progressBar.style.transform = "translateX(" + thumbTravel * maxTranslate + "%)";
           }
 
