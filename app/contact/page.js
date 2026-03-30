@@ -3,8 +3,10 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ClientAnimations from "../components/ClientAnimations";
 import ContactForm from "../components/ContactForm";
+import PageHero from "../components/PageHero";
 import { sanityFetch } from "../../sanity/lib/live";
 import { contactPageQuery } from "../../sanity/lib/queries";
+import { urlFor } from "../../sanity/lib/image";
 
 export const metadata = {
   title: "Contact — Attesi Mexico",
@@ -30,22 +32,17 @@ export default async function ContactPage() {
       <Navbar />
       <main>
         {/* ── Hero ──────────────────────────────────────────────────────── */}
-        <section className="contact-hero">
-          <div className="contact-hero__bg" />
-          <div className="contact-hero__overlay" />
-          <div className="contact-hero__content container">
-            <span className="contact-hero__eyebrow">
-              {page?.heroEyebrow || "Get in Touch"}
-            </span>
-            <h1 className="contact-hero__title">
-              {page?.heroHeading || "Contact Us"}
-            </h1>
-            <p className="contact-hero__subtitle">
-              {page?.heroSubheading ||
-                "We would love to hear from you. Whether you are planning a retreat, have a question about our facilities, or simply want to learn more about Attesi, reach out and we will get back to you shortly."}
-            </p>
-          </div>
-        </section>
+        <PageHero
+          eyebrow={page?.heroEyebrow || "Contact Us"}
+          title={page?.heroHeading || "Let\u2019s Plan Your Retreat Together"}
+          subtitle={page?.heroSubheading || "Tell us about your group and we will craft a personalized experience at Attesi."}
+          bgImage={
+            page?.heroImage?.asset
+              ? urlFor(page.heroImage).width(1800).url()
+              : "https://attesi.mx/wp-content/uploads/2024/04/home-slider-attesi-2.jpg"
+          }
+          bgPos="center 40%"
+        />
 
         {/* ── Main Contact Section ───────────────────────────────────────── */}
         <section className="contact-main section">
