@@ -1,5 +1,6 @@
 import "../../lodging.css";
 import { notFound } from "next/navigation";
+import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import CTA from "../../components/CTA";
@@ -214,9 +215,7 @@ export default async function LodgingDetailPage({ params }) {
                 <ul className="lodging-detail-amenities__list">
                   {lodge.amenities.map((item, i) => (
                     <li key={i} className="lodging-detail-amenities__item">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+                      <CheckCircle size={20} weight="regular" className="lodging-detail-amenities__icon" aria-hidden="true" />
                       {item}
                     </li>
                   ))}

@@ -9,7 +9,7 @@ import CTA from "../../components/CTA";
 import ClientAnimations from "../../components/ClientAnimations";
 import { sanityFetch } from "../../../sanity/lib/live";
 import { client } from "../../../sanity/lib/client";
-import { teamBySlugQuery, teamSlugsQuery } from "../../../sanity/lib/queries";
+import { teamBySlugQuery, teamSlugsQuery, teamPageQuery } from "../../../sanity/lib/queries";
 import { urlFor } from "../../../sanity/lib/image";
 
 /* ─── Static params for ISR ──────────────────────────────────────────────── */
@@ -50,9 +50,14 @@ export async function generateMetadata({ params }) {
 export default async function TeamMemberPage({ params }) {
   const { slug } = await params;
   let member = null;
+  let teamPage = null;
   try {
-    const { data } = await sanityFetch({ query: teamBySlugQuery, params: { slug } });
-    member = data;
+    const [{ data: memberData }, { data: teamPageData }] = await Promise.all([
+      sanityFetch({ query: teamBySlugQuery, params: { slug } }),
+      sanityFetch({ query: teamPageQuery }),
+    ]);
+    member = memberData;
+    teamPage = teamPageData;
   } catch (e) {
     // Sanity unavailable
   }
@@ -60,6 +65,11 @@ export default async function TeamMemberPage({ params }) {
 
   const photoUrl = member.photo
     ? urlFor(member.photo).width(800).height(960).fit("crop").url()
+    : null;
+
+  // Use teamPage heroImage so all team member pages share the same header image
+  const heroImageUrl = teamPage?.heroImage
+    ? urlFor(teamPage.heroImage).width(1600).height(700).fit("crop").url()
     : null;
 
   // Split bio into paragraphs
@@ -80,7 +90,13 @@ export default async function TeamMemberPage({ params }) {
       <main>
         {/* ── Hero ──────────────────────────────────────────────────────── */}
         <section className="team-member-hero">
-          <div className="team-member-hero__bg" />
+          {heroImageUrl ? (
+            <div className="team-member-hero__bg team-member-hero__bg--photo">
+              <img src={heroImageUrl} alt="" aria-hidden="true" />
+            </div>
+          ) : (
+            <div className="team-member-hero__bg" />
+          )}
           <div className="team-member-hero__overlay" />
           <div className="team-member-hero__content container">
             <Link href="/team" className="exp-detail-hero__back">
@@ -111,12 +127,6 @@ export default async function TeamMemberPage({ params }) {
                   </div>
                 )}
               </div>
-              <div className="team-member-profile__meta">
-                <p className="team-member-profile__name">{member.name}</p>
-                {member.role && (
-                  <p className="team-member-profile__role">{member.role}</p>
-                )}
-              </div>
             </aside>
 
             {/* Bio */}
@@ -141,7 +151,7 @@ export default async function TeamMemberPage({ params }) {
                   ← All Team Members
                 </Link>
                 <Link href="/contact" className="btn-primary">
-                  Get in Touch
+                  Contact Us
                 </Link>
               </div>
             </div>

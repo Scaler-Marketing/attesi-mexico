@@ -1,5 +1,6 @@
 import "../../experiences/experiences-detail.css";
 import { notFound } from "next/navigation";
+import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import CTA from "../../components/CTA";
@@ -158,7 +159,7 @@ export default async function FacilityDetailPage({ params }) {
                 <ul className="exp-detail-about__highlights-list">
                   {fac.highlights.map((h, i) => (
                     <li key={i} className="exp-detail-about__highlight-item">
-                      <span className="exp-detail-about__highlight-dot"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5C3 5.5 5.5 3 8.5 3S14 5.5 14 8.5c0 1.5-.5 2.8-1.5 3.8L8.5 8V3" fill="currentColor" opacity="0.25"/><path d="M8 1.5C4.5 1.5 1.5 4.5 1.5 8c0 3.5 2.5 5.5 5 6 .3 0 .5.1.5.1V8.5L5.5 7l1-1 1.5 1.5V1.5z" fill="currentColor"/><path d="M8 1.5c3.5 0 6.5 3 6.5 6.5 0 3.5-2.5 5.5-5 6-.3 0-.5.1-.5.1V8.5L10.5 7l-1-1L8 7.5V1.5z" fill="currentColor" opacity="0.6"/></svg></span>
+                      <CheckCircle size={20} weight="regular" className="exp-detail-about__highlight-icon" aria-hidden="true" />
                       {h}
                     </li>
                   ))}

@@ -29,7 +29,8 @@ export default {
     {
       name: "ctaUrl",
       title: "Button URL",
-      type: "url",
+      type: "string",
+      description: "Relative path (e.g. /lodging) or full URL (e.g. https://...)",
     },
     {
       name: "order",
