@@ -1826,34 +1826,34 @@ a.footer__heading--link:hover {
    HOME FAQ SECTION
    ============================================================ */
 .home-faq {
-  background: var(--brand-dark);
+  background: #ECD7C1;
 }
-/* Dark background overrides for homepage FAQ */
+/* Light background overrides for homepage FAQ */
 .home-faq .exp-detail-faqs__heading {
-  color: var(--brand-white);
+  color: var(--brand-dark);
 }
 .home-faq .exp-detail-faqs__sub {
-  color: rgba(255, 249, 237, 0.7);
+  color: var(--brand-earth);
 }
 .home-faq .section-tag {
   color: var(--brand-orange);
 }
 .home-faq .exp-detail-faq {
-  background: rgba(255, 249, 237, 0.06);
-  border-color: rgba(255, 249, 237, 0.12);
+  background: var(--brand-white);
+  border-color: rgba(181, 116, 58, 0.18);
 }
 .home-faq .exp-detail-faq:hover {
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.5rem 1.5rem rgba(56, 44, 30, 0.1);
 }
 .home-faq .exp-detail-faq--open {
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0.5rem 1.5rem rgba(56, 44, 30, 0.12);
 }
 .home-faq .exp-detail-faq__question-text {
-  color: var(--brand-white);
+  color: var(--brand-dark);
 }
 .home-faq .exp-detail-faq__answer {
-  color: rgba(255, 249, 237, 0.75);
-  border-top-color: rgba(255, 249, 237, 0.1);
+  color: var(--brand-earth);
+  border-top-color: rgba(181, 116, 58, 0.15);
 }
 /* Reuse exp-detail-faq card styles from experiences-detail.css */
 /* These are duplicated here so globals.css is self-contained for the homepage */

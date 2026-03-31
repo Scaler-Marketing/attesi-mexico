@@ -190,6 +190,26 @@ export default async function ContactPage() {
             </div>
           </div>
         </section>
+
+        {/* ── Instagram Feed ────────────────────────────────────────────── */}
+        <section className="contact-instagram section">
+          <div className="container">
+            <div className="contact-instagram__header">
+              <span className="section-tag">Follow Along</span>
+              <h2 className="contact-instagram__heading">Follow Us on Instagram</h2>
+              <p className="contact-instagram__subtext">
+                Step inside Attesi through the lens — land, light, and the moments that make this place unlike anywhere else.
+              </p>
+            </div>
+            <div className="contact-instagram__embed">
+              <script src="https://elfsightcdn.com/platform.js" async />
+              <div
+                className="elfsight-app-2cf3358a-c5c5-451b-8923-e0fe13d891c8"
+                data-elfsight-app-lazy="true"
+              />
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
       <ClientAnimations />
