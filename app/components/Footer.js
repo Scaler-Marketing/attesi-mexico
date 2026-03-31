@@ -70,13 +70,13 @@ export default function Footer() {
             </p>
           </div>
 
-          <FooterCol heading="GENERAL" links={generalLinks} />
+          <FooterCol heading="GENERAL" headingHref="/" links={generalLinks} />
           <FooterCol heading="LODGING" headingHref="/lodging" links={lodgingLinks} />
           <FooterCol heading="EXPERIENCES" headingHref="/experiences" links={experiencesLinks} />
           <FooterCol heading="FACILITIES" headingHref="/facilities" links={facilitiesLinks} />
 
           <div className="footer__col">
-            <h4 className="footer__heading">CONTACT</h4>
+            <a href="/contact" className="footer__heading footer__heading--link">CONTACT</a>
             <ul role="list" className="footer__contact-list">
               <li><a href="mailto:lodge@attesi.mx">lodge@attesi.mx</a></li>
               <li><a href="tel:+522072225187">+52 2072 225 187 47</a></li>
