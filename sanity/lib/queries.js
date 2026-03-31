@@ -225,6 +225,7 @@ export const globalImpactPageQuery = `*[_type == "globalImpactPage"][0] {
   philosophyEyebrow,
   philosophyHeading,
   philosophyBody,
+  philosophyImage,
   practicesEyebrow,
   practicesHeading,
   practicesBody,

@@ -1826,7 +1826,34 @@ a.footer__heading--link:hover {
    HOME FAQ SECTION
    ============================================================ */
 .home-faq {
-  background: var(--brand-cream);
+  background: var(--brand-dark);
+}
+/* Dark background overrides for homepage FAQ */
+.home-faq .exp-detail-faqs__heading {
+  color: var(--brand-white);
+}
+.home-faq .exp-detail-faqs__sub {
+  color: rgba(255, 249, 237, 0.7);
+}
+.home-faq .section-tag {
+  color: var(--brand-orange);
+}
+.home-faq .exp-detail-faq {
+  background: rgba(255, 249, 237, 0.06);
+  border-color: rgba(255, 249, 237, 0.12);
+}
+.home-faq .exp-detail-faq:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
+}
+.home-faq .exp-detail-faq--open {
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3);
+}
+.home-faq .exp-detail-faq__question-text {
+  color: var(--brand-white);
+}
+.home-faq .exp-detail-faq__answer {
+  color: rgba(255, 249, 237, 0.75);
+  border-top-color: rgba(255, 249, 237, 0.1);
 }
 /* Reuse exp-detail-faq card styles from experiences-detail.css */
 /* These are duplicated here so globals.css is self-contained for the homepage */

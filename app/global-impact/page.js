@@ -106,13 +106,13 @@ export default async function GlobalImpactPage() {
 
       {/* ── PHILOSOPHY ── */}
       <section className="gi-philosophy section gi-philosophy--alt">
-        <div className="container gi-philosophy__inner">
+        <div className="container gi-philosophy__inner gi-philosophy__inner--split">
           <div className="gi-philosophy__content">
             <span className="gi-section-eyebrow">
               {page?.philosophyEyebrow || "Philosophy & Approach"}
             </span>
             <h2 className="gi-section-title">
-              {page?.philosophyHeading || "Not maintenance. Participation."}
+              {page?.philosophyHeading || "We do not just occupy the land. We steward it."}
             </h2>
             <p className="gi-section-body">
               Guided by permaculture principles, every garden, tree, and plant is cultivated with
@@ -124,6 +124,17 @@ export default async function GlobalImpactPage() {
               It is about participation in a living system.
             </p>
           </div>
+          {/* Image column — only renders if a philosophyImage is set in Sanity */}
+          {page?.philosophyImage?.asset && (
+            <div className="gi-philosophy__image-col">
+              <img
+                src={urlFor(page.philosophyImage).width(900).height(1000).fit("crop").url()}
+                alt=""
+                aria-hidden="true"
+                className="gi-philosophy__image"
+              />
+            </div>
+          )}
         </div>
       </section>
 

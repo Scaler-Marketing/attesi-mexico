@@ -44,6 +44,7 @@ export default async function LodgingPage() {
   return (
     <>
       <Navbar />
+
       {/* ── HERO ── */}
       <PageHero
         eyebrow={page?.heroEyebrow || "Where You'll Stay"}
@@ -52,21 +53,23 @@ export default async function LodgingPage() {
         bgImage={heroBg}
         bgPos="center 40%"
       />
+
       <main>
 
-        {/* ── Intro ─────────────────────────────────────────────────────── */}
+        {/* ── Intro ── */}
         <section className="lodging-intro section">
-          <div className="container lodging-intro__inner">
-            <div className="lodging-intro__text">
-              <h2>A Place to Truly Rest</h2>
-              <p>
+          <div className="container">
+            <div className="lodging-intro__content">
+              <span className="section-tag">Where You&rsquo;ll Stay</span>
+              <h2 className="lodging-intro__heading">A Place to Truly Rest</h2>
+              <p className="lodging-intro__text">
                 At Attesi, lodging is not just a place to sleep — it is an integral part of the retreat experience. Each accommodation option has been thoughtfully designed to offer comfort, privacy, and a deep sense of belonging to the land around you.
               </p>
             </div>
           </div>
         </section>
 
-        {/* ── Lodging Cards Grid ────────────────────────────────────────── */}
+        {/* ── Lodging Cards Grid ── */}
         <section className="lodging-grid-section section">
           <div className="container">
             {lodgings.length === 0 ? (

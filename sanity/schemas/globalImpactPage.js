@@ -32,6 +32,13 @@ export default {
     },
     // ── Philosophy Section ──────────────────────────────────────────
     {
+      name: "philosophyImage",
+      title: "Philosophy Image",
+      type: "image",
+      options: { hotspot: true },
+      description: "Image shown on the right side of the Philosophy section.",
+    },
+    {
       name: "philosophyEyebrow",
       title: "Philosophy Eyebrow",
       type: "string",
