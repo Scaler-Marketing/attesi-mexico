@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
 import PageHero from "../components/PageHero";
+import PageIntro from "../components/PageIntro";
 import Link from "next/link";
 import { sanityFetch } from "../../sanity/lib/live";
 import { facilitiesQuery, siteSettingsQuery, facilitiesListingPageQuery } from "../../sanity/lib/queries";
@@ -59,16 +60,11 @@ export default async function FacilitiesPage() {
 
       <main>
         {/* ── Intro ─────────────────────────────────────────────────────── */}
-        <section className="fac-intro section">
-          <div className="container fac-intro__inner">
-            <div className="fac-intro__text">
-              <h2>More Than Amenities</h2>
-              <p>
-                At Attesi, the facilities are not separate from the experience — they are the experience. From the restaurant that serves vegetables grown steps away, to the natural spring that flows year-round, each space reflects the values of intentional living, community, and deep connection to the land.
-              </p>
-            </div>
-          </div>
-        </section>
+        <PageIntro
+          eyebrow="The Spaces"
+          heading="More Than Amenities"
+          body="At Attesi, the facilities are not separate from the experience — they are the experience. From the restaurant that serves vegetables grown steps away, to the natural spring that flows year-round, each space reflects the values of intentional living, community, and deep connection to the land."
+        />
 
         {/* ── Facilities Grid ───────────────────────────────────────────── */}
         <section className="fac-grid-section section">

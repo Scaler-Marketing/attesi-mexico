@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
 import PageHero from "../components/PageHero";
+import PageIntro from "../components/PageIntro";
 import { sanityFetch } from "../../sanity/lib/live";
 import { experiencesQuery, siteSettingsQuery, experiencesListingPageQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
@@ -170,19 +171,12 @@ export default async function ExperiencesPage() {
       />
 
       {/* ── INTRO ── */}
-      <section className="exp-intro section">
-        <div className="container exp-intro__inner">
-          <p className="exp-intro__lead">
-            Attesi is not just a place to stay — it is a place to experience.
-            Each offering is designed to slow you down, open you up, and connect
-            you to something real.
-          </p>
-          <p className="exp-intro__sub">
-            Whether you are here for a weekend retreat or an extended stay, our
-            experiences are available to weave into your time with us.
-          </p>
-        </div>
-      </section>
+      <PageIntro
+        eyebrow="Our Experiences"
+        heading="A Place to Experience, Not Just Stay"
+        body="Attesi is not just a place to stay — it is a place to experience. Each offering is designed to slow you down, open you up, and connect you to something real."
+        body2="Whether you are here for a weekend retreat or an extended stay, our experiences are available to weave into your time with us."
+      />
 
       {/* ── EXPERIENCES GRID ── */}
       <section className="exp-grid section">
