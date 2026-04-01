@@ -174,12 +174,11 @@ export default async function ExperiencesPage() {
       <PageIntro
         eyebrow="Our Experiences"
         heading="A Place to Experience, Not Just Stay"
-        body="Attesi is not just a place to stay — it is a place to experience. Each offering is designed to slow you down, open you up, and connect you to something real."
-        body2="Whether you are here for a weekend retreat or an extended stay, our experiences are available to weave into your time with us."
+        body="Attesi is not just a place to stay — it is a place to experience. Each offering is designed to slow you down, open you up, and connect you to something real. Whether you are here for a weekend retreat or an extended stay, our experiences are available to weave into your time with us."
       />
 
       {/* ── EXPERIENCES GRID ── */}
-      <section className="exp-grid section">
+      <section className="exp-grid section" style={{paddingTop: 0}}>
         <div className="container">
           <div className="exp-cards">
             {experiences.map((exp) => (

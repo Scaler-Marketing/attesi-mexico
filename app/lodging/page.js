@@ -5,6 +5,7 @@ import CTA from "../components/CTA";
 import ClientAnimations from "../components/ClientAnimations";
 import Link from "next/link";
 import PageHero from "../components/PageHero";
+import PageIntro from "../components/PageIntro";
 import { sanityFetch } from "../../sanity/lib/live";
 import { lodgingsQuery, siteSettingsQuery, lodgingListingPageQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
@@ -58,20 +59,14 @@ export default async function LodgingPage() {
       <main>
 
         {/* ── Intro ── */}
-        <section className="lodging-intro section">
-          <div className="container">
-            <div className="lodging-intro__content">
-              <span className="section-tag">Where You&rsquo;ll Stay</span>
-              <h2 className="lodging-intro__heading">A Place to Truly Rest</h2>
-              <p className="lodging-intro__text">
-                At Attesi, lodging is not just a place to sleep — it is an integral part of the retreat experience. Each accommodation option has been thoughtfully designed to offer comfort, privacy, and a deep sense of belonging to the land around you.
-              </p>
-            </div>
-          </div>
-        </section>
+        <PageIntro
+          eyebrow="Where You'll Stay"
+          heading="A Place to Truly Rest"
+          body="At Attesi, lodging is not just a place to sleep — it is an integral part of the retreat experience. Each accommodation option has been thoughtfully designed to offer comfort, privacy, and a deep sense of belonging to the land around you."
+        />
 
         {/* ── Lodging Cards Grid ── */}
-        <section className="lodging-grid-section section">
+        <section className="lodging-grid-section section" style={{paddingTop: 0}}>
           <div className="container">
             {lodgings.length === 0 ? (
               <p className="lodging-empty">Lodging options coming soon. Check back shortly.</p>

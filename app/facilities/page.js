@@ -66,8 +66,8 @@ export default async function FacilitiesPage() {
           body="At Attesi, the facilities are not separate from the experience — they are the experience. From the restaurant that serves vegetables grown steps away, to the natural spring that flows year-round, each space reflects the values of intentional living, community, and deep connection to the land."
         />
 
-        {/* ── Facilities Grid ───────────────────────────────────────────── */}
-        <section className="fac-grid-section section">
+        {/* ── Facilities Grid ───────────────────────────────────────────────────── */}
+        <section className="fac-grid-section section" style={{paddingTop: 0}}>
           <div className="container">
             {facilities.length === 0 ? (
               <p className="fac-empty">Facilities coming soon. Check back shortly.</p>

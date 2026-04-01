@@ -829,8 +829,7 @@ h1, h2, h3, h4, h5, h6 {
 .page-intro {
   background: var(--brand-cream);
   text-align: center;
-  /* Tighten top padding — sits directly under hero */
-  padding-top: 4rem;
+  padding-top: 0;
 }
 .page-intro__content {
   max-width: 53.75rem;
