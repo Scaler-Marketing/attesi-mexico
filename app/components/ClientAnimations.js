@@ -491,8 +491,92 @@ export default function ClientAnimations() {
       };
     }
 
+    /* ============================================================
+       PHASE 3 — Evolution Tabs (GSAP auto-tab)
+       ============================================================ */
+    async function initEvoTabs() {
+      var section = document.querySelector('[data-evo-tabs]');
+      if (!section) return;
+
+      var items    = Array.from(section.querySelectorAll('.evo-tabs__item'));
+      var imgWraps = Array.from(section.querySelectorAll('.evo-tabs__img-wrap'));
+      if (!items.length) return;
+
+      var { gsap } = await import('gsap');
+
+      var DURATION  = 4.5; // seconds per tab
+      var current   = 0;
+      var tl        = null;
+      var paused    = false;
+
+      function activate(idx) {
+        // Deactivate all
+        items.forEach(function (item, i) {
+          item.classList.remove('is-active');
+          item.setAttribute('aria-selected', 'false');
+          var fill = item.querySelector('.evo-tabs__bar-fill');
+          if (fill) gsap.set(fill, { height: '0%' });
+        });
+        imgWraps.forEach(function (wrap) { wrap.classList.remove('is-active'); });
+
+        // Activate target
+        items[idx].classList.add('is-active');
+        items[idx].setAttribute('aria-selected', 'true');
+        if (imgWraps[idx]) imgWraps[idx].classList.add('is-active');
+
+        // Animate the progress bar fill
+        var fill = items[idx].querySelector('.evo-tabs__bar-fill');
+        if (fill) {
+          gsap.fromTo(fill, { height: '0%' }, {
+            height: '100%',
+            duration: DURATION,
+            ease: 'none',
+            onComplete: function () {
+              if (!paused) {
+                current = (current + 1) % items.length;
+                activate(current);
+              }
+            }
+          });
+        }
+      }
+
+      // Manual click
+      items.forEach(function (item, i) {
+        item.addEventListener('click', function () {
+          // Kill any running GSAP tweens on bar fills
+          items.forEach(function (it) {
+            var f = it.querySelector('.evo-tabs__bar-fill');
+            if (f) gsap.killTweensOf(f);
+          });
+          current = i;
+          activate(current);
+        });
+      });
+
+      // Pause on hover
+      section.addEventListener('mouseenter', function () {
+        paused = true;
+        items.forEach(function (it) {
+          var f = it.querySelector('.evo-tabs__bar-fill');
+          if (f) gsap.getTweensOf(f).forEach(function (tw) { tw.pause(); });
+        });
+      });
+      section.addEventListener('mouseleave', function () {
+        paused = false;
+        items.forEach(function (it) {
+          var f = it.querySelector('.evo-tabs__bar-fill');
+          if (f) gsap.getTweensOf(f).forEach(function (tw) { tw.resume(); });
+        });
+      });
+
+      // Start
+      activate(0);
+    }
+
     initSwiper();
     var cleanup = initUI();
+    initEvoTabs();
 
     return () => {
       clearTimeout(resizeTimer);

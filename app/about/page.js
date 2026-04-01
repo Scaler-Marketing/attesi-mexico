@@ -7,6 +7,7 @@ import ClientAnimations from "../components/ClientAnimations";
 import { sanityFetch } from "../../sanity/lib/live";
 import { siteSettingsQuery, aboutPageQuery } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
+import EvolutionTabs from "../components/EvolutionTabs";
 
 export const metadata = {
   title: "About Attesi — Our Story, Values & Community",
@@ -121,25 +122,8 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* ── TIMELINE ── */}
-      <section className="about-timeline section about-timeline--alt">
-        <div className="container">
-          <h2 className="about-timeline__heading">The Evolution of Attesi</h2>
-          <div className="about-timeline__track">
-            {TIMELINE.map((step) => (
-              <div key={step.num} className="about-timeline__step">
-                <span className="about-timeline__num">{step.num}</span>
-                <h3 className="about-timeline__label">{step.label}</h3>
-                <p className="about-timeline__text">{step.text}</p>
-              </div>
-            ))}
-          </div>
-          <p className="about-timeline__closing">
-            Still rooted in sustainability, intentional living, Jewish life, and
-            a deep connection to the land.
-          </p>
-        </div>
-      </section>
+      {/* ── EVOLUTION TABS ── */}
+      <EvolutionTabs steps={page?.timeline} />
 
       {/* ── VALUES ── */}
       <section className="about-values section">

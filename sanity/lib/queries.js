@@ -345,7 +345,13 @@ export const aboutPageQuery = `*[_type == "aboutPage"][0] {
   heroEyebrow,
   heroHeading,
   heroSubheading,
-  heroImage
+  heroImage,
+  timeline[] {
+    num,
+    label,
+    text,
+    image
+  }
 }`;
 
 export const historyPageQuery = `*[_type == "historyPage"][0] {
