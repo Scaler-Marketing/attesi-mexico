@@ -830,6 +830,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--brand-cream);
   text-align: center;
   padding-top: 0;
+  padding-bottom: calc(var(--section-py) * 0.6);
 }
 .page-intro__content {
   max-width: 53.75rem;

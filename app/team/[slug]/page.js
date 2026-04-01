@@ -164,23 +164,7 @@ export default async function TeamMemberPage({ params }) {
                 </p>
               )}
 
-              {/* ── Navigation buttons ── */}
-              <div className="team-member-profile__cta">
-                {prevMember ? (
-                  <Link href={`/team/${prevMember.slug}`} className="btn-secondary">
-                    ← {prevMember.name.split(" ")[0]}
-                  </Link>
-                ) : (
-                  <Link href="/team" className="btn-secondary">
-                    ← All Team Members
-                  </Link>
-                )}
-                {nextMember && (
-                  <Link href={`/team/${nextMember.slug}`} className="btn-primary">
-                    {nextMember.name.split(" ")[0]} →
-                  </Link>
-                )}
-              </div>
+
             </div>
           </div>
         </section>
