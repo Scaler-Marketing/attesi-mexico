@@ -168,9 +168,6 @@ export default async function AboutPage() {
         }}
       />
 
-      {/* ── CTA ── */}
-      <CTA settings={siteSettings} />
-
       <Footer />
       <ClientAnimations />
     </>
