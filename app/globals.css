@@ -992,7 +992,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Image wrapper — carousel and grid */
 .exp-card__image,
 .exp-card__img-wrap {
-  aspect-ratio: 4/3;
+  aspect-ratio: 3/2;
   overflow: hidden;
   border-radius: 0.875rem;
   position: relative;
