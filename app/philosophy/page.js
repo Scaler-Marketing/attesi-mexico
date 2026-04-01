@@ -102,6 +102,7 @@ export default async function PhilosophyPage() {
         title={page?.heroHeading || "Philosophy & Wellness"}
         subtitle={page?.heroSubheading || "A holistic approach to living — body, mind, and spirit in harmony with the natural world."}
         bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
         bgPos="center 40%"
       />
 

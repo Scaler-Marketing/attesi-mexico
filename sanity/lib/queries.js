@@ -29,6 +29,7 @@ export const experienceBySlugQuery = `*[_type == "experience" && slug.current ==
   cardImage,
   cardDescription,
   heroImage,
+  heroImagePosition,
   about,
   highlights,
   gallery,
@@ -60,6 +61,7 @@ export const facilityBySlugQuery = `*[_type == "facility" && slug.current == $sl
   cardImage,
   cardDescription,
   heroImage,
+  heroImagePosition,
   about,
   highlights,
   gallery,
@@ -185,6 +187,7 @@ export const lodgingBySlugQuery = `*[_type == "lodging" && slug.current == $slug
   cardImage,
   cardDescription,
   heroImage,
+  heroImagePosition,
   description,
   guestCapacity,
   totalUnits,
@@ -222,6 +225,7 @@ export const globalImpactPageQuery = `*[_type == "globalImpactPage"][0] {
   heroHeading,
   heroSubheading,
   heroImage,
+  heroImagePosition,
   philosophyEyebrow,
   philosophyHeading,
   philosophyBody,
@@ -250,6 +254,7 @@ export const retreatsPageQuery = `*[_type == "retreatsPage"][0] {
   heroHeading,
   heroSubheading,
   heroImage,
+  heroImagePosition,
   introEyebrow,
   introHeading,
   introBody,
@@ -275,6 +280,7 @@ export const contactPageQuery = `*[_type == "contactPage"][0] {
   heroHeading,
   heroSubheading,
   heroImage,
+  heroImagePosition,
   formHeading,
   formSubheading,
   mapEyebrow,
@@ -346,6 +352,7 @@ export const aboutPageQuery = `*[_type == "aboutPage"][0] {
   heroHeading,
   heroSubheading,
   heroImage,
+  heroImagePosition,
   timeline[] {
     num,
     label,
@@ -358,54 +365,62 @@ export const historyPageQuery = `*[_type == "historyPage"][0] {
   heroEyebrow,
   heroHeading,
   heroSubheading,
-  heroImage
+  heroImage,
+  heroImagePosition
 }`;
 
 export const philosophyPageQuery = `*[_type == "philosophyPage"][0] {
   heroEyebrow,
   heroHeading,
   heroSubheading,
-  heroImage
+  heroImage,
+  heroImagePosition
 }`;
 
 export const faqsPageQuery = `*[_type == "faqsPage"][0] {
   heroEyebrow,
   heroHeading,
   heroSubheading,
-  heroImage
+  heroImage,
+  heroImagePosition
 }`;
 
 export const blogListingPageQuery = `*[_type == "blogListingPage"][0] {
   heroEyebrow,
   heroHeading,
   heroSubheading,
-  heroImage
+  heroImage,
+  heroImagePosition
 }`;
 
 export const experiencesListingPageQuery = `*[_type == "experiencesListingPage"][0] {
   heroEyebrow,
   heroHeading,
   heroSubheading,
-  heroImage
+  heroImage,
+  heroImagePosition
 }`;
 
 export const facilitiesListingPageQuery = `*[_type == "facilitiesListingPage"][0] {
   heroEyebrow,
   heroHeading,
   heroSubheading,
-  heroImage
+  heroImage,
+  heroImagePosition
 }`;
 
 export const lodgingListingPageQuery = `*[_type == "lodgingListingPage"][0] {
   heroEyebrow,
   heroHeading,
   heroSubheading,
-  heroImage
+  heroImage,
+  heroImagePosition
 }`;
 
 export const teamPageQuery = `*[_type == "teamPage"][0] {
   heroEyebrow,
   heroHeading,
   heroSubheading,
-  heroImage
+  heroImage,
+  heroImagePosition
 }`;

@@ -34,6 +34,7 @@ export default async function FaqsPage() {
         title={page?.heroHeading || "Frequently Asked Questions"}
         subtitle={page?.heroSubheading || "Everything you need to know before your visit to Attesi."}
         bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
         bgPos="center 40%"
       />
 

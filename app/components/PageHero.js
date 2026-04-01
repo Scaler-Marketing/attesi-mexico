@@ -5,26 +5,38 @@
  * are preserved and the Presentation Tool can draw click-to-edit overlays.
  *
  * Props:
- *   eyebrow   {string}  – small uppercase label above the title
- *   title     {string}  – main h1 text
- *   subtitle  {string}  – italic lead paragraph below the title
- *   bgImage   {string}  – CSS background-image value, e.g. "url('/img/hero.jpg')"
- *   bgPos     {string}  – CSS background-position, default "center 40%"
- *   centered  {boolean} – center-align content (used for Team page)
+ *   eyebrow           {string}  – small uppercase label above the title
+ *   title             {string}  – main h1 text
+ *   subtitle          {string}  – italic lead paragraph below the title
+ *   bgImage           {string}  – CSS background-image value, e.g. "url('/img/hero.jpg')"
+ *   bgPos             {string}  – CSS background-position override (legacy), default "center"
+ *   heroImagePosition {string}  – Sanity field: "top" | "center" | "bottom"
+ *   centered          {boolean} – center-align content (used for Team page)
  */
+
+const POSITION_MAP = {
+  top:    "center top",
+  center: "center center",
+  bottom: "center bottom",
+};
+
 export default function PageHero({
   eyebrow,
   title,
   subtitle,
   bgImage,
-  bgPos = "center 40%",
+  bgPos,
+  heroImagePosition,
   centered = false,
 }) {
+  // heroImagePosition (from Sanity) takes priority; fall back to bgPos prop; then default to center
+  const resolvedPos = POSITION_MAP[heroImagePosition] || bgPos || "center center";
+
   return (
     <section className={`page-hero${centered ? " page-hero--centered" : ""}`}>
       <div
         className="page-hero__bg"
-        style={bgImage ? { backgroundImage: bgImage, backgroundPosition: bgPos } : undefined}
+        style={bgImage ? { backgroundImage: bgImage, backgroundPosition: resolvedPos } : undefined}
       />
       <div className="page-hero__overlay" />
       <div className="page-hero__content container">

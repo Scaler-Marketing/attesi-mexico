@@ -51,6 +51,7 @@ export default async function LodgingPage() {
         title={page?.heroHeading || "Lodging at Attesi"}
         subtitle={page?.heroSubheading || "Rest deeply in spaces designed to connect you with nature, community, and yourself."}
         bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
         bgPos="center 40%"
       />
 

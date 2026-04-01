@@ -56,6 +56,7 @@ export default async function BlogPage() {
         title={page?.heroHeading || "The Attesi Journal"}
         subtitle={page?.heroSubheading || "Stories, insights, and wisdom from our community in the mountains of Mexico."}
         bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
         bgPos="center 40%"
       />
 

@@ -53,6 +53,7 @@ export default async function FacilitiesPage() {
         title={page?.heroHeading || "Places Built for Presence"}
         subtitle={page?.heroSubheading || "Every space at Attesi is designed with intention — to nourish, restore, and connect you to the land and community around you."}
         bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
         bgPos="center 40%"
       />
 

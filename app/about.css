@@ -199,12 +199,13 @@
 
 .evo-tabs__inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* Image left (55%), tabs right (45%) */
+  grid-template-columns: 55fr 45fr;
   gap: 5rem;
   align-items: start;
 }
 
-/* Left column */
+/* Right column heading */
 .evo-tabs__heading {
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 3vw, 2.5rem);
@@ -297,33 +298,31 @@
   color: var(--brand-white);
 }
 
+/* Text is always visible — no height animation, no layout bounce.
+   Inactive items fade to near-invisible; active item is fully opaque. */
 .evo-tabs__text {
   font-family: var(--font-body);
   font-size: 0.9375rem;
   color: rgba(255, 249, 237, 0.7);
   line-height: 1.7;
-  margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.35s ease, margin-top 0.3s ease;
+  margin-top: 0.75rem;
+  opacity: 0.2;
+  transition: opacity 0.35s ease;
 }
 
 .evo-tabs__item.is-active .evo-tabs__text {
-  max-height: 10rem;
   opacity: 1;
-  margin-top: 0.75rem;
 }
 
-/* Right column — image panel */
+/* Left column — image panel (sticky so it stays in view while tabs scroll) */
 .evo-tabs__images {
-  position: relative;
+  position: sticky;
+  top: 6rem;
   aspect-ratio: 4 / 3;
   border-radius: 1.5rem;
   overflow: hidden;
   background: var(--brand-forest);
-  align-self: flex-start;
-  vertical-align: top;
+  align-self: start;
 }
 
 .evo-tabs__img-wrap {
@@ -365,7 +364,8 @@
   }
 
   .evo-tabs__images {
-    order: -1;
+    position: relative;
+    top: auto;
     aspect-ratio: 16 / 9;
   }
 }

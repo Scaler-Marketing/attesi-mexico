@@ -40,7 +40,30 @@ export default function EvolutionTabs({ steps }) {
       data-evo-tabs=""
     >
       <div className="container evo-tabs__inner">
-        {/* ── LEFT: tab list with single continuous track ── */}
+
+        {/* ── LEFT: sticky image panel ── */}
+        <div className="evo-tabs__images">
+          {items.map((step, i) => {
+            const src = step.image?.asset
+              ? urlFor(step.image).width(900).quality(85).url()
+              : FALLBACK_IMAGES[i] || FALLBACK_IMAGES[0];
+            return (
+              <div
+                key={i}
+                className={`evo-tabs__img-wrap${i === 0 ? " is-active" : ""}`}
+                data-evo-img={i}
+              >
+                <img
+                  src={src}
+                  alt={step.label}
+                  loading={i === 0 ? "eager" : "lazy"}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ── RIGHT: tab list with single continuous track ── */}
         <div className="evo-tabs__list">
           <h2 className="evo-tabs__heading">The Evolution of Attesi</h2>
 
@@ -68,27 +91,6 @@ export default function EvolutionTabs({ steps }) {
           </div>
         </div>
 
-        {/* ── RIGHT: image panel ── */}
-        <div className="evo-tabs__images">
-          {items.map((step, i) => {
-            const src = step.image?.asset
-              ? urlFor(step.image).width(900).quality(85).url()
-              : FALLBACK_IMAGES[i] || FALLBACK_IMAGES[0];
-            return (
-              <div
-                key={i}
-                className={`evo-tabs__img-wrap${i === 0 ? " is-active" : ""}`}
-                data-evo-img={i}
-              >
-                <img
-                  src={src}
-                  alt={step.label}
-                  loading={i === 0 ? "eager" : "lazy"}
-                />
-              </div>
-            );
-          })}
-        </div>
       </div>
     </section>
   );

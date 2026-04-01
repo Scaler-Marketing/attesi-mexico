@@ -76,6 +76,7 @@ export default async function AboutPage() {
         title={page?.heroHeading || "About Attesi"}
         subtitle={page?.heroSubheading || "A place where land, community, and spirit grow together."}
         bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
         bgPos="center 40%"
       />
 

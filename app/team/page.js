@@ -66,6 +66,7 @@ export default async function TeamPage() {
             "Passionate guides, stewards of the land, and dedicated hosts — each one committed to creating meaningful experiences rooted in nature and community."
           }
           bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
           bgPos="center 40%"
           centered
         />

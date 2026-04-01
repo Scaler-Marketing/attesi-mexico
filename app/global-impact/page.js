@@ -78,6 +78,7 @@ export default async function GlobalImpactPage() {
         title={page?.heroHeading || "Rooted in the Land. Committed to the Future."}
         subtitle={page?.heroSubheading || "A regenerative approach to living, growing, and giving back to the earth."}
         bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
         bgPos="center 40%"
       />
 

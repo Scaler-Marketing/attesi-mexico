@@ -165,6 +165,7 @@ export default async function ExperiencesPage() {
         title={page?.heroHeading || "Immersive Experiences"}
         subtitle={page?.heroSubheading || "From ancient ceremonies to mountain hikes, farm-to-table meals to monarch migrations — every experience at Attesi is a deeper encounter with the land, the community, and yourself."}
         bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
         bgPos="center 55%"
       />
 

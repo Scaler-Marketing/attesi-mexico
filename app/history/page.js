@@ -92,6 +92,7 @@ export default async function HistoryPage() {
         title={page?.heroHeading || "The History of Attesi"}
         subtitle={page?.heroSubheading || "From a simple idea to a living community rooted in land, tradition, and intention."}
         bgImage={heroBg}
+        heroImagePosition={page?.heroImagePosition}
         bgPos="center 40%"
       />
 

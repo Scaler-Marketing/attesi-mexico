@@ -42,6 +42,21 @@ export default {
       description: "Image shown on the /facilities grid cards",
     },
     {
+      name: "heroImagePosition",
+      title: "Hero Image Position",
+      type: "string",
+      description: "Vertical position of the hero background image.",
+      initialValue: "center",
+      options: {
+        list: [
+          { title: "Top", value: "top" },
+          { title: "Center", value: "center" },
+          { title: "Bottom", value: "bottom" },
+        ],
+        layout: "radio",
+      },
+    },
+    {
       name: "cardDescription",
       title: "Card Description",
       type: "text",
