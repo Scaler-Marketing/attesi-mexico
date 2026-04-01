@@ -165,6 +165,9 @@ export default async function TeamMemberPage({ params }) {
               )}
 
 
+              <Link href="/team" className="btn-outline" style={{marginTop:'1.5rem'}}>
+                ← Back to Team
+              </Link>
             </div>
           </div>
         </section>
