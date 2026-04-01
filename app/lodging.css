@@ -160,11 +160,12 @@
   border-radius: 100vw;
 }
 .lodging-card__body {
-  padding: 1rem 0.5rem 0.5rem;
+  padding: 1.25rem 1.25rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.625rem;
   flex: 1;
+  align-items: flex-start;
 }
 .lodging-card__title {
   font-family: var(--font-display);
