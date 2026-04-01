@@ -1,6 +1,5 @@
 import { urlFor } from "@/sanity/lib/image";
 
-/* Fallback images — replace with real Attesi photos once uploaded in Sanity */
 const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80",
   "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=80",
@@ -32,65 +31,69 @@ const DEFAULT_STEPS = [
 ];
 
 export default function EvolutionTabs({ steps }) {
-  const items = (steps && steps.length > 0 ? steps : DEFAULT_STEPS);
+  const items = steps && steps.length > 0 ? steps : DEFAULT_STEPS;
 
   return (
-    <section
-      className="evo-tabs section about-timeline--alt"
-      data-evo-tabs=""
-    >
-      <div className="container evo-tabs__inner">
+    <section className="evo-tabs section" data-evo-tabs="">
+      <div className="container">
 
-        {/* ── LEFT: sticky image panel ── */}
-        <div className="evo-tabs__images">
-          {items.map((step, i) => {
-            const src = step.image?.asset
-              ? urlFor(step.image).width(900).quality(85).url()
-              : FALLBACK_IMAGES[i] || FALLBACK_IMAGES[0];
-            return (
-              <div
-                key={i}
-                className={`evo-tabs__img-wrap${i === 0 ? " is-active" : ""}`}
-                data-evo-img={i}
-              >
-                <img
-                  src={src}
-                  alt={step.label}
-                  loading={i === 0 ? "eager" : "lazy"}
-                />
+        {/* ── Heading sits ABOVE the two-column grid ── */}
+        <h2 className="evo-tabs__heading">The Evolution of Attesi</h2>
+
+        <div className="evo-tabs__inner">
+
+          {/* ── LEFT: tab list with continuous track ── */}
+          <div className="evo-tabs__list">
+            <div className="evo-tabs__track-wrap">
+              {/* Single continuous track line */}
+              <div className="evo-tabs__track">
+                <div className="evo-tabs__track-fill" data-evo-fill=""></div>
               </div>
-            );
-          })}
-        </div>
 
-        {/* ── RIGHT: tab list with single continuous track ── */}
-        <div className="evo-tabs__list">
-          <h2 className="evo-tabs__heading">The Evolution of Attesi</h2>
-
-          {/* Single continuous track — one bar, one traveling fill */}
-          <div className="evo-tabs__track-wrap">
-            <div className="evo-tabs__track">
-              <div className="evo-tabs__track-fill" data-evo-fill=""></div>
-            </div>
-
-            <div className="evo-tabs__items">
-              {items.map((step, i) => (
-                <button
-                  key={i}
-                  className={`evo-tabs__item${i === 0 ? " is-active" : ""}`}
-                  data-evo-index={i}
-                  type="button"
-                  aria-selected={i === 0 ? "true" : "false"}
-                >
-                  <span className="evo-tabs__num">{step.num}</span>
-                  <span className="evo-tabs__label">{step.label}</span>
-                  <p className="evo-tabs__text">{step.text}</p>
-                </button>
-              ))}
+              <div className="evo-tabs__items">
+                {items.map((step, i) => (
+                  <button
+                    key={i}
+                    className={`evo-tabs__item${i === 0 ? " is-active" : ""}`}
+                    data-evo-index={i}
+                    type="button"
+                    aria-selected={i === 0 ? "true" : "false"}
+                  >
+                    {/* Number + label on the same horizontal line */}
+                    <div className="evo-tabs__item-header">
+                      <span className="evo-tabs__num">{step.num}</span>
+                      <span className="evo-tabs__label">{step.label}</span>
+                    </div>
+                    <p className="evo-tabs__text">{step.text}</p>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
+          {/* ── RIGHT: sticky image panel ── */}
+          <div className="evo-tabs__images">
+            {items.map((step, i) => {
+              const src = step.image?.asset
+                ? urlFor(step.image).width(900).quality(85).url()
+                : FALLBACK_IMAGES[i] || FALLBACK_IMAGES[0];
+              return (
+                <div
+                  key={i}
+                  className={`evo-tabs__img-wrap${i === 0 ? " is-active" : ""}`}
+                  data-evo-img={i}
+                >
+                  <img
+                    src={src}
+                    alt={step.label}
+                    loading={i === 0 ? "eager" : "lazy"}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
       </div>
     </section>
   );
