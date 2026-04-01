@@ -12,7 +12,6 @@ const deskStructure = (S) =>
       // ── Pages ──────────────────────────────────────────────────────
       S.listItem()
         .title("Home Page")
-        .icon(() => "🏠")
         .id("homePage")
         .child(
           S.document()
@@ -21,7 +20,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("About Page")
-        .icon(() => "📖")
         .id("aboutPage")
         .child(
           S.document()
@@ -30,7 +28,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("History Page")
-        .icon(() => "🕰️")
         .id("historyPage")
         .child(
           S.document()
@@ -39,7 +36,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Philosophy Page")
-        .icon(() => "🌿")
         .id("philosophyPage")
         .child(
           S.document()
@@ -48,7 +44,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Global Impact Page")
-        .icon(() => "🌍")
         .id("globalImpactPage")
         .child(
           S.document()
@@ -57,7 +52,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Lodging Listing Page")
-        .icon(() => "🏡")
         .id("lodgingListingPage")
         .child(
           S.document()
@@ -66,7 +60,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Experiences Listing Page")
-        .icon(() => "🧭")
         .id("experiencesListingPage")
         .child(
           S.document()
@@ -75,7 +68,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Facilities Listing Page")
-        .icon(() => "🏊")
         .id("facilitiesListingPage")
         .child(
           S.document()
@@ -84,7 +76,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Blog Listing Page")
-        .icon(() => "✍️")
         .id("blogListingPage")
         .child(
           S.document()
@@ -93,7 +84,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("FAQs Page")
-        .icon(() => "❓")
         .id("faqsPage")
         .child(
           S.document()
@@ -102,7 +92,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Team Page")
-        .icon(() => "👥")
         .id("teamPage")
         .child(
           S.document()
@@ -111,7 +100,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Retreats Page")
-        .icon(() => "🧘")
         .id("retreatsPage")
         .child(
           S.document()
@@ -120,7 +108,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Contact Page")
-        .icon(() => "✉️")
         .id("contactPage")
         .child(
           S.document()
@@ -129,7 +116,6 @@ const deskStructure = (S) =>
         ),
       S.listItem()
         .title("Site Settings")
-        .icon(() => "⚙️")
         .id("siteSettings")
         .child(
           S.document()
@@ -140,50 +126,42 @@ const deskStructure = (S) =>
       // ── Homepage Sections ───────────────────────────────────────────
       S.listItem()
         .title("Hero Slides")
-        .icon(() => "🖼️")
         .child(
           S.documentTypeList("heroSlide").title("Hero Slides")
         ),
       S.listItem()
         .title("Stats")
-        .icon(() => "📊")
         .child(
           S.documentTypeList("stat").title("Stats")
         ),
       S.listItem()
         .title("Testimonials")
-        .icon(() => "💬")
         .child(
           S.documentTypeList("testimonial").title("Testimonials")
         ),
       S.listItem()
         .title("Find Your Way Cards")
-        .icon(() => "🗺️")
         .child(
           S.documentTypeList("findYourWayCard").title("Find Your Way Cards")
         ),
       S.divider(),
       S.listItem()
         .title("Lodging")
-        .icon(() => "🏡")
         .child(
           S.documentTypeList("lodging").title("Lodging")
         ),
       S.listItem()
         .title("Experiences")
-        .icon(() => "🌿")
         .child(
           S.documentTypeList("experience").title("Experiences")
         ),
       S.listItem()
         .title("Facilities")
-        .icon(() => "🏊")
         .child(
           S.documentTypeList("facility").title("Facilities")
         ),
       S.listItem()
         .title("Team Members")
-        .icon(() => "👥")
         .child(
           S.documentTypeList("teamMember").title("Team Members")
         ),
@@ -191,7 +169,6 @@ const deskStructure = (S) =>
       // ── Blog ────────────────────────────────────────────────────────
       S.listItem()
         .title("Blog Posts")
-        .icon(() => "✍️")
         .child(
           S.documentTypeList("blogPost").title("Blog Posts")
         ),
@@ -208,9 +185,6 @@ export default defineConfig({
     presentationTool({
       resolve,
       previewUrl: {
-        // The live site URL — used in production. When the Studio is embedded
-        // in the same Next.js app at /studio, origin is implicit and can be omitted.
-        // We keep it explicit so the Presentation Tool works from the deployed Studio.
         origin: process.env.NEXT_PUBLIC_SITE_URL || "https://attesi-mexico.vercel.app",
         previewMode: {
           enable: "/api/draft-mode/enable",
