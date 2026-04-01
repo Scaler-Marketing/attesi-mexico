@@ -8,8 +8,7 @@ import Footer from "../../components/Footer";
 import CTA from "../../components/CTA";
 import ClientAnimations from "../../components/ClientAnimations";
 import { sanityFetch } from "../../../sanity/lib/live";
-import { client } from "../../../sanity/lib/client";
-import { teamBySlugQuery, teamSlugsQuery, teamPageQuery } from "../../../sanity/lib/queries";
+import { teamBySlugQuery, teamSlugsQuery, teamMembersQuery, teamPageQuery, siteSettingsQuery } from "../../../sanity/lib/queries";
 import { urlFor } from "../../../sanity/lib/image";
 
 /* ─── Static params for ISR ──────────────────────────────────────────────── */
@@ -51,17 +50,35 @@ export default async function TeamMemberPage({ params }) {
   const { slug } = await params;
   let member = null;
   let teamPage = null;
+  let allMembers = [];
+  let siteSettings = null;
+
   try {
-    const [{ data: memberData }, { data: teamPageData }] = await Promise.all([
+    const [
+      { data: memberData },
+      { data: teamPageData },
+      { data: membersData },
+      { data: settingsData },
+    ] = await Promise.all([
       sanityFetch({ query: teamBySlugQuery, params: { slug } }),
       sanityFetch({ query: teamPageQuery }),
+      sanityFetch({ query: teamMembersQuery }),
+      sanityFetch({ query: siteSettingsQuery }),
     ]);
     member = memberData;
     teamPage = teamPageData;
+    allMembers = membersData || [];
+    siteSettings = settingsData;
   } catch (e) {
     // Sanity unavailable
   }
   if (!member) notFound();
+
+  // ── Next / Prev logic (sorted by order field) ──────────────────────────────
+  const sortedMembers = [...allMembers].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+  const currentIndex = sortedMembers.findIndex((m) => m.slug === slug);
+  const prevMember = currentIndex > 0 ? sortedMembers[currentIndex - 1] : null;
+  const nextMember = currentIndex < sortedMembers.length - 1 ? sortedMembers[currentIndex + 1] : null;
 
   const photoUrl = member.photo
     ? urlFor(member.photo).width(800).height(960).fit("crop").url()
@@ -146,19 +163,29 @@ export default async function TeamMemberPage({ params }) {
                   {member.name} is a valued member of the Attesi Mexico team, dedicated to creating meaningful experiences for every guest.
                 </p>
               )}
+
+              {/* ── Navigation buttons ── */}
               <div className="team-member-profile__cta">
-                <Link href="/team" className="btn-secondary">
-                  ← All Team Members
-                </Link>
-                <Link href="/contact" className="btn-primary">
-                  Contact Us
-                </Link>
+                {prevMember ? (
+                  <Link href={`/team/${prevMember.slug}`} className="btn-secondary">
+                    ← {prevMember.name.split(" ")[0]}
+                  </Link>
+                ) : (
+                  <Link href="/team" className="btn-secondary">
+                    ← All Team Members
+                  </Link>
+                )}
+                {nextMember && (
+                  <Link href={`/team/${nextMember.slug}`} className="btn-primary">
+                    {nextMember.name.split(" ")[0]} →
+                  </Link>
+                )}
               </div>
             </div>
           </div>
         </section>
 
-        <CTA />
+        <CTA settings={siteSettings} />
       </main>
       <Footer />
       <ClientAnimations />
