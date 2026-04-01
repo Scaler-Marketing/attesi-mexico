@@ -75,7 +75,7 @@ export default function BlogClient({ posts }) {
   const currentSortLabel = SORT_OPTIONS.find((o) => o.value === sortBy)?.label || "Sort By";
 
   return (
-    <section className="blog-grid-section section" style={{ paddingTop: 0 }}>
+    <section className="blog-grid-section section">
       <div className="container">
 
         {/* ── Search + Sort bar ── */}
@@ -132,12 +132,29 @@ export default function BlogClient({ posts }) {
             aria-label="Reset filters"
             title="Reset"
           >
-            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path d="M4 10a6 6 0 1 1 1.5 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-              <path d="M4 14v-4h4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 12a8 8 0 1 1-1.6-4.8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <polyline points="15 7 20 7 20 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
+
+        {/* ── Active search tag ── */}
+        {search.trim() && (
+          <div className="blog-active-filters">
+            <button
+              className="blog-active-filters__tag"
+              onClick={() => setSearch("")}
+              type="button"
+              aria-label={`Clear search: ${search}`}
+            >
+              {search.trim()}
+              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {/* ── Results count ── */}
         <p className="blog-results-count">
