@@ -7,24 +7,23 @@ const FALLBACK_FAQS = [
   { _key: "f3", question: "What makes Attesi Lodge sustainable?", answer: "We prioritize eco-friendly practices, including sourcing local ingredients, minimizing waste, and using renewable energy. Our commitment to sustainability extends to supporting the surrounding community and preserving the natural environment." },
 ];
 
-/* ─── Single accordion item with smooth height animation ──────────── */
-function FaqItem({ faq, index }) {
-  const [open, setOpen] = useState(false);
+/* ─── Single accordion item — receives open state from parent ──────── */
+function FaqItem({ faq, isOpen, onToggle }) {
   const bodyRef = useRef(null);
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
     if (bodyRef.current) {
-      setHeight(open ? bodyRef.current.scrollHeight : 0);
+      setHeight(isOpen ? bodyRef.current.scrollHeight : 0);
     }
-  }, [open]);
+  }, [isOpen]);
 
   return (
-    <div className={`exp-detail-faq${open ? " exp-detail-faq--open" : ""}`}>
+    <div className={`exp-detail-faq${isOpen ? " exp-detail-faq--open" : ""}`}>
       <button
         className="exp-detail-faq__question"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
+        onClick={onToggle}
+        aria-expanded={isOpen}
         type="button"
       >
         <div className="exp-detail-faq__question-left">
@@ -49,7 +48,7 @@ function FaqItem({ faq, index }) {
         style={{
           maxHeight: `${height}px`,
           overflow: "hidden",
-          transition: "max-height 0.42s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
         <p className="exp-detail-faq__answer">{faq.answer}</p>
@@ -59,10 +58,18 @@ function FaqItem({ faq, index }) {
 }
 
 export default function HomeFAQ({ settings = null }) {
-  const eyebrow = settings?.faqEyebrow || "FAQs";
-  const heading = settings?.faqHeading || "Frequently Asked Questions";
+  const eyebrow    = settings?.faqEyebrow    || "FAQs";
+  const heading    = settings?.faqHeading    || "Frequently Asked Questions";
   const subheading = settings?.faqSubheading || "Everything you need to know before your stay at Attesi Lodge.";
-  const faqs = settings?.faqs?.length > 0 ? settings.faqs : FALLBACK_FAQS;
+  const faqs       = settings?.faqs?.length > 0 ? settings.faqs : FALLBACK_FAQS;
+
+  /* Lift open state here so toggling one item closes another in the SAME
+     render cycle — close and open transitions run in parallel, no bounce. */
+  const [openIndex, setOpenIndex] = useState(null);
+
+  function handleToggle(i) {
+    setOpenIndex((prev) => (prev === i ? null : i));
+  }
 
   return (
     <section className="home-faq section" id="faq">
@@ -72,7 +79,12 @@ export default function HomeFAQ({ settings = null }) {
         <p className="exp-detail-faqs__sub">{subheading}</p>
         <div className="exp-detail-faqs__list">
           {faqs.map((faq, i) => (
-            <FaqItem key={faq._key || i} faq={faq} index={i} />
+            <FaqItem
+              key={faq._key || i}
+              faq={faq}
+              isOpen={openIndex === i}
+              onToggle={() => handleToggle(i)}
+            />
           ))}
         </div>
       </div>

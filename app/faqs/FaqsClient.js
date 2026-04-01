@@ -192,23 +192,22 @@ const FAQ_DATA = {
   ],
 };
 
-function FaqItem({ question, answer }) {
-  const [open, setOpen] = useState(false);
+function FaqItem({ question, answer, isOpen, onToggle }) {
   const bodyRef = useRef(null);
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
     if (bodyRef.current) {
-      setHeight(open ? bodyRef.current.scrollHeight : 0);
+      setHeight(isOpen ? bodyRef.current.scrollHeight : 0);
     }
-  }, [open]);
+  }, [isOpen]);
 
   return (
-    <div className={`exp-detail-faq${open ? " exp-detail-faq--open" : ""}`}>
+    <div className={`exp-detail-faq${isOpen ? " exp-detail-faq--open" : ""}`}>
       <button
         className="exp-detail-faq__question"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
+        onClick={onToggle}
+        aria-expanded={isOpen}
         type="button"
       >
         <div className="exp-detail-faq__question-left">
@@ -232,7 +231,7 @@ function FaqItem({ question, answer }) {
         style={{
           maxHeight: `${height}px`,
           overflow: "hidden",
-          transition: "max-height 0.42s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
         <p className="exp-detail-faq__answer">{answer}</p>
@@ -243,8 +242,18 @@ function FaqItem({ question, answer }) {
 
 export default function FaqsClient() {
   const [activeTab, setActiveTab] = useState("general");
+  const [openIndex, setOpenIndex] = useState(null);
   const faqs = FAQ_DATA[activeTab] || [];
   const activeTabData = TABS.find((t) => t.id === activeTab);
+
+  function handleTabChange(id) {
+    setActiveTab(id);
+    setOpenIndex(null); // reset open item when switching tabs
+  }
+
+  function handleToggle(i) {
+    setOpenIndex((prev) => (prev === i ? null : i));
+  }
 
   return (
     <section className="faqs-tabs section">
@@ -257,7 +266,7 @@ export default function FaqsClient() {
               role="tab"
               aria-selected={activeTab === tab.id}
               className={`faqs-tabs__tab${activeTab === tab.id ? " faqs-tabs__tab--active" : ""}`}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => handleTabChange(tab.id)}
               type="button"
             >
               {tab.label}
@@ -272,7 +281,13 @@ export default function FaqsClient() {
           )}
           <div className="exp-detail-faqs__list">
             {faqs.map((faq, i) => (
-              <FaqItem key={i} question={faq.question} answer={faq.answer} />
+              <FaqItem
+                key={i}
+                question={faq.question}
+                answer={faq.answer}
+                isOpen={openIndex === i}
+                onToggle={() => handleToggle(i)}
+              />
             ))}
           </div>
         </div>
