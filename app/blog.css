@@ -37,11 +37,165 @@
   background: var(--brand-white);
 }
 
+/* ── CONTROLS BAR ── */
+.blog-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 0 0;
+  position: relative;
+}
+
+.blog-controls__search {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.blog-controls__search-icon {
+  position: absolute;
+  left: 1rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--brand-earth);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.blog-controls__input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  border: 0.0625rem solid rgba(181, 116, 58, 0.3);
+  border-radius: var(--radius-pill);
+  background: var(--brand-cream);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--brand-black);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.blog-controls__input::placeholder {
+  color: var(--brand-earth);
+  opacity: 0.7;
+}
+
+.blog-controls__input:focus {
+  border-color: var(--brand-orange);
+}
+
+/* Sort dropdown */
+.blog-controls__sort {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.blog-controls__sort-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: 0.0625rem solid rgba(181, 116, 58, 0.3);
+  border-radius: var(--radius-pill);
+  background: var(--brand-cream);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--brand-black);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s;
+}
+
+.blog-controls__sort-btn:hover {
+  border-color: var(--brand-orange);
+}
+
+.blog-controls__sort-btn svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--brand-earth);
+  transition: transform 0.2s;
+}
+
+.blog-controls__sort-btn svg.rotated {
+  transform: rotate(180deg);
+}
+
+.blog-controls__sort-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 12rem;
+  background: var(--brand-white);
+  border: 0.0625rem solid rgba(181, 116, 58, 0.2);
+  border-radius: 0.875rem;
+  box-shadow: 0 0.5rem 2rem rgba(27, 27, 27, 0.12);
+  list-style: none;
+  padding: 0.375rem 0;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.blog-controls__sort-menu li {
+  padding: 0.625rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--brand-black);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.blog-controls__sort-menu li:hover,
+.blog-controls__sort-menu li.is-active {
+  background: rgba(181, 116, 58, 0.08);
+  color: var(--brand-orange);
+}
+
+/* Reset button */
+.blog-controls__reset {
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 0.0625rem solid rgba(181, 116, 58, 0.3);
+  background: var(--brand-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.blog-controls__reset:hover {
+  border-color: var(--brand-orange);
+  background: rgba(181, 116, 58, 0.08);
+}
+
+.blog-controls__reset svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--brand-earth);
+}
+
+/* Results count */
+.blog-results-count {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--brand-earth);
+  margin: 1rem 0 1.5rem;
+  text-align: right;
+}
+
+.blog-results-count strong {
+  color: var(--brand-orange);
+  font-weight: 700;
+}
+
 .blog-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-top: 1.5rem;
 }
 
 .blog-grid--3 {
@@ -55,7 +209,26 @@
   padding: 3rem 0;
 }
 
-/* ── BLOG CARD ──────────────────────────────────────────────────────────────── */
+/* Blog cards that use global exp-card class */
+.blog-card-global .exp-card__title a {
+  color: inherit;
+  transition: color var(--transition);
+}
+.blog-card-global .exp-card__title a:hover {
+  color: var(--brand-orange);
+}
+.blog-card__img-link {
+  display: block;
+  text-decoration: none;
+}
+.blog-card__date {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--brand-earth);
+  margin-bottom: 0.5rem;
+}
+
+/* ── BLOG CARD (legacy — kept for detail page related posts) ──────────────────────────────────────────────────────────────── */
 .blog-card {
   display: flex;
   flex-direction: column;
