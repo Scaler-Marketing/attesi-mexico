@@ -128,7 +128,9 @@ export default async function AboutPage() {
       {/* ── VALUES ── */}
       <section className="about-values section">
         <div className="container">
+          <span className="section-tag about-values__eyebrow">Our Values</span>
           <h2 className="about-values__heading">What We Stand For</h2>
+          <p className="about-values__sub">The principles that have guided Attesi from the very beginning.</p>
           <div className="about-values__grid">
             {VALUES.map((v) => (
               <div key={v.title} className="about-values__card">
