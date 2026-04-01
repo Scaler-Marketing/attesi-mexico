@@ -2,10 +2,10 @@ import { urlFor } from "@/sanity/lib/image";
 
 /* Fallback images — replace with real Attesi photos once uploaded in Sanity */
 const FALLBACK_IMAGES = [
-  "https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg",
-  "https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg",
-  "https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg",
-  "https://attesi.mx/wp-content/uploads/2022/12/galeria-home-planea-1-1.jpg",
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80",
+  "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=80",
+  "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=900&q=80",
+  "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=900&q=80",
 ];
 
 const DEFAULT_STEPS = [
@@ -40,26 +40,32 @@ export default function EvolutionTabs({ steps }) {
       data-evo-tabs=""
     >
       <div className="container evo-tabs__inner">
-        {/* ── LEFT: tab list ── */}
+        {/* ── LEFT: tab list with single continuous track ── */}
         <div className="evo-tabs__list">
           <h2 className="evo-tabs__heading">The Evolution of Attesi</h2>
-          {items.map((step, i) => (
-            <button
-              key={i}
-              className={`evo-tabs__item${i === 0 ? " is-active" : ""}`}
-              data-evo-index={i}
-              type="button"
-              aria-selected={i === 0 ? "true" : "false"}
-            >
-              {/* animated progress bar on the left edge */}
-              <span className="evo-tabs__bar">
-                <span className="evo-tabs__bar-fill"></span>
-              </span>
-              <span className="evo-tabs__num">{step.num}</span>
-              <span className="evo-tabs__label">{step.label}</span>
-              <p className="evo-tabs__text">{step.text}</p>
-            </button>
-          ))}
+
+          {/* Single continuous track — one bar, one traveling fill */}
+          <div className="evo-tabs__track-wrap">
+            <div className="evo-tabs__track">
+              <div className="evo-tabs__track-fill" data-evo-fill=""></div>
+            </div>
+
+            <div className="evo-tabs__items">
+              {items.map((step, i) => (
+                <button
+                  key={i}
+                  className={`evo-tabs__item${i === 0 ? " is-active" : ""}`}
+                  data-evo-index={i}
+                  type="button"
+                  aria-selected={i === 0 ? "true" : "false"}
+                >
+                  <span className="evo-tabs__num">{step.num}</span>
+                  <span className="evo-tabs__label">{step.label}</span>
+                  <p className="evo-tabs__text">{step.text}</p>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* ── RIGHT: image panel ── */}

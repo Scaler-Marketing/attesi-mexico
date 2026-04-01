@@ -492,86 +492,97 @@ export default function ClientAnimations() {
     }
 
     /* ============================================================
-       PHASE 3 — Evolution Tabs (GSAP auto-tab)
+       PHASE 3 — Evolution Tabs (GSAP auto-tab, single continuous track)
        ============================================================ */
     async function initEvoTabs() {
       var section = document.querySelector('[data-evo-tabs]');
       if (!section) return;
-
-      var items    = Array.from(section.querySelectorAll('.evo-tabs__item'));
-      var imgWraps = Array.from(section.querySelectorAll('.evo-tabs__img-wrap'));
+      var items     = Array.from(section.querySelectorAll('.evo-tabs__item'));
+      var imgWraps  = Array.from(section.querySelectorAll('.evo-tabs__img-wrap'));
+      var trackFill = section.querySelector('[data-evo-fill]');
       if (!items.length) return;
 
-      var { gsap } = await import('gsap');
+      var { gsap }          = await import('gsap');
+      var { ScrollTrigger } = await import('gsap/ScrollTrigger');
+      gsap.registerPlugin(ScrollTrigger);
 
-      var DURATION  = 4.5; // seconds per tab
-      var current   = 0;
-      var tl        = null;
-      var paused    = false;
+      var DURATION     = 6;   // seconds per tab
+      var COUNT        = items.length;
+      var current      = 0;
+      var paused       = false;
+      var started      = false;
+      var currentTween = null;
 
-      function activate(idx) {
-        // Deactivate all
-        items.forEach(function (item, i) {
+      /* ---- Activate a tab ---- */
+      function activate(idx, skipFill) {
+        items.forEach(function (item) {
           item.classList.remove('is-active');
           item.setAttribute('aria-selected', 'false');
-          var fill = item.querySelector('.evo-tabs__bar-fill');
-          if (fill) gsap.set(fill, { height: '0%' });
         });
         imgWraps.forEach(function (wrap) { wrap.classList.remove('is-active'); });
 
-        // Activate target
         items[idx].classList.add('is-active');
         items[idx].setAttribute('aria-selected', 'true');
         if (imgWraps[idx]) imgWraps[idx].classList.add('is-active');
 
-        // Animate the progress bar fill
-        var fill = items[idx].querySelector('.evo-tabs__bar-fill');
-        if (fill) {
-          gsap.fromTo(fill, { height: '0%' }, {
-            height: '100%',
-            duration: DURATION,
-            ease: 'none',
-            onComplete: function () {
-              if (!paused) {
-                current = (current + 1) % items.length;
-                activate(current);
-              }
+        if (skipFill || !trackFill) return;
+
+        // Kill any running tween on the fill
+        if (currentTween) currentTween.kill();
+
+        // Fill travels from (idx/COUNT * 100)% to ((idx+1)/COUNT * 100)%
+        var fromPct = (idx / COUNT) * 100;
+        var toPct   = ((idx + 1) / COUNT) * 100;
+
+        gsap.set(trackFill, { height: fromPct + '%' });
+        currentTween = gsap.to(trackFill, {
+          height: toPct + '%',
+          duration: DURATION,
+          ease: 'none',
+          onComplete: function () {
+            if (!paused) {
+              current = (current + 1) % COUNT;
+              activate(current);
             }
-          });
-        }
+          }
+        });
       }
 
-      // Manual click
+      /* ---- Manual click ---- */
       items.forEach(function (item, i) {
         item.addEventListener('click', function () {
-          // Kill any running GSAP tweens on bar fills
-          items.forEach(function (it) {
-            var f = it.querySelector('.evo-tabs__bar-fill');
-            if (f) gsap.killTweensOf(f);
-          });
           current = i;
           activate(current);
         });
       });
 
-      // Pause on hover
+      /* ---- Pause on hover ---- */
       section.addEventListener('mouseenter', function () {
         paused = true;
-        items.forEach(function (it) {
-          var f = it.querySelector('.evo-tabs__bar-fill');
-          if (f) gsap.getTweensOf(f).forEach(function (tw) { tw.pause(); });
-        });
+        if (currentTween) currentTween.pause();
       });
       section.addEventListener('mouseleave', function () {
         paused = false;
-        items.forEach(function (it) {
-          var f = it.querySelector('.evo-tabs__bar-fill');
-          if (f) gsap.getTweensOf(f).forEach(function (tw) { tw.resume(); });
-        });
+        if (currentTween) currentTween.resume();
       });
 
-      // Start
-      activate(0);
+      /* ---- Start only when scrolled into view ---- */
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 75%',
+        once: true,
+        onEnter: function () {
+          if (!started) {
+            started = true;
+            if (trackFill) gsap.set(trackFill, { height: '0%' });
+            activate(0);
+          }
+        }
+      });
+
+      // Set initial visual state without animating fill
+      if (trackFill) gsap.set(trackFill, { height: '0%' });
+      activate(0, true);
     }
 
     initSwiper();
