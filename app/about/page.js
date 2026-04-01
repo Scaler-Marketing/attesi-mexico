@@ -156,20 +156,17 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* ── TEAM LINK ── */}
-      <section className="about-team-link section about-team-link--alt">
-        <div className="container about-team-link__inner">
-          <div className="about-team-link__copy">
-            <h2 className="about-team-link__heading">Meet the People Behind Attesi</h2>
-            <p className="about-team-link__text">
-              Attesi is brought to life by a dedicated team of guides, hosts,
-              farmers, and community stewards — each one passionate about the
-              land and the people who come to experience it.
-            </p>
-            <a href="/team" className="btn-primary">Meet Our Team</a>
-          </div>
-        </div>
-      </section>
+      {/* ── TEAM LINK (CTA variant) ── */}
+      <CTA
+        settings={siteSettings}
+        variant={{
+          heading:   "Meet the People Behind Attesi",
+          subtext:   "Attesi is brought to life by a dedicated team of guides, hosts, farmers, and community stewards — each one passionate about the land and the people who come to experience it.",
+          btn1Label: "Meet Our Team",
+          btn1Url:   "/team",
+          btn2Label: null,
+        }}
+      />
 
       {/* ── CTA ── */}
       <CTA settings={siteSettings} />
