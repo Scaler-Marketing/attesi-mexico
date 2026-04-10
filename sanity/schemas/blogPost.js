@@ -45,6 +45,12 @@ export default {
       },
       description: "Primary category for filtering and display",
     },
+    {
+      name: "readTimeMinutes",
+      title: "Read Time (minutes)",
+      type: "number",
+      description: "Estimated read time in minutes (e.g. 5)",
+    },
     // ── Hero ──────────────────────────────────────────────────────────────────
     {
       name: "coverImage",
@@ -66,11 +72,59 @@ export default {
       validation: (Rule) => Rule.required().max(200),
       description: "Short summary shown on blog listing cards (max 200 characters)",
     },
-    // ── Body ──────────────────────────────────────────────────────────────────
+    // ── Body Top ──────────────────────────────────────────────────────────────
+    {
+      name: "bodyTop",
+      title: "Body Content (Top)",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "H2", value: "h2" },
+            { title: "H3", value: "h3" },
+            { title: "Quote", value: "blockquote" },
+          ],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Bold", value: "strong" },
+              { title: "Italic", value: "em" },
+            ],
+            annotations: [
+              {
+                name: "link",
+                type: "object",
+                title: "Link",
+                fields: [
+                  { name: "href", type: "url", title: "URL" },
+                  { name: "blank", type: "boolean", title: "Open in new tab", initialValue: false },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            { name: "alt", title: "Alt Text", type: "string" },
+            { name: "caption", title: "Caption", type: "string" },
+          ],
+        },
+      ],
+      description: "Main body content above the FAQ section",
+    },
+    // ── Legacy body field (kept for backwards compatibility) ──────────────────
     {
       name: "body",
-      title: "Body Content",
+      title: "Body Content (Legacy)",
       type: "array",
+      hidden: true,
       of: [
         {
           type: "block",
@@ -91,17 +145,8 @@ export default {
                 type: "object",
                 title: "Link",
                 fields: [
-                  {
-                    name: "href",
-                    type: "url",
-                    title: "URL",
-                  },
-                  {
-                    name: "blank",
-                    type: "boolean",
-                    title: "Open in new tab",
-                    initialValue: false,
-                  },
+                  { name: "href", type: "url", title: "URL" },
+                  { name: "blank", type: "boolean", title: "Open in new tab", initialValue: false },
                 ],
               },
             ],
@@ -116,7 +161,86 @@ export default {
           ],
         },
       ],
-      description: "Full post body — supports headings, paragraphs, quotes, and inline images",
+      description: "Legacy body field — use Body Top/Bottom instead",
+    },
+    // ── FAQs ──────────────────────────────────────────────────────────────────
+    {
+      name: "faqs",
+      title: "FAQs",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          name: "faqItem",
+          title: "FAQ Item",
+          fields: [
+            {
+              name: "question",
+              title: "Question",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: "answer",
+              title: "Answer",
+              type: "text",
+              rows: 4,
+              validation: (Rule) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: { title: "question" },
+          },
+        },
+      ],
+      description: "Optional FAQ accordion — rendered between body top and body bottom",
+    },
+    // ── Body Bottom ───────────────────────────────────────────────────────────
+    {
+      name: "bodyBottom",
+      title: "Body Content (Bottom)",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "H2", value: "h2" },
+            { title: "H3", value: "h3" },
+            { title: "Quote", value: "blockquote" },
+          ],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Bold", value: "strong" },
+              { title: "Italic", value: "em" },
+            ],
+            annotations: [
+              {
+                name: "link",
+                type: "object",
+                title: "Link",
+                fields: [
+                  { name: "href", type: "url", title: "URL" },
+                  { name: "blank", type: "boolean", title: "Open in new tab", initialValue: false },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: "image",
+          options: { hotspot: true },
+          fields: [
+            { name: "alt", title: "Alt Text", type: "string" },
+            { name: "caption", title: "Caption", type: "string" },
+          ],
+        },
+      ],
+      description: "Optional content below the FAQ section",
     },
     // ── Author ────────────────────────────────────────────────────────────────
     {
@@ -150,7 +274,7 @@ export default {
       title: "Open Graph Image",
       type: "image",
       options: { hotspot: true },
-      description: "Image used when shared on social media (1200×630px recommended). Defaults to cover image.",
+      description: "Image used when shared on social media (1200x630px recommended). Defaults to cover image.",
     },
     // ── Ordering ──────────────────────────────────────────────────────────────
     {
@@ -178,7 +302,13 @@ export default {
       return {
         title,
         media,
-        subtitle: subtitle ? new Date(subtitle).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "No date",
+        subtitle: subtitle
+          ? new Date(subtitle).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })
+          : "No date",
       };
     },
   },

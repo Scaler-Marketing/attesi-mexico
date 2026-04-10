@@ -323,15 +323,30 @@ export const blogPostBySlugQuery = `*[_type == "blogPost" && slug.current == $sl
   "slug": slug.current,
   publishedAt,
   category,
+  readTimeMinutes,
   coverImage,
   excerpt,
   body,
+  bodyTop,
+  bodyBottom,
+  faqs[] {
+    question,
+    answer
+  },
   author,
   authorRole,
   seoTitle,
   seoDescription,
   openGraphImage,
   featured
+}`;
+
+// All posts ordered by date — used for prev/next navigation
+export const blogPostsForNavQuery = `*[_type == "blogPost"] | order(publishedAt desc) {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt
 }`;
 
 export const blogPostSlugsQuery = `*[_type == "blogPost" && defined(slug.current)] { "slug": slug.current }`;

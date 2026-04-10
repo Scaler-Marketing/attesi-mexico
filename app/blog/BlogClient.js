@@ -2,7 +2,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 
-const CATEGORY_LABELS = {
+export const CATEGORY_LABELS = {
   wellness: "Wellness",
   nature: "Nature & Wildlife",
   dining: "Kosher & Dining",
@@ -23,6 +23,7 @@ function formatDate(dateStr) {
 
 export default function BlogClient({ posts }) {
   const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all");
   const [sortBy, setSortBy] = useState("date-newest");
   const [sortOpen, setSortOpen] = useState(false);
 
@@ -33,8 +34,28 @@ export default function BlogClient({ posts }) {
     { value: "name-za", label: "Name (Z to A)" },
   ];
 
+  // Build category tab list from posts
+  const categoryTabs = useMemo(() => {
+    const counts = {};
+    posts.forEach((p) => {
+      if (p.category) counts[p.category] = (counts[p.category] || 0) + 1;
+    });
+    return Object.entries(counts)
+      .map(([value, count]) => ({
+        value,
+        label: CATEGORY_LABELS[value] || value,
+        count,
+      }))
+      .sort((a, b) => b.count - a.count);
+  }, [posts]);
+
   const filtered = useMemo(() => {
     let result = [...posts];
+
+    // Category filter
+    if (activeCategory !== "all") {
+      result = result.filter((p) => p.category === activeCategory);
+    }
 
     // Search
     if (search.trim()) {
@@ -56,18 +77,18 @@ export default function BlogClient({ posts }) {
         result.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
         break;
       case "name-az":
-        result.sort((a, b) => a.title?.localeCompare(b.title));
+        result.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
         break;
       case "name-za":
-        result.sort((a, b) => b.title?.localeCompare(a.title));
+        result.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
         break;
     }
-
     return result;
-  }, [posts, search, sortBy]);
+  }, [posts, search, activeCategory, sortBy]);
 
   function reset() {
     setSearch("");
+    setActiveCategory("all");
     setSortBy("date-newest");
     setSortOpen(false);
   }
@@ -77,8 +98,7 @@ export default function BlogClient({ posts }) {
   return (
     <section className="blog-grid-section section">
       <div className="container">
-
-        {/* ── Search + Sort bar ── */}
+        {/* ── Controls Bar ── */}
         <div className="blog-controls">
           <div className="blog-controls__search">
             <svg className="blog-controls__search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -94,7 +114,6 @@ export default function BlogClient({ posts }) {
               aria-label="Search blog posts"
             />
           </div>
-
           <div className="blog-controls__sort">
             <button
               className="blog-controls__sort-btn"
@@ -124,7 +143,6 @@ export default function BlogClient({ posts }) {
               </ul>
             )}
           </div>
-
           <button
             className="blog-controls__reset"
             onClick={reset}
@@ -139,20 +157,32 @@ export default function BlogClient({ posts }) {
           </button>
         </div>
 
-        {/* ── Active search tag ── */}
-        {search.trim() && (
-          <div className="blog-active-filters">
+        {/* ── Category Filter Tabs ── */}
+        {categoryTabs.length > 0 && (
+          <div className="blog-filter-tabs" role="tablist" aria-label="Filter by category">
             <button
-              className="blog-active-filters__tag"
-              onClick={() => setSearch("")}
+              role="tab"
+              aria-selected={activeCategory === "all"}
+              className={"blog-filter-tab" + (activeCategory === "all" ? " is-active" : "")}
+              onClick={() => setActiveCategory("all")}
               type="button"
-              aria-label={`Clear search: ${search}`}
             >
-              {search.trim()}
-              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
+              All Posts
+              <span className="blog-filter-tab__count">{posts.length}</span>
             </button>
+            {categoryTabs.map((tab) => (
+              <button
+                key={tab.value}
+                role="tab"
+                aria-selected={activeCategory === tab.value}
+                className={"blog-filter-tab" + (activeCategory === tab.value ? " is-active" : "")}
+                onClick={() => setActiveCategory(tab.value)}
+                type="button"
+              >
+                {tab.label}
+                <span className="blog-filter-tab__count">{tab.count}</span>
+              </button>
+            ))}
           </div>
         )}
 
@@ -167,31 +197,34 @@ export default function BlogClient({ posts }) {
         ) : (
           <div className="blog-grid">
             {filtered.map((post) => (
-              <article key={post._id} className="exp-card blog-card-global">
-                <Link href={`/blog/${post.slug}`} className="exp-card__img-wrap blog-card__img-link">
+              <article key={post._id} className="blog-card">
+                <Link href={`/blog/${post.slug}`} className="blog-card__img-wrap">
                   {post.coverImageUrl ? (
                     <img src={post.coverImageUrl} alt={post.coverImageAlt || post.title} loading="lazy" />
                   ) : (
-                    <div className="exp-card__placeholder">
-                      <span className="exp-card__img-initial">{post.title?.charAt(0)}</span>
+                    <div className="blog-card__placeholder">
+                      <span className="blog-card__placeholder-initial">{post.title?.charAt(0)}</span>
                     </div>
                   )}
                   {post.category && (
-                    <span className="exp-card__badge">
+                    <span className="blog-card__badge">
                       {CATEGORY_LABELS[post.category] || post.category}
                     </span>
                   )}
                 </Link>
-                <div className="exp-card__body">
+                <div className="blog-card__body">
                   <p className="blog-card__date">{formatDate(post.publishedAt)}</p>
-                  <h2 className="exp-card__title">
+                  <h2 className="blog-card__title">
                     <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                   </h2>
                   {post.excerpt && (
-                    <p className="exp-card__desc">{post.excerpt}</p>
+                    <p className="blog-card__excerpt">{post.excerpt}</p>
                   )}
                   <Link href={`/blog/${post.slug}`} className="blog-card__read-more">
-                    Read Article →
+                    Read Article
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </Link>
                 </div>
               </article>
