@@ -386,6 +386,7 @@
   aspect-ratio: 32 / 9;
   overflow: hidden;
   position: relative;
+  margin-top: var(--nav-height);
 }
 
 .blog-post-hero-band img {
@@ -409,6 +410,8 @@
 .blog-post-header {
   background: var(--brand-white);
   border-bottom: 1px solid rgba(181, 116, 58, 0.12);
+  padding-top: calc(var(--nav-height) + 2.5rem);
+  padding-bottom: 2.5rem;
 }
 
 .section--sm {

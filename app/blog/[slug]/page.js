@@ -229,7 +229,7 @@ export default async function BlogPostPage({ params }) {
       )}
 
       {/* ── POST HEADER ── */}
-      <div className="blog-post-header section--sm">
+      <div className="blog-post-header">
         <div className="container">
           {/* Breadcrumbs */}
           <nav className="blog-breadcrumbs" aria-label="Breadcrumb">
