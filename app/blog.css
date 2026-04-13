@@ -409,7 +409,7 @@
 .blog-post-header {
   background: var(--brand-white);
   border-bottom: 1px solid rgba(181, 116, 58, 0.12);
-  padding-top: calc(var(--nav-height) + 2.5rem);
+  padding-top: calc(var(--nav-height) + 4rem);
   padding-bottom: 2.5rem;
 }
 
@@ -550,6 +550,7 @@
 /* ── POST LAYOUT (body + sidebar) ── */
 .blog-post {
   background: #FFF9EC;
+  padding-bottom: 0 !important;
 }
 
 .blog-post__layout {
@@ -753,7 +754,7 @@
   background: var(--brand-forest);
   border-radius: var(--radius-card);
   padding: 2rem 2.25rem;
-  margin: 3rem 0;
+  margin: 3rem 0 0;
 }
 
 .blog-inline-cta__content {

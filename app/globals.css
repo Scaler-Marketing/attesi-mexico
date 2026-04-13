@@ -366,14 +366,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .navbar__link--active {
   color: var(--brand-orange);
-  background: rgba(181, 116, 58, 0.25);
+  background: rgba(181, 116, 58, 0.1);
 }
 .navbar--scrolled .navbar__link {
   color: rgb(34, 34, 34);
 }
 .navbar--scrolled .navbar__link--active {
   color: var(--brand-orange);
-  background: rgba(181, 116, 58, 0.25);
+  background: rgba(181, 116, 58, 0.1);
 }
 .navbar--scrolled .navbar__link:hover {
   color: var(--brand-orange);
@@ -1653,6 +1653,7 @@ a.footer__heading--link:hover {
   font-size: 0.9375rem;
   color: var(--brand-black);
   transition: color var(--transition);
+  white-space: nowrap;
 }
 .footer__col a:hover {
   color: var(--brand-orange);
