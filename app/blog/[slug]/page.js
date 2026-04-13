@@ -231,7 +231,7 @@ export default async function BlogPostPage({ params }) {
       {/* ── POST HEADER ── */}
       <div className="blog-post-header">
         <div className="container">
-          {/* Category badge + Title */
+          {/* Category badge + Title */}
           {post.category && (
             <span className="blog-post-header__badge">
               {CATEGORY_LABELS[post.category] || post.category}
