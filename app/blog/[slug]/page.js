@@ -231,15 +231,7 @@ export default async function BlogPostPage({ params }) {
       {/* ── POST HEADER ── */}
       <div className="blog-post-header">
         <div className="container">
-          {/* Breadcrumbs */}
-          <nav className="blog-breadcrumbs" aria-label="Breadcrumb">
-            <Link href="/" className="blog-breadcrumbs__link">Home</Link>
-            <span className="blog-breadcrumbs__sep" aria-hidden="true">/</span>
-            <Link href="/blog" className="blog-breadcrumbs__link">Journal</Link>
-            <span className="blog-breadcrumbs__sep" aria-hidden="true">/</span>
-            <span className="blog-breadcrumbs__current" aria-current="page">{post.title}</span>
-          </nav>
-          {/* Category badge + Title */}
+          {/* Category badge + Title */
           {post.category && (
             <span className="blog-post-header__badge">
               {CATEGORY_LABELS[post.category] || post.category}
@@ -329,6 +321,14 @@ export default async function BlogPostPage({ params }) {
         <div className="container blog-post__layout">
           {/* ── Main Content ── */}
           <div className="blog-post__main">
+            {/* Breadcrumbs */}
+            <nav className="blog-breadcrumbs" aria-label="Breadcrumb">
+              <Link href="/" className="blog-breadcrumbs__link">Home</Link>
+              <span className="blog-breadcrumbs__sep" aria-hidden="true">/</span>
+              <Link href="/blog" className="blog-breadcrumbs__link">Journal</Link>
+              <span className="blog-breadcrumbs__sep" aria-hidden="true">/</span>
+              <span className="blog-breadcrumbs__current" aria-current="page">{post.title}</span>
+            </nav>
             {post.excerpt && <p className="blog-post__lead">{post.excerpt}</p>}
 
             {bodyTop.length > 0 && (

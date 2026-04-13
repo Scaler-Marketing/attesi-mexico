@@ -407,7 +407,7 @@
 
 /* ── POST HEADER ── */
 .blog-post-header {
-  background: var(--brand-white);
+  background: #FFF9EC;
   border-bottom: 1px solid rgba(181, 116, 58, 0.12);
   padding-top: calc(var(--nav-height) + 4rem);
   padding-bottom: 2.5rem;
@@ -427,7 +427,8 @@
   font-family: var(--font-body);
   font-size: 0.875rem;
   color: var(--brand-earth);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  margin-top: -0.5rem;
 }
 
 .blog-breadcrumbs__link {
@@ -549,8 +550,7 @@
 
 /* ── POST LAYOUT (body + sidebar) ── */
 .blog-post {
-  background: #FFF9EC;
-  padding-bottom: 0 !important;
+  background: var(--brand-white);
 }
 
 .blog-post__layout {
@@ -878,7 +878,7 @@
 
 /* ── PREV / NEXT NAVIGATION ── */
 .blog-post-nav {
-  background: #FFF9EC;
+  background: var(--brand-white);
   border-top: 1px solid rgba(181, 116, 58, 0.15);
 }
 

@@ -257,8 +257,8 @@ export default function FaqsClient() {
 
   return (
     <section className="faqs-tabs section">
-      <div className="container">
-        {/* Tab Navigation */}
+      <div className="container-medium">
+        {/* Tab Navigation */
         <div className="faqs-tabs__nav" role="tablist">
           {TABS.map((tab) => (
             <button
@@ -292,13 +292,7 @@ export default function FaqsClient() {
           </div>
         </div>
 
-        {/* Still have questions */}
-        <div className="faqs-tabs__footer">
-          <p className="faqs-tabs__footer-text">
-            Still have questions? We&apos;re happy to help.
-          </p>
-          <a href="/contact" className="btn-primary">Contact Us</a>
-        </div>
+
       </div>
     </section>
   );
