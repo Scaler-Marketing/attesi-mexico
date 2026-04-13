@@ -14,6 +14,7 @@ import { PortableText } from "@portabletext/react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import BlogPostClient from "./BlogPostClient";
+import BlogTOC from "./BlogTOC";
 import "../../blog.css";
 
 export const CATEGORY_LABELS = {
@@ -161,19 +162,26 @@ export default async function BlogPostPage({ params }) {
     ? urlFor(post.coverImage).width(1800).height(900).fit("crop").url()
     : null;
 
-  // Prev / Next navigation
+  // Prev / Next navigation (looping)
   const navPosts = allPostsNav || [];
   const currentIdx = navPosts.findIndex((p) => p.slug === post.slug);
-  const prevPost = currentIdx < navPosts.length - 1 ? navPosts[currentIdx + 1] : null;
-  const nextPost = currentIdx > 0 ? navPosts[currentIdx - 1] : null;
+  const prevPost = navPosts.length > 1
+    ? navPosts[currentIdx < navPosts.length - 1 ? currentIdx + 1 : 0]
+    : null;
+  const nextPost = navPosts.length > 1
+    ? navPosts[currentIdx > 0 ? currentIdx - 1 : navPosts.length - 1]
+    : null;
 
   // Determine body source: prefer bodyTop/bodyBottom, fall back to legacy body
   const bodyTop = post.bodyTop?.length ? post.bodyTop : post.body || [];
   const bodyBottom = post.bodyBottom || [];
   const hasFaqs = post.faqs && post.faqs.length > 0;
 
-  // Build TOC from bodyTop headings
-  const tocHeadings = extractHeadings(bodyTop);
+  // Build TOC from all body headings + FAQ anchor
+  const topHeadings = extractHeadings(bodyTop);
+  const bottomHeadings = extractHeadings(bodyBottom);
+  const faqTocEntry = hasFaqs ? [{ id: "frequently-asked-questions", text: "Frequently Asked Questions" }] : [];
+  const tocHeadings = [...topHeadings, ...faqTocEntry, ...bottomHeadings];
   const ptWithAnchors = makePtComponentsWithAnchors();
 
   // JSON-LD BlogPosting schema
@@ -220,14 +228,6 @@ export default async function BlogPostPage({ params }) {
         />
       )}
       <Navbar />
-
-      {/* ── HERO IMAGE BAND ── */}
-      {coverUrl && (
-        <div className="blog-post-hero-band">
-          <img src={coverUrl} alt={post.coverImage?.alt || post.title} />
-        </div>
-      )}
-
       {/* ── POST HEADER ── */}
       <div className="blog-post-header">
         <div className="container">
@@ -239,7 +239,6 @@ export default async function BlogPostPage({ params }) {
             <span className="blog-breadcrumbs__sep" aria-hidden="true">/</span>
             <span className="blog-breadcrumbs__current" aria-current="page">{post.title}</span>
           </nav>
-
           {/* Category badge + Title */}
           {post.category && (
             <span className="blog-post-header__badge">
@@ -317,9 +316,14 @@ export default async function BlogPostPage({ params }) {
               </div>
             </div>
           </div>
+          {/* Cover image inside header */}
+          {coverUrl && (
+            <div className="blog-post-cover">
+              <img src={coverUrl} alt={post.coverImage?.alt || post.title} />
+            </div>
+          )}
         </div>
       </div>
-
       {/* ── BODY + SIDEBAR ── */}
       <article className="blog-post section">
         <div className="container blog-post__layout">
@@ -333,7 +337,7 @@ export default async function BlogPostPage({ params }) {
 
             {/* ── FAQ Accordion ── */}
             {hasFaqs && (
-              <div className="blog-faq">
+              <div id="frequently-asked-questions" className="blog-faq">
                 <h2 className="blog-faq__heading">Frequently Asked Questions</h2>
                 <div className="blog-faq__list">
                   {post.faqs.map((faq, i) => (
@@ -363,28 +367,8 @@ export default async function BlogPostPage({ params }) {
           <aside className="blog-post__sidebar">
             {/* Table of Contents */}
             {tocHeadings.length > 0 && (
-              <div className="blog-toc">
-                <h2 className="blog-toc__heading">Table of Contents</h2>
-                <nav aria-label="Table of contents">
-                  <ul className="blog-toc__list">
-                    {tocHeadings.map((h) => (
-                      <li key={h.id} className="blog-toc__item">
-                        <a href={`#${h.id}`} className="blog-toc__link">{h.text}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </div>
+              <BlogTOC headings={tocHeadings} />
             )}
-
-            {/* About Attesi card */}
-            <div className="blog-post__sidebar-card">
-              <span className="blog-post__sidebar-label">About Attesi</span>
-              <p className="blog-post__sidebar-text">
-                Attesi is a kosher retreat and agro-residential community nestled in the mountains of Villa de Allende, Mexico — 90 minutes from Mexico City.
-              </p>
-              <Link href="/about" className="btn-secondary btn--sm">Learn More</Link>
-            </div>
 
             {/* Plan Your Stay card */}
             <div className="blog-post__sidebar-card">

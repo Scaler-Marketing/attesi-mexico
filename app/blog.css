@@ -380,16 +380,15 @@
    BLOG POST DETAIL PAGE
    ============================================================ */
 
-/* ── HERO IMAGE BAND ── */
-.blog-post-hero-band {
-  width: 100%;
-  aspect-ratio: 32 / 9;
+/* ── COVER IMAGE (inside header, below meta bar) ── */
+.blog-post-cover {
+  margin-top: 2rem;
+  border-radius: var(--radius-card);
   overflow: hidden;
-  position: relative;
-  margin-top: var(--nav-height);
+  aspect-ratio: 16 / 7;
 }
 
-.blog-post-hero-band img {
+.blog-post-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -397,13 +396,13 @@
 }
 
 @media (max-width: 62rem) {
-  .blog-post-hero-band { aspect-ratio: 21 / 9; }
+  .blog-post-cover { aspect-ratio: 16 / 8; }
 }
 @media (max-width: 48rem) {
-  .blog-post-hero-band { aspect-ratio: 16 / 9; }
+  .blog-post-cover { aspect-ratio: 16 / 9; }
 }
 @media (max-width: 30rem) {
-  .blog-post-hero-band { aspect-ratio: 3 / 2; }
+  .blog-post-cover { aspect-ratio: 3 / 2; }
 }
 
 /* ── POST HEADER ── */
@@ -550,7 +549,7 @@
 
 /* ── POST LAYOUT (body + sidebar) ── */
 .blog-post {
-  background: var(--brand-white);
+  background: #FFF9EC;
 }
 
 .blog-post__layout {
@@ -814,7 +813,9 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.125rem;
+  gap: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .blog-toc__item {
@@ -838,6 +839,13 @@
 
 .blog-toc__link:hover {
   color: var(--brand-orange);
+}
+.blog-toc__item--active {
+  border-left-color: var(--brand-orange);
+}
+.blog-toc__link--active {
+  color: var(--brand-orange);
+  font-weight: 600;
 }
 
 /* Sidebar cards */
@@ -869,7 +877,7 @@
 
 /* ── PREV / NEXT NAVIGATION ── */
 .blog-post-nav {
-  background: var(--brand-cream);
+  background: #FFF9EC;
   border-top: 1px solid rgba(181, 116, 58, 0.15);
 }
 
