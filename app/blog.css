@@ -551,6 +551,8 @@
 /* ── POST LAYOUT (body + sidebar) ── */
 .blog-post {
   background: var(--brand-white);
+  padding-top: calc(var(--section-py) * 0.5);
+  padding-bottom: calc(var(--section-py) * 0.5);
 }
 
 .blog-post__layout {
