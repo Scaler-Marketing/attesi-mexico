@@ -841,14 +841,6 @@
 .blog-toc__link:hover {
   color: var(--brand-orange);
 }
-.blog-toc__item--active {
-  border-left-color: var(--brand-orange);
-}
-.blog-toc__link--active {
-  color: var(--brand-orange);
-  font-weight: 600;
-}
-
 /* Sidebar cards */
 .blog-post__sidebar-card {
   background: var(--brand-cream);
