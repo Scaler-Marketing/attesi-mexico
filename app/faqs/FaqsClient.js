@@ -258,7 +258,7 @@ export default function FaqsClient() {
   return (
     <section className="faqs-tabs section">
       <div className="container-medium">
-        {/* Tab Navigation */
+        {/* Tab Navigation */}
         <div className="faqs-tabs__nav" role="tablist">
           {TABS.map((tab) => (
             <button
