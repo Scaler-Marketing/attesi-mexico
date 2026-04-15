@@ -10,6 +10,13 @@ const FALLBACK_TESTIMONIALS = [
   { text: "I've been on many retreats but nothing has touched me the way Attesi did. The combination of nature, community, and intentional living is something truly special.", author: "James W.", location: "London, UK" },
 ];
 
+function getCardsPerPage() {
+  if (typeof window === "undefined") return 3;
+  if (window.innerWidth < 768) return 1;
+  if (window.innerWidth < 1024) return 2;
+  return 3;
+}
+
 export default function Testimonials({ testimonials = [], settings = null }) {
   const heading = settings?.testimonialsHeading || "What Our Guests Say";
   const subheading = settings?.testimonialsSubheading || "Hear from those who have experienced the land, the community, and the spirit of Attesi.";
@@ -20,54 +27,82 @@ export default function Testimonials({ testimonials = [], settings = null }) {
   const [cardsPerPage, setCardsPerPage] = useState(3);
   const totalPages = Math.ceil(items.length / cardsPerPage);
 
+  // Update cardsPerPage on resize
   useEffect(() => {
     function update() {
-      const w = window.innerWidth;
-      if (w < 768) setCardsPerPage(1);
-      else if (w < 1024) setCardsPerPage(2);
-      else setCardsPerPage(3);
+      setCardsPerPage(getCardsPerPage());
     }
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  // Scroll to a specific page index
   const scrollToPage = useCallback((pageIdx) => {
     const track = trackRef.current;
     if (!track) return;
-    const card = track.children[0];
+    const clampedIdx = Math.max(0, Math.min(pageIdx, totalPages - 1));
+    // Find the first card of this page
+    const cardIndex = clampedIdx * cardsPerPage;
+    const card = track.children[cardIndex];
     if (!card) return;
-    const cardWidth = card.offsetWidth;
-    const gap = 24;
-    const scrollX = pageIdx * cardsPerPage * (cardWidth + gap);
-    track.scrollTo({ left: scrollX, behavior: "smooth" });
-    setActiveIdx(pageIdx);
-  }, [cardsPerPage]);
+    const trackLeft = track.getBoundingClientRect().left;
+    const cardLeft = card.getBoundingClientRect().left;
+    track.scrollBy({ left: cardLeft - trackLeft, behavior: "smooth" });
+    setActiveIdx(clampedIdx);
+  }, [cardsPerPage, totalPages]);
 
-  function handlePrev() {
-    scrollToPage(activeIdx > 0 ? activeIdx - 1 : totalPages - 1);
-  }
-
-  function handleNext() {
-    scrollToPage(activeIdx < totalPages - 1 ? activeIdx + 1 : 0);
-  }
-
+  // Sync active dot on scroll using IntersectionObserver per card
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
-    function onScroll() {
-      const card = track.children[0];
-      if (!card) return;
-      const cardWidth = card.offsetWidth;
-      const gap = 24;
-      const pageWidth = cardsPerPage * (cardWidth + gap);
-      if (pageWidth === 0) return;
-      const page = Math.round(track.scrollLeft / pageWidth);
-      setActiveIdx(Math.min(page, totalPages - 1));
-    }
-    track.addEventListener("scroll", onScroll, { passive: true });
-    return () => track.removeEventListener("scroll", onScroll);
-  }, [cardsPerPage, totalPages]);
+
+    const cards = Array.from(track.children);
+    if (cards.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the most-visible card
+        let best = null;
+        let bestRatio = -1;
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio > bestRatio) {
+            bestRatio = entry.intersectionRatio;
+            best = entry.target;
+          }
+        });
+        if (best) {
+          const cardIdx = cards.indexOf(best);
+          if (cardIdx >= 0) {
+            setActiveIdx(Math.floor(cardIdx / cardsPerPage));
+          }
+        }
+      },
+      {
+        root: track,
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [cardsPerPage, items.length]);
+
+  function handlePrev() {
+    setActiveIdx((prev) => {
+      const next = prev > 0 ? prev - 1 : totalPages - 1;
+      scrollToPage(next);
+      return next;
+    });
+  }
+
+  function handleNext() {
+    setActiveIdx((prev) => {
+      const next = prev < totalPages - 1 ? prev + 1 : 0;
+      scrollToPage(next);
+      return next;
+    });
+  }
 
   return (
     <section className="testimonials section" id="testimonials">
@@ -100,6 +135,7 @@ export default function Testimonials({ testimonials = [], settings = null }) {
             </button>
           </div>
         </div>
+
         <div className="testimonials__track-wrapper">
           <div className="testimonials__track" ref={trackRef}>
             {items.map((t, i) => (
@@ -118,6 +154,7 @@ export default function Testimonials({ testimonials = [], settings = null }) {
             ))}
           </div>
         </div>
+
         <div className="testimonials__dots">
           {Array.from({ length: totalPages }).map((_, i) => (
             <button
