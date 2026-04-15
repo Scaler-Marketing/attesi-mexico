@@ -15,6 +15,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BlogPostClient from "./BlogPostClient";
 import BlogTOC from "./BlogTOC";
+import FaqAccordion from "@/app/components/FaqAccordion";
 import "../../blog.css";
 
 export const CATEGORY_LABELS = {
@@ -331,11 +332,7 @@ export default async function BlogPostPage({ params }) {
             {hasFaqs && (
               <div id="frequently-asked-questions" className="blog-faq">
                 <h2 className="blog-faq__heading">Frequently Asked Questions</h2>
-                <div className="blog-faq__list">
-                  {post.faqs.map((faq, i) => (
-                    <BlogFaqItem key={i} question={faq.question} answer={faq.answer} />
-                  ))}
-                </div>
+                <FaqAccordion faqs={post.faqs} title="" />
               </div>
             )}
 
@@ -415,21 +412,4 @@ export default async function BlogPostPage({ params }) {
   );
 }
 
-// ── Server-side FAQ item (accordion handled client-side via BlogPostClient) ───
-function BlogFaqItem({ question, answer }) {
-  return (
-    <details className="blog-faq__item">
-      <summary className="blog-faq__question">
-        {question}
-        <span className="blog-faq__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        </span>
-      </summary>
-      <div className="blog-faq__answer">
-        <p>{answer}</p>
-      </div>
-    </details>
-  );
-}
+
