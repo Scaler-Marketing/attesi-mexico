@@ -669,9 +669,6 @@
 /* ── FAQ ACCORDION ── */
 .blog-faq {
   margin: 3rem 0;
-  border: 1px solid rgba(181, 116, 58, 0.2);
-  border-radius: var(--radius-card);
-  overflow: hidden;
 }
 
 .blog-faq__heading {
@@ -679,8 +676,9 @@
   font-size: 1.375rem;
   font-weight: 600;
   color: var(--brand-black);
-  padding: 1.5rem 1.75rem 1.25rem;
-  border-bottom: 1px solid rgba(181, 116, 58, 0.12);
+  margin: 0 0 1rem;
+  padding: 0;
+  text-align: left;
 }
 
 .blog-faq__list {
