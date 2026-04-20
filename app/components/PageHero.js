@@ -15,9 +15,9 @@
  */
 
 const POSITION_MAP = {
-  top:    "center top",
+  top:    "center 25%",
   center: "center center",
-  bottom: "center bottom",
+  bottom: "center 75%",
 };
 
 export default function PageHero({

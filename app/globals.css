@@ -77,7 +77,7 @@ p, li, figcaption { text-wrap: pretty; }
 
   --container-max: 82.5rem;
   --section-px: 2.5rem;
-  --section-py: 6rem;
+  --section-py: 4rem;
   --nav-height: 5rem;
   --radius-card: 0.75rem;
   --radius-pill: 100vw;
@@ -1728,7 +1728,7 @@ a.footer__heading--link:hover {
 @media (max-width: 1024px) {
   :root {
     --section-px: 1.5rem;
-    --section-py: 4rem;
+    --section-py: 3rem;
   }
 
   .navbar__inner {
@@ -1806,7 +1806,7 @@ a.footer__heading--link:hover {
   :root {
     --text-base: 1rem;
     --section-px: 1.25rem;
-    --section-py: 3.5rem;
+    --section-py: 2.5rem;
     --nav-height: 4.25rem;
   }
   .hero {
