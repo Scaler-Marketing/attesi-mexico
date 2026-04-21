@@ -39,10 +39,10 @@ export default async function ContactPage() {
           subtitle={page?.heroSubheading || "Tell us about your group and we will craft a personalized experience at Attesi."}
           bgImage={
             page?.heroImage?.asset
-              ? urlFor(page.heroImage).width(1800).url()
-              : "https://attesi.mx/wp-content/uploads/2024/04/home-slider-attesi-2.jpg"
+              ? `url('${urlFor(page.heroImage).width(1800).quality(85).url()}')`
+              : "url('https://attesi.mx/wp-content/uploads/2024/04/home-slider-attesi-2.jpg')"
           }
-          bgPos="center 40%"
+          heroImagePosition={page?.heroImagePosition}
         />
 
         {/* ── Main Contact Section ───────────────────────────────────────── */}
