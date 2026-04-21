@@ -2279,3 +2279,188 @@ a.footer__heading--link:hover {
 .instagram-feed__embed {
   width: 100%;
 }
+
+/* ============================================================
+   TESTIMONIALS — OPTION A: COMPACT GRID
+   ============================================================ */
+.t-grid {
+  background: var(--brand-cream);
+}
+.t-grid__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.t-grid__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--brand-black);
+  margin-bottom: 0.5rem;
+  line-height: 1.15;
+}
+.t-grid__subtitle {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--brand-earth);
+  line-height: 1.7;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+.t-grid__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.t-grid__card {
+  background: var(--brand-white);
+  border: 1px solid rgba(181, 116, 58, 0.18);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.t-grid__stars {
+  color: var(--brand-orange);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+}
+.t-grid__quote {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--brand-black);
+  line-height: 1.65;
+  flex: 1;
+}
+.t-grid__author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(181, 116, 58, 0.12);
+}
+.t-grid__author strong {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--brand-black);
+}
+.t-grid__author span {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--brand-earth);
+}
+
+/* ============================================================
+   TESTIMONIALS — OPTION B: MARQUEE LOOP
+   ============================================================ */
+.t-marquee {
+  background: var(--brand-white);
+  overflow: hidden;
+}
+.t-marquee__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.t-marquee__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: var(--brand-black);
+  margin-bottom: 0.5rem;
+  line-height: 1.15;
+}
+.t-marquee__subtitle {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--brand-earth);
+  line-height: 1.7;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+.t-marquee__stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.t-marquee__row {
+  overflow: hidden;
+}
+.t-marquee__track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  animation: marquee-left 32s linear infinite;
+}
+.t-marquee__row--reverse .t-marquee__track {
+  animation: marquee-right 32s linear infinite;
+}
+.t-marquee__stage:hover .t-marquee__track {
+  animation-play-state: paused;
+}
+@keyframes marquee-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.t-marquee__card {
+  background: var(--brand-white);
+  border: 1px solid rgba(181, 116, 58, 0.18);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  width: 22rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.t-marquee__stars {
+  color: var(--brand-orange);
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+}
+.t-marquee__quote {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--brand-black);
+  line-height: 1.65;
+  flex: 1;
+}
+.t-marquee__author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(181, 116, 58, 0.12);
+}
+.t-marquee__author strong {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--brand-black);
+}
+.t-marquee__author span {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--brand-earth);
+}
+
+/* Responsive — grid collapses */
+@media (max-width: 1024px) {
+  .t-grid__cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .t-grid__cards {
+    grid-template-columns: 1fr;
+  }
+  .t-marquee__card {
+    width: 18rem;
+  }
+}

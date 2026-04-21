@@ -13,6 +13,8 @@ import Intro from "./components/Intro";
 import FindYourWay from "./components/FindYourWay";
 import Experiences from "./components/Experiences";
 import Testimonials from "./components/Testimonials";
+import TestimonialsGrid from "./components/TestimonialsGrid";
+import TestimonialsMarquee from "./components/TestimonialsMarquee";
 import CTA from "./components/CTA";
 import HomeFAQ from "./components/HomeFAQ";
 import Footer from "./components/Footer";
@@ -42,6 +44,8 @@ export default async function Home() {
       <FindYourWay settings={siteSettings} cards={findYourWayCards} />
       <Experiences cards={experiences} settings={siteSettings} />
       <Testimonials testimonials={testimonials} settings={siteSettings} />
+      <TestimonialsGrid testimonials={testimonials} settings={siteSettings} />
+      <TestimonialsMarquee testimonials={testimonials} settings={siteSettings} />
       <HomeFAQ settings={siteSettings} />
       <CTA settings={siteSettings} />
       <Footer />
