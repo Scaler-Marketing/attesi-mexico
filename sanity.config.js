@@ -1,4 +1,4 @@
-import { defineConfig, scheduledPublishing } from "sanity";
+import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { presentationTool } from "sanity/presentation";
 import { schemaTypes } from "./sanity/schemas/index.js";
@@ -182,7 +182,6 @@ export default defineConfig({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   plugins: [
     structureTool({ structure: deskStructure }),
-    scheduledPublishing(),
     presentationTool({
       resolve,
       previewUrl: {
@@ -195,6 +194,9 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
+  },
+  scheduledPublishing: {
+    enabled: true,
   },
   basePath: "/studio",
 });
